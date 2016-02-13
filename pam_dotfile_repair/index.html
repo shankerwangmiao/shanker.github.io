@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://shankerwangmiao.github.io/pam_dotfile_repair/index.html">
 <meta property="og:site_name" content="in /dev/null">
 <meta property="og:description" content="pam_dotfile 修理手记源起修理这个 pam_dotfile 的起因是@dotkrnl 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有">
-<meta property="og:updated_time" content="2016-02-12T12:12:12.000Z">
+<meta property="og:updated_time" content="2016-02-13T14:44:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pam_dotfile 修理手记">
 <meta name="twitter:description" content="pam_dotfile 修理手记源起修理这个 pam_dotfile 的起因是@dotkrnl 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有">
@@ -86,6 +86,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="pam_dotfile__u4FEE_u7406_u624B_u8BB0"><a href="#pam_dotfile__u4FEE_u7406_u624B_u8BB0" class="headerlink" title="pam_dotfile 修理手记"></a><code>pam_dotfile</code> 修理手记</h2><h3 id="u6E90_u8D77"><a href="#u6E90_u8D77" class="headerlink" title="源起"></a>源起</h3><p>修理这个 <code>pam_dotfile</code> 的起因是<a href="http://www.dotkrnl.com" target="_blank" rel="external">@dotkrnl</a> 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。</p>
+<a id="more"></a>
 <pre><code>bigeag1e 11:57:32    YubiKey 4 简介与配置 | K.I.S.S
                      https://bigeagle.me/2016/02/yubikey-4/
 dotkrnl  12:02:10       auth sufficient
@@ -327,7 +328,7 @@ Failure starting pam: system error
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://shankerwangmiao.github.io/pam_dotfile_repair/" data-id="cikl703ad0006v7z1fse6g9b3" class="article-share-link">Share</a>
+      <a data-url="http://shankerwangmiao.github.io/pam_dotfile_repair/" data-id="cikl8n4cw000639z1haxmc93f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PAM/">PAM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
