@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>in /dev/null</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://shankerwangmiao.github.io/"/>
+  <updated>2016-02-13T14:44:50.000Z</updated>
+  <id>http://shankerwangmiao.github.io/</id>
+  
+  <author>
+    <name>innull</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pam_dotfile 修理手记</title>
+    <link href="http://shankerwangmiao.github.io/pam_dotfile_repair/"/>
+    <id>http://shankerwangmiao.github.io/pam_dotfile_repair/</id>
+    <published>2016-02-10T20:50:00.000Z</published>
+    <updated>2016-02-13T14:44:50.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;pam_dotfile__u4FEE_u7406_u624B_u8BB0&quot;&gt;&lt;a href=&quot;#pam_dotfile__u4FEE_u7406_u624B_u8BB0&quot; class=&quot;headerlink&quot; title=&quot;pam_dotfile 修理手记&quot;&gt;&lt;/a&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; 修理手记&lt;/h2&gt;&lt;h3 id=&quot;u6E90_u8D77&quot;&gt;&lt;a href=&quot;#u6E90_u8D77&quot; class=&quot;headerlink&quot; title=&quot;源起&quot;&gt;&lt;/a&gt;源起&lt;/h3&gt;&lt;p&gt;修理这个 &lt;code&gt;pam_dotfile&lt;/code&gt; 的起因是&lt;a href=&quot;http://www.dotkrnl.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@dotkrnl&lt;/a&gt; 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;pre&gt;&lt;code&gt;bigeag1e 11:57:32    YubiKey 4 简介与配置 | K.I.S.S
+                     https://bigeagle.me/2016/02/yubikey-4/
+dotkrnl  12:02:10       auth sufficient
+dotkrnl  12:02:41       看起来就很不安全  
+shankerwangmiao  12:25:54     怎么不安全了？
+dotkrnl  12:26:32 YubiKey 一插进去就可以登录用户，丢失权限就直接被获得了啊
+dotkrnl  12:26:41     没有第二步密码
+shankerwangmiao    12:27:11     密码还是少用为妙
+shankerwangmiao    12:28:00     你yubikey还能和电脑一起丢了啊？
+bigeag1e 12:28:25 你可以改成 auth required 啊
+dotkrnl  12:28:44     我觉得 required 比较靠谱呢
+bigeag1e 12:29:03 还是TOTP，U2F和TOTP有其一即可
+dotkrnl  12:29:09     存在这种可能啊，所以我觉得比密码危险
+shankerwangmiao    12:29:19     再说了，电脑丢了，有多少密码也挡不住啊
+dotkrnl  12:29:46     全盘加密 🐶
+dotkrnl  12:29:48     
+shankerwangmiao    12:30:01     那要yubikey
+dotkrnl  12:30:19     解锁啊
+dotkrnl  12:30:30     你也不会关机的吧 🐶
+shankerwangmiao    12:31:35     何用？
+shankerwangmiao    12:31:41     额
+shankerwangmiao    12:31:58     反正我解锁电脑是sufficient
+shankerwangmiao    12:32:35     login是required
+dotkrnl  12:32:39     我的期望是能 1、输完整密码 2、插 key 同时输一个弱密码。二选一。但是不知道怎么做。
+shankerwangmiao    12:33:12     你需要配置一个pam
+shankerwangmiao    12:34:09     这个pam仅仅验证输入的密码是不是123456
+shankerwangmiao    12:34:09     然后在pam里配置三个规则
+shankerwangmiao    12:36:29     第一条yubikey的，成功继续往下走，失败则跳过下面的一条
+shankerwangmiao    12:36:29     第二条是弱口令的，是sufficient
+shankerwangmiao    12:36:29     第三条是系统原来的
+dotkrnl  12:42:12     这个怎么做
+shankerwangmiao    12:44:08     就是在原来sufficient的位置处填一个表达式
+shankerwangmiao    12:44:20     这个表达式在pam.conf的man里有讲解
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;当时提出这个配置 pam 的方法，是因为刚刚看过 linux pam 的 man 页面，才知道 linux pam 的 conf 还可以这样写：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;For the more complicated syntax valid control values have the following
+form:
+
+          [value1=action1 value2=action2 ...]
+
+Where valueN corresponds to the return code from the function invoked
+in the module for which the line is defined. It is selected from one of
+these: success, open_err, symbol_err, service_err, system_err, buf_err,
+perm_denied, auth_err, cred_insufficient, authinfo_unavail,
+user_unknown, maxtries, new_authtok_reqd, acct_expired, session_err,
+cred_unavail, cred_expired, cred_err, no_module_data, conv_err,
+authtok_err, authtok_recover_err, authtok_lock_busy,
+authtok_disable_aging, try_again, ignore, abort, authtok_expired,
+module_unknown, bad_item, conv_again, incomplete, and default.
+
+The last of these, default, implies &amp;apos;all valueN&amp;apos;s not mentioned
+explicitly. Note, the full list of PAM errors is available in
+/usr/include/security/_pam_types.h. The actionN can take one of the
+following forms:
+
+ignore
+    when used with a stack of modules, the module&amp;apos;s return status will
+    not contribute to the return code the application obtains.
+
+bad
+    this action indicates that the return code should be thought of as
+    indicative of the module failing. If this module is the first in
+    the stack to fail, its status value will be used for that of the
+    whole stack.
+
+die
+    equivalent to bad with the side effect of terminating the module
+    stack and PAM immediately returning to the application.
+
+ok
+    this tells PAM that the administrator thinks this return code
+    should contribute directly to the return code of the full stack of
+    modules. In other words, if the former state of the stack would
+    lead to a return of PAM_SUCCESS, the module&amp;apos;s return code will
+    override this value. Note, if the former state of the stack holds
+    some value that is indicative of a modules failure, this &amp;apos;ok&amp;apos; value
+    will not be used to override that value.
+
+done
+    equivalent to ok with the side effect of terminating the module
+    stack and PAM immediately returning to the application.
+
+N (an unsigned integer)
+    equivalent to ok with the side effect of jumping over the next N
+    modules in the stack. Note that N equal to 0 is not allowed (and it
+    would be identical to ok in such case).
+
+reset
+    clear all memory of the state of the module stack and start again
+    with the next stacked module.
+
+Each of the four keywords: required; requisite; sufficient; and
+optional, have an equivalent expression in terms of the [...] syntax.
+They are as follows:
+required
+    [success=ok new_authtok_reqd=ok ignore=ignore default=bad]
+
+requisite
+    [success=ok new_authtok_reqd=ok ignore=ignore default=die]
+
+sufficient
+    [success=done new_authtok_reqd=done default=ignore]
+
+optional
+    [success=ok new_authtok_reqd=ok default=ignore]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我来概括一下上面的说明的意思：除了可以配置为 &lt;code&gt;required&lt;/code&gt;、&lt;code&gt;sufficient&lt;/code&gt; 之类的以外，还可以针对每个鉴定模块的不同鉴定结论作出不同的动作，包括忽略鉴定结论，鉴定失败，鉴定失败并退出，继续鉴定，鉴定成功并退出、重置鉴定结论和&lt;em&gt;跳过一些鉴定模块&lt;/em&gt;（这里的概括稍微有些不准确，实际的动作的含义要更复杂一些，我之后会单独介绍）。&lt;/p&gt;
+&lt;p&gt;于是很自然的，为了实现“1、输完整密码 2、插 key 同时输一个弱密码”都可以完成鉴定的功能，我们可以采取这样的方法：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    fail    +-------------+
+/-----------| pam_yubikey |
+|           +-------------+
+|                   |
+|                   | success
+|                  \|/
+|           +-------------+   success   +----------+
+|           | pam_弱口令   | -----------&amp;gt;|  鉴定成功 |
+|           +-------------+             +----------+
+|                   |                      /|\
+|                   | fail                  |
+|                  \|/                      |
+|           +-------------+    success      |
+\--------&amp;gt;  | pam_强口令   | ----------------/
+            +-------------+
+                    |
+                    | fail
+                   \|/
+            +-------------+
+            | 鉴定失败     |
+            +-------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;不难想到，这个鉴定流程很容易用 linux pam 的“跳过鉴定模块”的功能来实现。其中“&lt;code&gt;pam_强口令&lt;/code&gt;”可以用系统原先的 pam 模块，唯一缺的就是 “&lt;code&gt;pam_弱口令&lt;/code&gt;”。不过这个自己写也不会很难，照着别的 pam 模块的代码改一改应该就能成。&lt;/p&gt;
+&lt;p&gt;这就是我在上面的聊天里作出回复的思维过程，当时因为在外边走路，感觉这样可以实现，于是就这么回答了 &lt;a href=&quot;http://www.dotkrnl.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@dotkrnl&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;u53D1_u5C55&quot;&gt;&lt;a href=&quot;#u53D1_u5C55&quot; class=&quot;headerlink&quot; title=&quot;发展&quot;&gt;&lt;/a&gt;发展&lt;/h3&gt;&lt;p&gt;有一句名言是这么说的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Talk is cheap, show me the f**k code.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;更何况我也认为这样使用 yubikey 比较 make sence，所以就着手实现上边的思路。首先我要确认的是，pam.conf 能不能像我想的那样写——毕竟，改配置文件比写代码容易多了。测试配置文件写法的时候可以先用 &lt;code&gt;pam_permit&lt;/code&gt; 和 &lt;code&gt;pam_deny&lt;/code&gt; 代替没有实现的那个 &lt;code&gt;pam_弱口令&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;说干就干，为了测试 pam 的配置，肯定不能拿我的 login 和 sudo 开刀，否则肯定是作死的节奏。测试 pam 的配置的程序原则上也可以自己写，不过这种轮子肯定有人造过。于是打开万能的&lt;del&gt;度娘&lt;/del&gt; Google ，拿“test pam configuration”搜索一下，找到一篇 ubuntu 的 manual，讲的是 pamtest 这个工具，刚好是我需要的。&lt;/p&gt;
+&lt;p&gt;由于我和 &lt;a href=&quot;http://www.dotkrnl.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@dotkrnl&lt;/a&gt; 都是将 OS X 作为日常使用的系统，因此，要找到这个程序的源代码。这个程序是由一个叫做 &lt;code&gt;libpam-dotfile&lt;/code&gt; 的包提供的。等一下，这个包的名字似乎说明，这个包主要的功能应该是一个 pam 的模块。于是直接前往 man 页面中声称的&lt;a href=&quot;http://0pointer.de/lennart/projects/pam_dotfile/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;项目页面&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;简单的浏览了一下这个 pam 模块的功能。这个 pam 模块的中心思想是，在一个用户的 &lt;code&gt;home&lt;/code&gt; 目录下创建若干 secret 文件，用于存储不同的 pam service 所使用的密码的散列值。在鉴定的时候根据鉴定的 pam service，读取相应的散列值，用于鉴定用户提供的作为鉴定凭据的密码。这正是我们需要的 &lt;code&gt;pam_弱口令&lt;/code&gt; 。真是踏破铁鞋无觅处，得来全不费工夫，既然已经有人帮我们造好了轮子，我们为啥不用呢？于是赶紧找下载地址＋源码仓库。结果无意中瞟到了 “Requirements” 一节，里面赫然写着：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; was developed and tested on Debian GNU/Linux “testing” from July &lt;strong&gt;2003&lt;/strong&gt;, it should work on most other Linux distributions&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当时心中飘过一阵草泥马。但是本着“宁可修老轮子也不造轮子”的思想，我还是把源代码下载了下来，心想，pam 的接口一直没怎么变过，说不定还能用。然而，这时我立了一个响当当的 flag。&lt;/p&gt;
+&lt;h3 id=&quot;u9AD8_u6F6E&quot;&gt;&lt;a href=&quot;#u9AD8_u6F6E&quot; class=&quot;headerlink&quot; title=&quot;高潮&quot;&gt;&lt;/a&gt;高潮&lt;/h3&gt;&lt;p&gt;我把源代码下载下来，开始执行 &lt;code&gt;./configure&lt;/code&gt;。竟然没报错！看来有戏。继续 &lt;code&gt;make&lt;/code&gt;，妥妥的报错了。&lt;/p&gt;
+&lt;p&gt;提示是缺头文件，尼玛。。。。缺头文件你 &lt;code&gt;configure&lt;/code&gt; 的时候不说，那你 &lt;code&gt;configure&lt;/code&gt; 在干些啥？&lt;/p&gt;
+&lt;p&gt;于是果断在 &lt;del&gt;gay&lt;/del&gt;github 上 clone 一份这个代码，然后操刀开始改。这时我突然想起我不太会用 autotools 啊。本着“没吃猪肉但是见过猪跑”的精神，鉴于我编译过这么多遍 gcc ，autotools 的大致思想还是能搞懂的。然后我就同步地打开 &lt;code&gt;pam_yubico&lt;/code&gt; 的代码，照着边学习边改。&lt;/p&gt;
+&lt;p&gt;整个项目分这么几个部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; 这个是一个 shared library，就是我们要用的 pam 模块。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pam-dotfile-helper&lt;/code&gt; 这个是一个 setuid 的 helper 程序，当 pam 模块的执行权限不足以读取事先保存的 secret 文件时，使用这个 helper 程序提升权限，将鉴定工作委托给这个程序。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pam-dotfile-gen&lt;/code&gt; 这个是一个用于生成 secret 文件的程序。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pamtest&lt;/code&gt; 这个用于测试 pam 的工作情况。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;修改的细节我就不一一叙述了。实际上作的改动主要是适配不同的 pam 库的头文件的区别。OS X 使用的 pam 库是 &lt;code&gt;OpenPAM&lt;/code&gt;，而 linux 上的 pam 库是 &lt;code&gt;Linux PAM&lt;/code&gt;，因此头文件的名字和存放位置需要进行适配。只需要一一探测就好。改动的要点如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;在所有的 .c 文件里包含 &lt;code&gt;config.h&lt;/code&gt;，在所有的包含的头文件的两侧加上 &lt;code&gt;#ifdef HAVE_XXX_H&lt;/code&gt; 和 &lt;code&gt;#endif&lt;/code&gt; （我很诧异为啥原作者使用了 autotools，生成了 &lt;code&gt;config.h&lt;/code&gt; 却没包含）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;添加对 &lt;code&gt;security/pam_appl.h&lt;/code&gt;, &lt;code&gt;security/pam_modules.h&lt;/code&gt;, &lt;code&gt;security/_pam_macros.h&lt;/code&gt;,  &lt;code&gt;security/pam_modutil.h&lt;/code&gt; 的侦测&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;添加对 &lt;code&gt;security/pam_appl.h&lt;/code&gt; 的包含&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;之后再编译，似乎就可以通过了。一阵输出之后，突然编译停了下来，提示这个错误：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pamtest.c: 在函数‘main’中:
+pamtest.c:42:35: 错误：‘misc_conv’未声明(在此函数内第一次使用)
+     static struct pam_conv pc = { misc_conv, NULL };
+                                   ^
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这个 &lt;code&gt;misc_conv&lt;/code&gt; 是个啥东西？通过观察 &lt;code&gt;struct pam_conv&lt;/code&gt; 的定义：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;struct pam_conv {
+        int     (*conv)(int, const struct pam_message **,
+            struct pam_response **, void *);
+        void    *appdata_ptr;
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可知，&lt;code&gt;misc_conv&lt;/code&gt; 应该是个函数，错误应该是由于少包含了头文件导致的。于是立刻查找这个函数的头文件，Google 告诉我，这个函数在 &lt;code&gt;security/pam_misc.h&lt;/code&gt;。立刻检测并包含之。且慢！我的系统上并没有这个头文件啊？这下坑爹了。于是用 misc_conv+ OSX 在 Google 上搜索，并没有啥结论。于是返回看 linux 下关于这个函数的 manual，其中提到：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The &lt;code&gt;misc_conv&lt;/code&gt; function is part of &lt;code&gt;libpam_misc&lt;/code&gt; and not of the standard &lt;code&gt;libpam&lt;/code&gt; library.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;于是转而查找 &lt;code&gt;pam_misc&lt;/code&gt; 这个 library 在 OSX 上的替用品，结果也没找到什么结论。于是继续看这个函数干什么用的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;  This function will prompt the user with the appropriate comments and obtain the appropriate inputs as directed by authentication modules.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;唔，原来是用来输入密码的呀。OS X 上显然应该有相应的函数啊。这种函数会在哪出现呢？于是我展开了联想。&lt;/p&gt;
+&lt;p&gt;几乎不出两秒钟，我就得到了答案：&lt;code&gt;su&lt;/code&gt; 和 &lt;code&gt;sudo&lt;/code&gt;，只要翻一下 OS X 上的这两个程序的代码就可以知道了。于是我立刻找到了 &lt;code&gt;su&lt;/code&gt; 的&lt;a href=&quot;http://www.opensource.apple.com/source/shell_cmds/shell_cmds-162/su/su.c&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;源代码&lt;/a&gt;（因为 &lt;code&gt;su&lt;/code&gt; 比 &lt;code&gt;sudo&lt;/code&gt; 简单），映入眼帘的就是：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;int
+main(int argc, char *argv[])
+{
+    static char    *cleanenv;
+    struct passwd    *pwd;
+    struct pam_conv    conv = { openpam_ttyconv, NULL };
+    enum tristate    iscsh;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;哈哈，原来是&lt;code&gt;openpam_ttyconv&lt;/code&gt;，搜索之，得到 &lt;code&gt;security/openpam.h&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;然后就是如何在两个函数中选择了，这里我参考了&lt;a href=&quot;https://github.com/TinLe/macports/blob/082d31e48a3498fde4cfe0c479983128a479a791/net/quagga/files/quagga-patch2.diff&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里&lt;/a&gt; 的代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;AC_CHECK_HEADER([pam/pam_misc.h],
+  [AC_DEFINE(HAVE_PAM_MISC_H,,Have pam_misc.h)
+   AC_DEFINE(PAM_CONV_FUNC,misc_conv,Have misc_conv)
+   pam_conv_func=&amp;quot;misc_conv&amp;quot;
+  ],
+  [], QUAGGA_INCLUDES)
+ AC_CHECK_HEADER([security/openpam.h],
+   [AC_DEFINE(HAVE_OPENPAM_H,,Have openpam.h)
+    AC_DEFINE(PAM_CONV_FUNC,openpam_ttyconv,Have openpam_ttyconv)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;大概的实现方式就是在 &lt;code&gt;configure&lt;/code&gt; 的时候探测 &lt;code&gt;pam/pam_misc.h&lt;/code&gt; 和 &lt;code&gt;security/openpam.h&lt;/code&gt;，并定义宏 &lt;code&gt;PAM_CONV_FUNC&lt;/code&gt; 为相应的函数名，然后在代码中直接使用：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;static struct pam_conv pc = { PAM_CONV_FUNC, NULL };
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OK，最后修复了这个位置，然后编译就通过了。&lt;/p&gt;
+&lt;h3 id=&quot;u5C3E_u58F0&quot;&gt;&lt;a href=&quot;#u5C3E_u58F0&quot; class=&quot;headerlink&quot; title=&quot;尾声&quot;&gt;&lt;/a&gt;尾声&lt;/h3&gt;&lt;p&gt;编译通过了就要简单的测试一下代码还能否 work。于是先执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ pam-dotfile-gen -a test
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后输入一个简单的密码 &lt;code&gt;12345&lt;/code&gt;，于是就生成了 &lt;code&gt;~/.pam-test&lt;/code&gt;，然后写一个 &lt;code&gt;/etc/pam.d/test&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;auth       required       /usr/local/lib/security/pam_dotfile.so try_first_pass
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;最后执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ pamtest test $USER
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;先输入一个错误的密码，再输入一个正确的密码，于是可以看出，这个模块在这个给定的输入下是可以工作的。鉴于这份代码已经是成型的代码，我并没有改动什么逻辑的部分，于是可以推定这份代码应该是没什么问题了。&lt;/p&gt;
+&lt;p&gt;于是本来我们是想先解决 &lt;code&gt;pam.conf&lt;/code&gt; 的问题，结果不小心解决了 &lt;code&gt;pam_弱口令&lt;/code&gt; 的问题。此时我们有了 &lt;code&gt;pamtest&lt;/code&gt; 于是就可以顺利地测试我们期望的那个配置文件了：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;auth       [success=ok ignore=ignore default=1]       pam_yubico.so mode=challenge-response
+auth       sufficient     /usr/local/lib/security/pam_dotfile.so try_first_pass
+auth       required       pam_opendirectory.so try_first_pass  # 这个是 OS X 上原有的 pam 模块，用于标准的鉴定过程。
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ pamtest test $USER
+Trying to authenticate &amp;lt;shanker&amp;gt; for service &amp;lt;test&amp;gt;.
+Failure starting pam: system error
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在 syslog 中赫然写着：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pamtest[72280]: in openpam_read_chain(): /etc/pam.d/test(2): invalid control flag &amp;apos;[default=1]&amp;apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;唔，原来 OS X 上的 &lt;code&gt;OpenPAM&lt;/code&gt; 不支持这种语法。&lt;/p&gt;
+&lt;p&gt;卒。。。。。（未完待续）&lt;/p&gt;
+&lt;h3 id=&quot;u7ED3_u8BBA&quot;&gt;&lt;a href=&quot;#u7ED3_u8BBA&quot; class=&quot;headerlink&quot; title=&quot;结论&quot;&gt;&lt;/a&gt;结论&lt;/h3&gt;&lt;p&gt;于是我们得到了一个在 OS X 上能用的 &lt;code&gt;pam_dotfile&lt;/code&gt;。下面简单介绍一下这个模块的工作过程和使用方法。&lt;/p&gt;
+&lt;p&gt;当针对某个用户的鉴定开始的时候， &lt;code&gt;pam_dotfile&lt;/code&gt; 会在下面的地点依次寻找存放密码的散列值的文件：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;~/.pam-&amp;lt;service&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;~/.pam/&amp;lt;service&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;~/.pam-other&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;~/.pam/other&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中，&lt;code&gt;&amp;lt;service&amp;gt;&lt;/code&gt; 代表被请求鉴定的服务的名字，如 &lt;code&gt;sshd&lt;/code&gt;、&lt;code&gt;sudo&lt;/code&gt; 等。当其中某个文件的权限不是 &lt;code&gt;x00&lt;/code&gt; 时，或者是符号链接时，或者父目录是组可写或他人可写的时候，这个文件会被忽略。&lt;/p&gt;
+&lt;p&gt;然后用户输入的作为鉴定凭据的密码将会被求散列值，与之对比，若成功，则鉴定成功；否则鉴定失败。&lt;/p&gt;
+&lt;p&gt;通过 &lt;code&gt;pam-dotfile-gen -a &amp;lt;service&amp;gt;&lt;/code&gt; 来生成 &lt;code&gt;~/.pam-&amp;lt;service&amp;gt;&lt;/code&gt;。你需要输入两遍密码。&lt;/p&gt;
+&lt;p&gt;当不加参数直接调用 &lt;code&gt;pam-dotfile-gen&lt;/code&gt; 时，该程序从标准输入读入多组明文密码（每行一个），并相应的输出它们的散列值。&lt;/p&gt;
+&lt;p&gt;我在使用这个程序的时候，往往是将生成的 &lt;code&gt;~/.pam-&amp;lt;service&amp;gt;&lt;/code&gt; 移动到 &lt;code&gt;~/.pam/&amp;lt;service&amp;gt;&lt;/code&gt;，这样可以让 &lt;code&gt;home&lt;/code&gt; 目录下的 dotfiles 整齐些。&lt;/p&gt;
+&lt;h3 id=&quot;u540E_u8BB0&quot;&gt;&lt;a href=&quot;#u540E_u8BB0&quot; class=&quot;headerlink&quot; title=&quot;后记&quot;&gt;&lt;/a&gt;后记&lt;/h3&gt;&lt;p&gt;我改好的 &lt;code&gt;pam_dotfile&lt;/code&gt; 放在了 &lt;a href=&quot;https://github.com/shankerwangmiao/pam_dotfile&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt; 上，欢迎测试。&lt;/p&gt;
+&lt;p&gt;另外，这个项目的地址是 &lt;a href=&quot;http://0pointer.de/lennart/projects/pam_dotfile/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://0pointer.de/lennart/projects/pam_dotfile/&lt;/a&gt;。从地址上来看，&lt;em&gt;Lennart Poettering&lt;/em&gt; 这个人应该搞过一些别的项目，唔，应该就在 &lt;a href=&quot;http://0pointer.de/lennart/projects/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://0pointer.de/lennart/projects/&lt;/a&gt;。看来还是这个人还是很高产的一个程序作者。&lt;/p&gt;
+&lt;p&gt;什么？你说什么？他还写过 &lt;code&gt;systemd&lt;/code&gt; ？你没开玩笑吧？&lt;/p&gt;
+&lt;p&gt;我擦，这个 pam 模块竟然是 &lt;code&gt;systemd&lt;/code&gt; 的作者的作品。。。orz……&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;pam_dotfile__u4FEE_u7406_u624B_u8BB0&quot;&gt;&lt;a href=&quot;#pam_dotfile__u4FEE_u7406_u624B_u8BB0&quot; class=&quot;headerlink&quot; title=&quot;pam_dotfile 修理手记&quot;&gt;&lt;/a&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; 修理手记&lt;/h2&gt;&lt;h3 id=&quot;u6E90_u8D77&quot;&gt;&lt;a href=&quot;#u6E90_u8D77&quot; class=&quot;headerlink&quot; title=&quot;源起&quot;&gt;&lt;/a&gt;源起&lt;/h3&gt;&lt;p&gt;修理这个 &lt;code&gt;pam_dotfile&lt;/code&gt; 的起因是&lt;a href=&quot;http://www.dotkrnl.com&quot;&gt;@dotkrnl&lt;/a&gt; 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="PAM" scheme="http://shankerwangmiao.github.io/tags/PAM/"/>
+    
+      <category term="技术" scheme="http://shankerwangmiao.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>语言累的语言类，欲哭无泪</title>
+    <link href="http://shankerwangmiao.github.io/about-lauguage-program-on-chinese-new-year-gala-2016/"/>
+    <id>http://shankerwangmiao.github.io/about-lauguage-program-on-chinese-new-year-gala-2016/</id>
+    <published>2016-02-09T10:00:00.000Z</published>
+    <updated>2016-02-13T14:45:11.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;u8BED_u8A00_u7D2F_u7684_u8BED_u8A00_u7C7B_uFF0C_u6B32_u54ED_u65E0_u6CEA&quot;&gt;&lt;a href=&quot;#u8BED_u8A00_u7D2F_u7684_u8BED_u8A00_u7C7B_uFF0C_u6B32_u54ED_u65E0_u6CEA&quot; class=&quot;headerlink&quot; title=&quot;语言累的语言类，欲哭无泪&quot;&gt;&lt;/a&gt;语言累的语言类，欲哭无泪&lt;/h2&gt;&lt;p&gt;按：&lt;a href=&quot;http://mp.weixin.qq.com/s?__biz=MzA3ODAwMTgyNA==&amp;amp;mid=409150772&amp;amp;idx=1&amp;amp;sn=8260c1b2d81acfb51714d6559bfed637&amp;amp;scene=2&amp;amp;srcid=0208d8OCiLdnjFQdBG4tvr9P&amp;amp;from=timeline&amp;amp;isappinstalled=0#wechat_redirect&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;原文&lt;/a&gt;载于“公众号清华大学学生艺术团曲艺队”&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;成就一台好的晚会，也许不容易，成就一台好的春晚，或许就是不可能。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;其实，作为观众，平心而论，要是没有歌舞的春晚，我觉得不热闹；要是没有特效的春晚，我觉得不绚烂；要是没有经典的春晚，我觉得不完美；可要是没有语言类的春晚，我压根儿不看！&lt;/p&gt;
+&lt;p&gt;不过，看了今年春晚，我不得不改变了看法。含蓄点儿说：今年大部分的语言类节目怎么那么次！当然了，乔杉修睿的创意值得称赞；寅飞李丁的勇气也值得佩服。可是，这并不能掩盖春晚语言类节目的困境，反而更让人有了一种黔驴技穷的挣扎感。&lt;/p&gt;
+&lt;p&gt;前二年的春晚，看语言类的节目跟吃了安定一样，但它至少让我觉得睡得舒适；今年看语言类的节目跟吃了吡啶一样，哪儿还有心思睡觉啊！巩哥的节目不懂他要说什么，邵峰少了倒口完全没有了亲切感，就属东临老师，的媳妇总是那么漂亮。可是，他们节目的内容，一点儿没记住。因为听着就累。&lt;/p&gt;
+&lt;p&gt;语言类的节目让我一听他说话就觉得累，要你干嘛！&lt;/p&gt;
+&lt;p&gt;人们总爱跟过去的春晚比，那时的作品给人的感觉是山也格外青，水也格外蓝，我冀春生心里好喜欢。现在的作品，尤其是相声小品，这些语言类的节目是没滋没味儿，没情没趣儿。&lt;/p&gt;
+&lt;p&gt;那么，问题来了，差哪儿了？有点儿思考的价值~&lt;/p&gt;
+&lt;p&gt;借用还是妙用？&lt;/p&gt;
+&lt;p&gt;“人人争当段子手”自古就有，无论是笑林广记，还是世说新语，也许都是当时最流行的段子了。跟现在一样，包袱是可以随时随地，每分每秒的生成。&lt;/p&gt;
+&lt;p&gt;我想，每个演员对于这种现象，应该就是五个字儿的评语：幸福的烦恼。为什么幸福，素材真多，为什么烦恼，观众素材比我还多~&lt;/p&gt;
+&lt;p&gt;春晚的语言类节目当然也有着这样幸福的烦恼，不过该用还是得用~那就借用吧~&lt;/p&gt;
+&lt;p&gt;这就好比，你拿别人的999牌皮炎平来治你自己的脚气，用起来总是有点儿心虚，势必影响表演状态：同时，网络段子又是在特定环境下诞生的，生搬硬套，势必会影响表演效果。&lt;/p&gt;
+&lt;p&gt;观众看不进去你的节目，注意力集中到网络段子的本源，换句话讲，当他注意的是你话的组词造句时，他已经跳出了你的表演环境。流行段子大宝典，就是你的终极称号~&lt;/p&gt;
+&lt;p&gt;要说吧，网络段子不让你用是挺悲哀的，但让你用你都不会用那就更悲哀了。&lt;/p&gt;
+&lt;p&gt;那什么叫做妙用，就是如同你后背痒的时候，被一只粗壮有力的大手，经过反复的摸索，找到了那个止痒点，那才叫舒畅呢！这就是妙用的特点，也许你不知道它为什么好，可你觉得它就是好。&lt;/p&gt;
+&lt;p&gt;“每套我都少印三张”宇宙牌香烟里马季马老师这句话，引起了多少人的共鸣，当然也包括支付宝里的敬业福~&lt;/p&gt;
+&lt;p&gt;他就是当时的社会现象，可是被马季老师巧妙的运用到作品，一点儿也不生涩。为什么？&lt;/p&gt;
+&lt;p&gt;因为，妙用是要依靠演员的二度创作。&lt;/p&gt;
+&lt;p&gt;“大妈都变成大麻袋了”这个包袱不错，但是感觉没触及到观众的笑点，你说要是改成“还别说，穿上衣服这么一看，这帮大妈啊”“怎么样啊”“成大麻袋了”配上姜昆老师虎口遐想的感觉，是不是会好一点儿呢~&lt;/p&gt;
+&lt;p&gt;其实这个包袱还有更好的表现手法，比方说，之前如果涉及了大妈的形象，之后再翻是不是会更好~&lt;/p&gt;
+&lt;p&gt;当然，这都需要演员的二度创作。&lt;/p&gt;
+&lt;p&gt;二度创作是任何一个演员都知道的要诀，可是懒却是任何一个人都掌握的技巧，这说我自己呢~&lt;/p&gt;
+&lt;p&gt;网络内容也是社会现象，一样可用，可还是要演员结合自身的特点来进行编排，显然这届春晚的作品离这个目标还有点儿远~&lt;/p&gt;
+&lt;p&gt;小偷公司的一句：官僚主义害死人，那是思维火花的闪烁，这样的妙笔，恐难再现。&lt;/p&gt;
+&lt;p&gt;拼凑还是生活？&lt;/p&gt;
+&lt;p&gt;一切艺术源于生活，高于生活。想法来源于生活才抓人，内容来源于生活才真实。&lt;/p&gt;
+&lt;p&gt;反映现实生活的作品，往往会被人记住：公款吃喝的冒号领导，办事拖拉的效率大楼，人浮于事的小偷公司，还有骗人不眨眼的大忽悠。&lt;/p&gt;
+&lt;p&gt;现在春晚的作品也许真有此事，但是，总给人一种拼凑出来的感觉，因为他不够典型，不够凝练，不够深刻！主角与配角抓住了人们的心态，英雄母亲的一天抓住了人物的特点，红高粱模特队抓住了现实的反差，而巩哥作品里的小朋友抓住了一条狗，孙涛抓住了一条红围巾，仅此而已~&lt;/p&gt;
+&lt;p&gt;可侯勇老师的小品就给了我一种真实的感觉，这个作品有血有肉有气魄还有，就是句号老师下回学学踢正步啊~&lt;/p&gt;
+&lt;p&gt;如果没有生活，就给人一种一味拼凑的勉强，舞台上表现的只有尴尬，知道个粗枝大叶，你干不了园丁，还是回家收拾劈柴去吧，那更适合你~&lt;/p&gt;
+&lt;p&gt;歌颂还是讽刺？&lt;/p&gt;
+&lt;p&gt;语言类的作品不是不能歌颂，不可否定的是，相声小品更多的职能是讽刺，但是换个角度来看，歌颂了好的事物，同样会让人记住什么是不好的现象。&lt;/p&gt;
+&lt;p&gt;不过，表演的作品不是祭天的表章。喜剧元素与内容技巧的有机结合，才能催生像样的作品。&lt;/p&gt;
+&lt;p&gt;就像邵峰老师的节目，要是不说那几句我放心，我还真就放心了~因为他们不放心的是，我到底明不明白我应该放心这件事~&lt;/p&gt;
+&lt;p&gt;你看，说教就像这句话一样，车轱辘话来回说，你跑这儿压道来了~&lt;/p&gt;
+&lt;p&gt;作品就是观众心声的镜子，他看到了自己的想法，就会由衷的给你称赞。绝不是在舞台上赤裸裸的写着，你得献爱心，你得放心，你得自豪，观众就记住了吗？人可是会闭眼的动物~&lt;/p&gt;
+&lt;p&gt;我从不反对歌颂，绝对能让人鼓足干劲，力争上游！可别再顺着这句话发展到下一个阶段了。侯宝林大师说的好，宁可不够，不可过头。空白是留给人想象的，故事是留给人补充的，作品是留给人品味的。一口也塞不出个胖子来，何况我平时吃的就够多的了！&lt;/p&gt;
+&lt;p&gt;平庸还是精彩？&lt;/p&gt;
+&lt;p&gt;有个很有趣的现象，春晚的吐槽很多年了，相声，小品，歌舞，魔术，导演，观众没有不被喷的。不过很奇怪，好像从来没有人说过杂技的坏话。而且，我想很多人会像我一样，也不会刻意的去看这个节目，但是一旦看到，根本停不下来，好看！&lt;/p&gt;
+&lt;p&gt;我们不去吐槽的原因，无外乎两种：1、虽不明，但觉厉；2、虽已明，仍觉厉。震撼是不会通过剖析节目而减弱的，反而，随着节目的深入，会达到共振的效果。&lt;/p&gt;
+&lt;p&gt;我们没有理由去吐槽杂技，它足够精彩。&lt;/p&gt;
+&lt;p&gt;话说回来，当我们说到语言类作品，我们总说它不够搞笑。可在我看来，有比搞笑更重要的评价等级，那就是精彩。观众的心神荡涤在节目之中。随着节奏的起伏，心驰神往。当一切归于消散时，余音绕梁，三日不绝于耳。&lt;/p&gt;
+&lt;p&gt;郭德纲老师说的一点没错，“先搞笑吧，不搞笑就太搞笑了”，那是当时的环境使然，而现在，为了搞笑而搞笑，是不是更搞笑？从作品出发，回归你的真实想法，自然的表达，作为演员，看作品时会心一笑，观众才能开怀大笑。回头来，这样的节目不为搞笑，只为精彩！&lt;/p&gt;
+&lt;p&gt;我作为一个学徒，没有高谈阔论的资格。但是，我真热爱咱们新社会这种路不平，众人铲；理不平，我来管的社会风气，观点是用来分享的，思想是用来讨论的。毕竟，此诚乃危急存亡之秋也。语言累的语言类，真会让人欲哭无泪。&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;u8BED_u8A00_u7D2F_u7684_u8BED_u8A00_u7C7B_uFF0C_u6B32_u54ED_u65E0_u6CEA&quot;&gt;&lt;a href=&quot;#u8BED_u8A00_u7D2F_u7684_u8BED_u8A00_u7C7B_uFF0C_u6B32_u54ED_u65E0_u6CEA&quot; class=&quot;headerlink&quot; title=&quot;语言累的语言类，欲哭无泪&quot;&gt;&lt;/a&gt;语言累的语言类，欲哭无泪&lt;/h2&gt;&lt;p&gt;按：&lt;a href=&quot;http://mp.weixin.qq.com/s?__biz=MzA3ODAwMTgyNA==&amp;amp;mid=409150772&amp;amp;idx=1&amp;amp;sn=8260c1b2d81acfb51714d6559bfed637&amp;amp;scene=2&amp;amp;srcid=0208d8OCiLdnjFQdBG4tvr9P&amp;amp;from=timeline&amp;amp;isappinstalled=0#wechat_redirect&quot;&gt;原文&lt;/a&gt;载于“公众号清华大学学生艺术团曲艺队”&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;成就一台好的晚会，也许不容易，成就一台好的春晚，或许就是不可能。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="收藏" scheme="http://shankerwangmiao.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>9句话写给代表委员：你的失语， 就意味着人民的沉默</title>
+    <link href="http://shankerwangmiao.github.io/how-to-represent-the-people/"/>
+    <id>http://shankerwangmiao.github.io/how-to-represent-the-people/</id>
+    <published>2015-03-26T18:00:00.000Z</published>
+    <updated>2016-02-13T14:45:38.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;9_u53E5_u8BDD_u5199_u7ED9_u4EE3_u8868_u59D4_u5458_uFF1A_u4F60_u7684_u5931_u8BED_uFF0C__u5C31_u610F_u5473_u7740_u4EBA_u6C11_u7684_u6C89_u9ED8&quot;&gt;&lt;a href=&quot;#9_u53E5_u8BDD_u5199_u7ED9_u4EE3_u8868_u59D4_u5458_uFF1A_u4F60_u7684_u5931_u8BED_uFF0C__u5C31_u610F_u5473_u7740_u4EBA_u6C11_u7684_u6C89_u9ED8&quot; class=&quot;headerlink&quot; title=&quot;9句话写给代表委员：你的失语， 就意味着人民的沉默&quot;&gt;&lt;/a&gt;9句话写给代表委员：你的失语， 就意味着人民的沉默&lt;/h2&gt;&lt;p&gt;本文转自 “人民日报”公众号&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;今天，你来到这里，&lt;/p&gt;
+&lt;p&gt;是一种荣誉，&lt;/p&gt;
+&lt;p&gt;更是一种责任。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;你不称职，&lt;/p&gt;
+&lt;p&gt;就意味着人民的缺席，&lt;/p&gt;
+&lt;p&gt;你的失语，&lt;/p&gt;
+&lt;p&gt;就意味着人民的沉默。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;如果你只知道热烈鼓掌、&lt;/p&gt;
+&lt;p&gt;点头称是，&lt;/p&gt;
+&lt;p&gt;人民民主就无法体现。&lt;/p&gt;
+&lt;p&gt;质询政府，请动真格；&lt;/p&gt;
+&lt;p&gt;会场讨论，莫惧交锋！&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;政府工作报告，&lt;/p&gt;
+&lt;p&gt;是用来审议批评的，&lt;/p&gt;
+&lt;p&gt;不是用来“学习领会”的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;你来北京，&lt;/p&gt;
+&lt;p&gt;是来监督政府、参政议政的，&lt;/p&gt;
+&lt;p&gt;不是来聆听指示、汇报心得的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;“赞成”是你的权力，&lt;/p&gt;
+&lt;p&gt;“反对”也是你的权力。&lt;/p&gt;
+&lt;p&gt;这权力，&lt;/p&gt;
+&lt;p&gt;来自委托于你的人民。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;从自己做起，&lt;/p&gt;
+&lt;p&gt;拒绝“三手代表”：&lt;/p&gt;
+&lt;p&gt;见面握手，表决举手，&lt;/p&gt;
+&lt;p&gt;通过拍手。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;少些空话套话，多些诤言良言；&lt;/p&gt;
+&lt;p&gt;少些雷人雷语，多些常识之论；&lt;/p&gt;
+&lt;p&gt;少些土豪做派，多谢谦抑之风。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
+&lt;p&gt;你的所作所为，&lt;/p&gt;
+&lt;p&gt;影响着中国民主政治的走向。&lt;/p&gt;
+&lt;p&gt;你怎样，中国就怎样。&lt;/p&gt;
+&lt;p&gt;代表委员，&lt;/p&gt;
+&lt;p&gt;请拿出你的智慧、勇气与担当！&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;9_u53E5_u8BDD_u5199_u7ED9_u4EE3_u8868_u59D4_u5458_uFF1A_u4F60_u7684_u5931_u8BED_uFF0C__u5C31_u610F_u5473_u7740_u4EBA_u6C11_u7684_u6C89_u9ED8&quot;&gt;&lt;a href=&quot;#9_u53E5_u8BDD_u5199_u7ED9_u4EE3_u8868_u59D4_u5458_uFF1A_u4F60_u7684_u5931_u8BED_uFF0C__u5C31_u610F_u5473_u7740_u4EBA_u6C11_u7684_u6C89_u9ED8&quot; class=&quot;headerlink&quot; title=&quot;9句话写给代表委员：你的失语， 就意味着人民的沉默&quot;&gt;&lt;/a&gt;9句话写给代表委员：你的失语， 就意味着人民的沉默&lt;/h2&gt;&lt;p&gt;本文转自 “人民日报”公众号&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="收藏" scheme="http://shankerwangmiao.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+    
+      <category term="政治" scheme="http://shankerwangmiao.github.io/tags/%E6%94%BF%E6%B2%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>反腐不应该反职工福利</title>
+    <link href="http://shankerwangmiao.github.io/about-over-anti-corruption/"/>
+    <id>http://shankerwangmiao.github.io/about-over-anti-corruption/</id>
+    <published>2014-09-08T12:00:00.000Z</published>
+    <updated>2016-02-13T14:45:18.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;u53CD_u8150_u4E0D_u5E94_u8BE5_u53CD_u804C_u5DE5_u798F_u5229&quot;&gt;&lt;a href=&quot;#u53CD_u8150_u4E0D_u5E94_u8BE5_u53CD_u804C_u5DE5_u798F_u5229&quot; class=&quot;headerlink&quot; title=&quot;反腐不应该反职工福利&quot;&gt;&lt;/a&gt;反腐不应该反职工福利&lt;/h2&gt;&lt;p&gt;本文转载自：&lt;a href=&quot;&quot;&gt;http://rmrbshare.people.com.cn/rmrbshare/?itemid=7_8736&amp;amp;type=3&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;中央“打虎灭蝇”，腐败分子纷纷落网，效果显著。然而，欢欣鼓舞之时，人们却发现，一些执行者在借反腐之名拿掉老百姓应有的职工福利。&lt;/p&gt;
+&lt;p&gt;这绝不是中央反腐倡廉的本意。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;反腐败，反的是三公消费，反的是个别官员的权钱色交易、任人唯亲、买官卖官、欺上瞒下，反的是个别垄断性企业存在的高收入、高消费、高福利的灰色腐败，反的是个别单位假借“职工福利”之名侵吞国家资产、串通起来寻租、分肥的腐败行为。对这些形形色色、或隐或现的腐败行为“零容忍”，老百姓拍手称快。&lt;/p&gt;
+&lt;p&gt;但中央的八项规定，反的绝不是职工的正常福利。一年就那么几个节假日，单位这时慰问基层员工，发一点福利，全体员工捧着节日福利喜气洋洋，这是多么体贴民心的好事，和腐败有多大关联？&lt;/p&gt;
+&lt;p&gt;然而现在的情形是，一些单位中秋节的二斤简装月饼没了，甚至妇女节女职工的体检也没了。还有群众反映，因为单位领导干部要节俭过春节，基层职工特别是低收入群体的年终福利，也被“名正言顺”地不发了。职工积极性可想而知了。这岂不是歪曲了中央的反腐本意？&lt;/p&gt;
+&lt;p&gt;原因何在？&lt;/p&gt;
+&lt;p&gt;很简单，歪嘴和尚吹喇叭——经念歪了，是一些执行者故意而为之。这些人中不乏邪门武功的高手，面对中央反腐倡廉“降蛇十八掌”的刚猛掌风，他们想用“乾坤大挪移”借力打力，卸力于百姓。这样做，既可以让自己少受伤或不受伤，还可以通过拿掉职工正常福利的方式维持自己的心理平衡。更有甚者，有人想以此举诱发人们不满情绪，进而迟滞中央反腐步履。还有一种情形是，一些执行者不敢担当，沉迷于形式主义，为了乌纱帽从众而行，从不考虑群众的诉求，缺少郑板桥“当官不为民做主，不如回家卖红薯”的正人情怀。&lt;/p&gt;
+&lt;p&gt;反腐倡廉，贪官的感觉应是“高天滚滚寒流急”，百姓的感觉却应是“大地微微暖气吹”，只能如此。在保持“官不聊生”的同时，还应逐渐提高中低层员工的职工的工资，保持职工正常福利的稳定，实现收入、福利的货币化、透明化和稳定化。职工的正常福利如果得以稳定、透明化，腐败官员反而更没有机会搭职工福利的便车，将很难再利用职权给自己规定超标超高福利。&lt;/p&gt;
+&lt;p&gt;人们坚决支持中央反腐倡廉，但反对一些执行者借反腐之名拿掉职工应有福利的做法。反腐的最终目的之一，其实就是为了增进公众福利。服务于基层职工、低收入者的各种正常福利，在反腐过程中不仅不应缩减，发放的范围和数额，还应根据实际情况有所扩大。应警惕“歪嘴和尚”运用太极推手卸力打力、以其人之道反施他人之身的“太极手法”，进一步采取措施，纠偏稳正，确保反腐倡廉的大力实施和顺利进行。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;所谓及时雨，大抵就是这个样子吧&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;u53CD_u8150_u4E0D_u5E94_u8BE5_u53CD_u804C_u5DE5_u798F_u5229&quot;&gt;&lt;a href=&quot;#u53CD_u8150_u4E0D_u5E94_u8BE5_u53CD_u804C_u5DE5_u798F_u5229&quot; class=&quot;headerlink&quot; title=&quot;反腐不应该反职工福利&quot;&gt;&lt;/a&gt;反腐不应该反职工福利&lt;/h2&gt;&lt;p&gt;本文转载自：&lt;a href=&quot;&quot;&gt;http://rmrbshare.people.com.cn/rmrbshare/?itemid=7_8736&amp;amp;type=3&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;中央“打虎灭蝇”，腐败分子纷纷落网，效果显著。然而，欢欣鼓舞之时，人们却发现，一些执行者在借反腐之名拿掉老百姓应有的职工福利。&lt;/p&gt;
+&lt;p&gt;这绝不是中央反腐倡廉的本意。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="实事" scheme="http://shankerwangmiao.github.io/tags/%E5%AE%9E%E4%BA%8B/"/>
+    
+      <category term="收藏" scheme="http://shankerwangmiao.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>个人收藏短片之一：《红领巾》</title>
+    <link href="http://shankerwangmiao.github.io/favorite-video-1/"/>
+    <id>http://shankerwangmiao.github.io/favorite-video-1/</id>
+    <published>2014-09-03T12:00:00.000Z</published>
+    <updated>2016-02-12T12:07:58.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;u4E2A_u4EBA_u6536_u85CF_u77ED_u7247_u4E4B_u4E00_uFF1A_u300A_u7EA2_u9886_u5DFE_u300B&quot;&gt;&lt;a href=&quot;#u4E2A_u4EBA_u6536_u85CF_u77ED_u7247_u4E4B_u4E00_uFF1A_u300A_u7EA2_u9886_u5DFE_u300B&quot; class=&quot;headerlink&quot; title=&quot;个人收藏短片之一：《红领巾》&quot;&gt;&lt;/a&gt;个人收藏短片之一：《红领巾》&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=n2_ePWt6xAI&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这个&lt;/a&gt;是该短片的链接，欢迎收看。&lt;/p&gt;
+&lt;p&gt;看了这个短片，我感触颇深。想想看，我不得不承认，这个短片中反映出来的小学老师的形象，虽然有些夸张，但是也基本反映了某些老师，尤其是基础教育老师的毛病和弱点：不分青红皂白，只是一味的相信和照顾“好学生”。因此，被“冤枉”的孩子恐怕也不在少数。不知道各位有没有类似的经历？&lt;/p&gt;
+&lt;p&gt;教育本该是什么样子？教育者应该是以什么身份和什么姿态出现在孩子们的面前，这是我们都要考虑的问题。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;u4E2A_u4EBA_u6536_u85CF_u77ED_u7247_u4E4B_u4E00_uFF1A_u300A_u7EA2_u9886_u5DFE_u300B&quot;&gt;&lt;a href=&quot;#u4E2A_u4EBA_u6536_u85CF_u77ED_u7247_u
+    
+    </summary>
+    
+    
+      <category term="收藏" scheme="http://shankerwangmiao.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+    
+      <category term="短片" scheme="http://shankerwangmiao.github.io/tags/%E7%9F%AD%E7%89%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>看《亲爱的》的意外收获</title>
+    <link href="http://shankerwangmiao.github.io/can-i-start-my-own-bussiness/"/>
+    <id>http://shankerwangmiao.github.io/can-i-start-my-own-bussiness/</id>
+    <published>2014-09-03T12:00:00.000Z</published>
+    <updated>2016-02-12T12:07:52.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;u770B_u300A_u4EB2_u7231_u7684_u300B_u7684_u610F_u5916_u6536_u83B7&quot;&gt;&lt;a href=&quot;#u770B_u300A_u4EB2_u7231_u7684_u300B_u7684_u610F_u5916_u6536_u83B7&quot; class=&quot;headerlink&quot; title=&quot;看《亲爱的》的意外收获&quot;&gt;&lt;/a&gt;看《亲爱的》的意外收获&lt;/h2&gt;&lt;p&gt;今天去新清华学堂看《亲爱的》首映式，经大礼堂张老师介绍，有幸认识了一个十分热爱创业的建筑系学长。那个学长热衷于“商业创业”而不是“技术创业”。令我十分惊讶的是，他的想法十分远大，并且敢想敢做。他已经将自己的想法投入了实践。目前，他在照澜院盘下了一间店面，开始了他自己的事业，并且有所盈利，获得了银行的融资，红红火火的作起了生意。&lt;/p&gt;
+&lt;p&gt;我对他既羡慕又佩服，羡慕的是，他能在这个时间里有如此的成绩；佩服的是，他热衷于自己的理想与梦想。当他提出他未来的创意和想法时，我确实很赞同他提出的一个“商业模式”。与此同时，我在想，有的时候我也有一些新的创意，新的思路，看起来很好，但是仅仅是yy了几个小时就放在了一边，一点也不去管了。为什么我不能去像他一样，去大干一番呢？这可能真是一个人的性格所决定的吧。从性格上来说，我属于那种缺乏冒险精神的人，不仅不愿意去冒险，而且还希望一切都是按照某种“规律”、“指令”、“规则”来发展、进行。对于充满变数的事情，我不仅不愿意去handle，而且会有意避免。拿剪视频的例子来说，剪片子的时候，我会十分在意布置任务的人给出的“脚本”和十分具体的需求，如果需求明确，即便是很复杂的要求，我也会尽量去实现，并因此而感到高兴；如果他让我“看着办”、看怎么好怎么剪，我就可能担心我自己剪的是不是那个人想要的，会有很多顾虑，因此就剪的不是很开心。&lt;/p&gt;
+&lt;p&gt;老实的说，我对那个学长的idea是比较心动的，出于职业“本能”，我指出了这个idea的几个难以实现的地方，泼了几盆冷水。然而，更令我好奇和惊讶的，是学长的古怪的生活方式：放着学校的宿舍不住，租住在一个小的出租屋内，过着类似于“北漂一族”的生活。隐约地知道，这是因为学长的性格比较古怪，和室友划不来，再详细的，也就不清楚了。不过这个人背后也有令我怀疑的地方。&lt;/p&gt;
+&lt;p&gt;我该创业吗？我想，经历过这个事情，我的答案可能依然是否定的。其实自己有时候的yy不能变成现实，有的时候还是感觉很遗憾，但是我还是有自知之明的，既然自己不是创业那块料，就不要去搞那种冒险的东西了。&lt;/p&gt;
+&lt;p&gt;PS.据说，大礼堂的张老师也是一个神奇的人物。夫物以类聚，人以群分……&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;u770B_u300A_u4EB2_u7231_u7684_u300B_u7684_u610F_u5916_u6536_u83B7&quot;&gt;&lt;a href=&quot;#u770B_u300A_u4EB2_u7231_u7684_u300B_u7684_u610F_u5916_u
+    
+    </summary>
+    
+    
+      <category term="感想" scheme="http://shankerwangmiao.github.io/tags/%E6%84%9F%E6%83%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>告别虚度的时光，开始撰写博客</title>
+    <link href="http://shankerwangmiao.github.io/say-goodbye-to-old-life/"/>
+    <id>http://shankerwangmiao.github.io/say-goodbye-to-old-life/</id>
+    <published>2014-08-13T10:00:00.000Z</published>
+    <updated>2016-02-13T14:45:44.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;u544A_u522B_u865A_u5EA6_u7684_u65F6_u5149_uFF0C_u5F00_u59CB_u64B0_u5199_u535A_u5BA2&quot;&gt;&lt;a href=&quot;#u544A_u522B_u865A_u5EA6_u7684_u65F6_u5149_uFF0C_u5F00_u59CB_u64B0_u5199_u535A_u5BA2&quot; class=&quot;headerlink&quot; title=&quot;告别虚度的时光，开始撰写博客&quot;&gt;&lt;/a&gt;告别虚度的时光，开始撰写博客&lt;/h2&gt;&lt;p&gt;说到想写博客，还是一个月前的事情。那时候刚期末考试完，感觉时间都被不知道的事情占据着。正翻着网上的新闻，突然想到自己可以搞一个私人博客，写些东西给自己看。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;真正开始着手搭博客，是在几天之前。想到我和&lt;a href=&quot;https://www.innull.com/~cqtest/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@cqtest&lt;/a&gt;合租的VPS一直没有完全地被利用，决定就先把博客搭在这个VPS上。选了一个域名：innull.com，搞到ssl的证书，开始安装LAMP。&lt;/p&gt;
+&lt;p&gt;说到LAMP的安装，还是得感谢&lt;a href=&quot;https://www.innull.com/~cqtest/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@cqtest&lt;/a&gt;，之前自己编译的“AMP”不知怎么回事。工作十分不稳定。我对Linux还不太熟悉，软件包提供的Apache、Mysql、PHP我还不太会用，找不到这些东西的配置文件，幸好&lt;a href=&quot;https://www.innull.com/~cqtest/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@cqtest&lt;/a&gt;帮我搞定了。&lt;/p&gt;
+&lt;p&gt;在大陆，总会遇到些“体制问题”，一言难尽。为了以防万一，我的博客已经禁止了HTTP访问。HTTP的链接会自动地跳转到HTTPS。原因就不多说了。&lt;/p&gt;
+&lt;p&gt;本站有如下的访问渠道：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;&quot;&gt;https://innull.com&lt;/a&gt; ，v4/v6双栈访问，会自动跳转到 &lt;a href=&quot;&quot;&gt;https://www.innull.com&lt;/a&gt; ；&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;&quot;&gt;https://www.innull.com&lt;/a&gt; ，v4/v6双栈访问；&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;&quot;&gt;https://www6.innull.com&lt;/a&gt; ，纯v6访问；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上述链接如果换成HTTP协议，会自动跳转到相应的HTTPS链接。&lt;/p&gt;
+&lt;p&gt;下一步的打算：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先美化一下UI，换个皮肤，做个拉皮，再拍个黄瓜。。。；&lt;/li&gt;
+&lt;li&gt;然后把外链到gstatic的资源转到本地，方便访问；&lt;/li&gt;
+&lt;li&gt;加快博客的更新频率。&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;u544A_u522B_u865A_u5EA6_u7684_u65F6_u5149_uFF0C_u5F00_u59CB_u64B0_u5199_u535A_u5BA2&quot;&gt;&lt;a href=&quot;#u544A_u522B_u865A_u5EA6_u7684_u65F6_u5149_uFF0C_u5F00_u59CB_u64B0_u5199_u535A_u5BA2&quot; class=&quot;headerlink&quot; title=&quot;告别虚度的时光，开始撰写博客&quot;&gt;&lt;/a&gt;告别虚度的时光，开始撰写博客&lt;/h2&gt;&lt;p&gt;说到想写博客，还是一个月前的事情。那时候刚期末考试完，感觉时间都被不知道的事情占据着。正翻着网上的新闻，突然想到自己可以搞一个私人博客，写些东西给自己看。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="感想" scheme="http://shankerwangmiao.github.io/tags/%E6%84%9F%E6%83%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>世界，你好！</title>
+    <link href="http://shankerwangmiao.github.io/hello-world/"/>
+    <id>http://shankerwangmiao.github.io/hello-world/</id>
+    <published>2014-08-12T14:00:00.000Z</published>
+    <updated>2016-02-12T12:08:41.000Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;u4E16_u754C_uFF0C_u4F60_u597D_uFF01&quot;&gt;&lt;a href=&quot;#u4E16_u754C_uFF0C_u4F60_u597D_uFF01&quot; class=&quot;headerlink&quot; title=&quot;世界，你好！&quot;&gt;&lt;/a&gt;世界，你好！&lt;/h2&gt;&lt;p&gt;欢迎使用WordPress。这是系统自动生成的演示文章。编辑或者删除它，然后开始您的博客！&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;u4E16_u754C_uFF0C_u4F60_u597D_uFF01&quot;&gt;&lt;a href=&quot;#u4E16_u754C_uFF0C_u4F60_u597D_uFF01&quot; class=&quot;headerlink&quot; title=&quot;世界，你好！&quot;&gt;&lt;/a&gt;世界，你好！&lt;/h2
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
