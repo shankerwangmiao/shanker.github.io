@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>pam_dotfile 修理手记 | in /dev/null</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="pam_dotfile 修理手记源起修理这个 pam_dotfile 的起因是@dotkrnl 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pam_dotfile 修理手记">
+<meta property="og:url" content="http://yoursite.com/pam_dotfile_repair/index.html">
+<meta property="og:site_name" content="in /dev/null">
+<meta property="og:description" content="pam_dotfile 修理手记源起修理这个 pam_dotfile 的起因是@dotkrnl 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有">
+<meta property="og:updated_time" content="2016-02-12T12:12:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pam_dotfile 修理手记">
+<meta name="twitter:description" content="pam_dotfile 修理手记源起修理这个 pam_dotfile 的起因是@dotkrnl 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有">
+  
+    <link rel="alternate" href="/atom.xml" title="in /dev/null" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">in /dev/null</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-pam_dotfile_repair" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/pam_dotfile_repair/" class="article-date">
+  <time datetime="2016-02-10T20:50:00.000Z" itemprop="datePublished">2016-02-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      pam_dotfile 修理手记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="pam_dotfile__u4FEE_u7406_u624B_u8BB0"><a href="#pam_dotfile__u4FEE_u7406_u624B_u8BB0" class="headerlink" title="pam_dotfile 修理手记"></a><code>pam_dotfile</code> 修理手记</h2><h3 id="u6E90_u8D77"><a href="#u6E90_u8D77" class="headerlink" title="源起"></a>源起</h3><p>修理这个 <code>pam_dotfile</code> 的起因是<a href="http://www.dotkrnl.com" target="_blank" rel="external">@dotkrnl</a> 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。</p>
+<pre><code>bigeag1e 11:57:32    YubiKey 4 简介与配置 | K.I.S.S
+                     https://bigeagle.me/2016/02/yubikey-4/
+dotkrnl  12:02:10       auth sufficient
+dotkrnl  12:02:41       看起来就很不安全  
+shankerwangmiao  12:25:54     怎么不安全了？
+dotkrnl  12:26:32 YubiKey 一插进去就可以登录用户，丢失权限就直接被获得了啊
+dotkrnl  12:26:41     没有第二步密码
+shankerwangmiao    12:27:11     密码还是少用为妙
+shankerwangmiao    12:28:00     你yubikey还能和电脑一起丢了啊？
+bigeag1e 12:28:25 你可以改成 auth required 啊
+dotkrnl  12:28:44     我觉得 required 比较靠谱呢
+bigeag1e 12:29:03 还是TOTP，U2F和TOTP有其一即可
+dotkrnl  12:29:09     存在这种可能啊，所以我觉得比密码危险
+shankerwangmiao    12:29:19     再说了，电脑丢了，有多少密码也挡不住啊
+dotkrnl  12:29:46     全盘加密 🐶
+dotkrnl  12:29:48     
+shankerwangmiao    12:30:01     那要yubikey
+dotkrnl  12:30:19     解锁啊
+dotkrnl  12:30:30     你也不会关机的吧 🐶
+shankerwangmiao    12:31:35     何用？
+shankerwangmiao    12:31:41     额
+shankerwangmiao    12:31:58     反正我解锁电脑是sufficient
+shankerwangmiao    12:32:35     login是required
+dotkrnl  12:32:39     我的期望是能 1、输完整密码 2、插 key 同时输一个弱密码。二选一。但是不知道怎么做。
+shankerwangmiao    12:33:12     你需要配置一个pam
+shankerwangmiao    12:34:09     这个pam仅仅验证输入的密码是不是123456
+shankerwangmiao    12:34:09     然后在pam里配置三个规则
+shankerwangmiao    12:36:29     第一条yubikey的，成功继续往下走，失败则跳过下面的一条
+shankerwangmiao    12:36:29     第二条是弱口令的，是sufficient
+shankerwangmiao    12:36:29     第三条是系统原来的
+dotkrnl  12:42:12     这个怎么做
+shankerwangmiao    12:44:08     就是在原来sufficient的位置处填一个表达式
+shankerwangmiao    12:44:20     这个表达式在pam.conf的man里有讲解
+</code></pre><p>当时提出这个配置 pam 的方法，是因为刚刚看过 linux pam 的 man 页面，才知道 linux pam 的 conf 还可以这样写：</p>
+<pre><code>For the more complicated syntax valid control values have the following
+form:
+
+          [value1=action1 value2=action2 ...]
+
+Where valueN corresponds to the return code from the function invoked
+in the module for which the line is defined. It is selected from one of
+these: success, open_err, symbol_err, service_err, system_err, buf_err,
+perm_denied, auth_err, cred_insufficient, authinfo_unavail,
+user_unknown, maxtries, new_authtok_reqd, acct_expired, session_err,
+cred_unavail, cred_expired, cred_err, no_module_data, conv_err,
+authtok_err, authtok_recover_err, authtok_lock_busy,
+authtok_disable_aging, try_again, ignore, abort, authtok_expired,
+module_unknown, bad_item, conv_again, incomplete, and default.
+
+The last of these, default, implies &apos;all valueN&apos;s not mentioned
+explicitly. Note, the full list of PAM errors is available in
+/usr/include/security/_pam_types.h. The actionN can take one of the
+following forms:
+
+ignore
+    when used with a stack of modules, the module&apos;s return status will
+    not contribute to the return code the application obtains.
+
+bad
+    this action indicates that the return code should be thought of as
+    indicative of the module failing. If this module is the first in
+    the stack to fail, its status value will be used for that of the
+    whole stack.
+
+die
+    equivalent to bad with the side effect of terminating the module
+    stack and PAM immediately returning to the application.
+
+ok
+    this tells PAM that the administrator thinks this return code
+    should contribute directly to the return code of the full stack of
+    modules. In other words, if the former state of the stack would
+    lead to a return of PAM_SUCCESS, the module&apos;s return code will
+    override this value. Note, if the former state of the stack holds
+    some value that is indicative of a modules failure, this &apos;ok&apos; value
+    will not be used to override that value.
+
+done
+    equivalent to ok with the side effect of terminating the module
+    stack and PAM immediately returning to the application.
+
+N (an unsigned integer)
+    equivalent to ok with the side effect of jumping over the next N
+    modules in the stack. Note that N equal to 0 is not allowed (and it
+    would be identical to ok in such case).
+
+reset
+    clear all memory of the state of the module stack and start again
+    with the next stacked module.
+
+Each of the four keywords: required; requisite; sufficient; and
+optional, have an equivalent expression in terms of the [...] syntax.
+They are as follows:
+required
+    [success=ok new_authtok_reqd=ok ignore=ignore default=bad]
+
+requisite
+    [success=ok new_authtok_reqd=ok ignore=ignore default=die]
+
+sufficient
+    [success=done new_authtok_reqd=done default=ignore]
+
+optional
+    [success=ok new_authtok_reqd=ok default=ignore]
+</code></pre><p>我来概括一下上面的说明的意思：除了可以配置为 <code>required</code>、<code>sufficient</code> 之类的以外，还可以针对每个鉴定模块的不同鉴定结论作出不同的动作，包括忽略鉴定结论，鉴定失败，鉴定失败并退出，继续鉴定，鉴定成功并退出、重置鉴定结论和<em>跳过一些鉴定模块</em>（这里的概括稍微有些不准确，实际的动作的含义要更复杂一些，我之后会单独介绍）。</p>
+<p>于是很自然的，为了实现“1、输完整密码 2、插 key 同时输一个弱密码”都可以完成鉴定的功能，我们可以采取这样的方法：</p>
+<pre><code>    fail    +-------------+
+/-----------| pam_yubikey |
+|           +-------------+
+|                   |
+|                   | success
+|                  \|/
+|           +-------------+   success   +----------+
+|           | pam_弱口令   | -----------&gt;|  鉴定成功 |
+|           +-------------+             +----------+
+|                   |                      /|\
+|                   | fail                  |
+|                  \|/                      |
+|           +-------------+    success      |
+\--------&gt;  | pam_强口令   | ----------------/
+            +-------------+
+                    |
+                    | fail
+                   \|/
+            +-------------+
+            | 鉴定失败     |
+            +-------------+
+</code></pre><p>不难想到，这个鉴定流程很容易用 linux pam 的“跳过鉴定模块”的功能来实现。其中“<code>pam_强口令</code>”可以用系统原先的 pam 模块，唯一缺的就是 “<code>pam_弱口令</code>”。不过这个自己写也不会很难，照着别的 pam 模块的代码改一改应该就能成。</p>
+<p>这就是我在上面的聊天里作出回复的思维过程，当时因为在外边走路，感觉这样可以实现，于是就这么回答了 <a href="http://www.dotkrnl.com" target="_blank" rel="external">@dotkrnl</a>。</p>
+<h3 id="u53D1_u5C55"><a href="#u53D1_u5C55" class="headerlink" title="发展"></a>发展</h3><p>有一句名言是这么说的：</p>
+<blockquote>
+<p>Talk is cheap, show me the f**k code.</p>
+</blockquote>
+<p>更何况我也认为这样使用 yubikey 比较 make sence，所以就着手实现上边的思路。首先我要确认的是，pam.conf 能不能像我想的那样写——毕竟，改配置文件比写代码容易多了。测试配置文件写法的时候可以先用 <code>pam_permit</code> 和 <code>pam_deny</code> 代替没有实现的那个 <code>pam_弱口令</code>。</p>
+<p>说干就干，为了测试 pam 的配置，肯定不能拿我的 login 和 sudo 开刀，否则肯定是作死的节奏。测试 pam 的配置的程序原则上也可以自己写，不过这种轮子肯定有人造过。于是打开万能的<del>度娘</del> Google ，拿“test pam configuration”搜索一下，找到一篇 ubuntu 的 manual，讲的是 pamtest 这个工具，刚好是我需要的。</p>
+<p>由于我和 <a href="http://www.dotkrnl.com" target="_blank" rel="external">@dotkrnl</a> 都是将 OS X 作为日常使用的系统，因此，要找到这个程序的源代码。这个程序是由一个叫做 <code>libpam-dotfile</code> 的包提供的。等一下，这个包的名字似乎说明，这个包主要的功能应该是一个 pam 的模块。于是直接前往 man 页面中声称的<a href="http://0pointer.de/lennart/projects/pam_dotfile/" target="_blank" rel="external">项目页面</a>。</p>
+<p>简单的浏览了一下这个 pam 模块的功能。这个 pam 模块的中心思想是，在一个用户的 <code>home</code> 目录下创建若干 secret 文件，用于存储不同的 pam service 所使用的密码的散列值。在鉴定的时候根据鉴定的 pam service，读取相应的散列值，用于鉴定用户提供的作为鉴定凭据的密码。这正是我们需要的 <code>pam_弱口令</code> 。真是踏破铁鞋无觅处，得来全不费工夫，既然已经有人帮我们造好了轮子，我们为啥不用呢？于是赶紧找下载地址＋源码仓库。结果无意中瞟到了 “Requirements” 一节，里面赫然写着：</p>
+<blockquote>
+<p><code>pam_dotfile</code> was developed and tested on Debian GNU/Linux “testing” from July <strong>2003</strong>, it should work on most other Linux distributions</p>
+</blockquote>
+<p>当时心中飘过一阵草泥马。但是本着“宁可修老轮子也不造轮子”的思想，我还是把源代码下载了下来，心想，pam 的接口一直没怎么变过，说不定还能用。然而，这时我立了一个响当当的 flag。</p>
+<h3 id="u9AD8_u6F6E"><a href="#u9AD8_u6F6E" class="headerlink" title="高潮"></a>高潮</h3><p>我把源代码下载下来，开始执行 <code>./configure</code>。竟然没报错！看来有戏。继续 <code>make</code>，妥妥的报错了。</p>
+<p>提示是缺头文件，尼玛。。。。缺头文件你 <code>configure</code> 的时候不说，那你 <code>configure</code> 在干些啥？</p>
+<p>于是果断在 <del>gay</del>github 上 clone 一份这个代码，然后操刀开始改。这时我突然想起我不太会用 autotools 啊。本着“没吃猪肉但是见过猪跑”的精神，鉴于我编译过这么多遍 gcc ，autotools 的大致思想还是能搞懂的。然后我就同步地打开 <code>pam_yubico</code> 的代码，照着边学习边改。</p>
+<p>整个项目分这么几个部分：</p>
+<ul>
+<li><code>pam_dotfile</code> 这个是一个 shared library，就是我们要用的 pam 模块。</li>
+<li><code>pam-dotfile-helper</code> 这个是一个 setuid 的 helper 程序，当 pam 模块的执行权限不足以读取事先保存的 secret 文件时，使用这个 helper 程序提升权限，将鉴定工作委托给这个程序。</li>
+<li><code>pam-dotfile-gen</code> 这个是一个用于生成 secret 文件的程序。</li>
+<li><code>pamtest</code> 这个用于测试 pam 的工作情况。</li>
+</ul>
+<p>修改的细节我就不一一叙述了。实际上作的改动主要是适配不同的 pam 库的头文件的区别。OS X 使用的 pam 库是 <code>OpenPAM</code>，而 linux 上的 pam 库是 <code>Linux PAM</code>，因此头文件的名字和存放位置需要进行适配。只需要一一探测就好。改动的要点如下：</p>
+<ul>
+<li><p>在所有的 .c 文件里包含 <code>config.h</code>，在所有的包含的头文件的两侧加上 <code>#ifdef HAVE_XXX_H</code> 和 <code>#endif</code> （我很诧异为啥原作者使用了 autotools，生成了 <code>config.h</code> 却没包含）</p>
+</li>
+<li><p>添加对 <code>security/pam_appl.h</code>, <code>security/pam_modules.h</code>, <code>security/_pam_macros.h</code>,  <code>security/pam_modutil.h</code> 的侦测</p>
+</li>
+<li>添加对 <code>security/pam_appl.h</code> 的包含</li>
+</ul>
+<p>之后再编译，似乎就可以通过了。一阵输出之后，突然编译停了下来，提示这个错误：</p>
+<pre><code>pamtest.c: 在函数‘main’中:
+pamtest.c:42:35: 错误：‘misc_conv’未声明(在此函数内第一次使用)
+     static struct pam_conv pc = { misc_conv, NULL };
+                                   ^
+</code></pre><p>这个 <code>misc_conv</code> 是个啥东西？通过观察 <code>struct pam_conv</code> 的定义：</p>
+<pre><code>struct pam_conv {
+        int     (*conv)(int, const struct pam_message **,
+            struct pam_response **, void *);
+        void    *appdata_ptr;
+};
+</code></pre><p>可知，<code>misc_conv</code> 应该是个函数，错误应该是由于少包含了头文件导致的。于是立刻查找这个函数的头文件，Google 告诉我，这个函数在 <code>security/pam_misc.h</code>。立刻检测并包含之。且慢！我的系统上并没有这个头文件啊？这下坑爹了。于是用 misc_conv+ OSX 在 Google 上搜索，并没有啥结论。于是返回看 linux 下关于这个函数的 manual，其中提到：</p>
+<blockquote>
+<p>The <code>misc_conv</code> function is part of <code>libpam_misc</code> and not of the standard <code>libpam</code> library.</p>
+</blockquote>
+<p>于是转而查找 <code>pam_misc</code> 这个 library 在 OSX 上的替用品，结果也没找到什么结论。于是继续看这个函数干什么用的。</p>
+<blockquote>
+<p>  This function will prompt the user with the appropriate comments and obtain the appropriate inputs as directed by authentication modules.</p>
+</blockquote>
+<p>唔，原来是用来输入密码的呀。OS X 上显然应该有相应的函数啊。这种函数会在哪出现呢？于是我展开了联想。</p>
+<p>几乎不出两秒钟，我就得到了答案：<code>su</code> 和 <code>sudo</code>，只要翻一下 OS X 上的这两个程序的代码就可以知道了。于是我立刻找到了 <code>su</code> 的<a href="http://www.opensource.apple.com/source/shell_cmds/shell_cmds-162/su/su.c" target="_blank" rel="external">源代码</a>（因为 <code>su</code> 比 <code>sudo</code> 简单），映入眼帘的就是：</p>
+<pre><code>int
+main(int argc, char *argv[])
+{
+    static char    *cleanenv;
+    struct passwd    *pwd;
+    struct pam_conv    conv = { openpam_ttyconv, NULL };
+    enum tristate    iscsh;
+</code></pre><p>哈哈，原来是<code>openpam_ttyconv</code>，搜索之，得到 <code>security/openpam.h</code>。</p>
+<p>然后就是如何在两个函数中选择了，这里我参考了<a href="https://github.com/TinLe/macports/blob/082d31e48a3498fde4cfe0c479983128a479a791/net/quagga/files/quagga-patch2.diff" target="_blank" rel="external">这里</a> 的代码：</p>
+<pre><code>AC_CHECK_HEADER([pam/pam_misc.h],
+  [AC_DEFINE(HAVE_PAM_MISC_H,,Have pam_misc.h)
+   AC_DEFINE(PAM_CONV_FUNC,misc_conv,Have misc_conv)
+   pam_conv_func=&quot;misc_conv&quot;
+  ],
+  [], QUAGGA_INCLUDES)
+ AC_CHECK_HEADER([security/openpam.h],
+   [AC_DEFINE(HAVE_OPENPAM_H,,Have openpam.h)
+    AC_DEFINE(PAM_CONV_FUNC,openpam_ttyconv,Have openpam_ttyconv)
+</code></pre><p>大概的实现方式就是在 <code>configure</code> 的时候探测 <code>pam/pam_misc.h</code> 和 <code>security/openpam.h</code>，并定义宏 <code>PAM_CONV_FUNC</code> 为相应的函数名，然后在代码中直接使用：</p>
+<pre><code>static struct pam_conv pc = { PAM_CONV_FUNC, NULL };
+</code></pre><p>OK，最后修复了这个位置，然后编译就通过了。</p>
+<h3 id="u5C3E_u58F0"><a href="#u5C3E_u58F0" class="headerlink" title="尾声"></a>尾声</h3><p>编译通过了就要简单的测试一下代码还能否 work。于是先执行</p>
+<pre><code>$ pam-dotfile-gen -a test
+</code></pre><p>然后输入一个简单的密码 <code>12345</code>，于是就生成了 <code>~/.pam-test</code>，然后写一个 <code>/etc/pam.d/test</code></p>
+<pre><code>auth       required       /usr/local/lib/security/pam_dotfile.so try_first_pass
+</code></pre><p>最后执行：</p>
+<pre><code>$ pamtest test $USER
+</code></pre><p>先输入一个错误的密码，再输入一个正确的密码，于是可以看出，这个模块在这个给定的输入下是可以工作的。鉴于这份代码已经是成型的代码，我并没有改动什么逻辑的部分，于是可以推定这份代码应该是没什么问题了。</p>
+<p>于是本来我们是想先解决 <code>pam.conf</code> 的问题，结果不小心解决了 <code>pam_弱口令</code> 的问题。此时我们有了 <code>pamtest</code> 于是就可以顺利地测试我们期望的那个配置文件了：</p>
+<pre><code>auth       [success=ok ignore=ignore default=1]       pam_yubico.so mode=challenge-response
+auth       sufficient     /usr/local/lib/security/pam_dotfile.so try_first_pass
+auth       required       pam_opendirectory.so try_first_pass  # 这个是 OS X 上原有的 pam 模块，用于标准的鉴定过程。
+</code></pre><p>结果：</p>
+<pre><code>$ pamtest test $USER
+Trying to authenticate &lt;shanker&gt; for service &lt;test&gt;.
+Failure starting pam: system error
+</code></pre><p>在 syslog 中赫然写着：</p>
+<pre><code>pamtest[72280]: in openpam_read_chain(): /etc/pam.d/test(2): invalid control flag &apos;[default=1]&apos;
+</code></pre><p>唔，原来 OS X 上的 <code>OpenPAM</code> 不支持这种语法。</p>
+<p>卒。。。。。（未完待续）</p>
+<h3 id="u7ED3_u8BBA"><a href="#u7ED3_u8BBA" class="headerlink" title="结论"></a>结论</h3><p>于是我们得到了一个在 OS X 上能用的 <code>pam_dotfile</code>。下面简单介绍一下这个模块的工作过程和使用方法。</p>
+<p>当针对某个用户的鉴定开始的时候， <code>pam_dotfile</code> 会在下面的地点依次寻找存放密码的散列值的文件：</p>
+<ol>
+<li><code>~/.pam-&lt;service&gt;</code></li>
+<li><code>~/.pam/&lt;service&gt;</code></li>
+<li><code>~/.pam-other</code></li>
+<li><code>~/.pam/other</code></li>
+</ol>
+<p>其中，<code>&lt;service&gt;</code> 代表被请求鉴定的服务的名字，如 <code>sshd</code>、<code>sudo</code> 等。当其中某个文件的权限不是 <code>x00</code> 时，或者是符号链接时，或者父目录是组可写或他人可写的时候，这个文件会被忽略。</p>
+<p>然后用户输入的作为鉴定凭据的密码将会被求散列值，与之对比，若成功，则鉴定成功；否则鉴定失败。</p>
+<p>通过 <code>pam-dotfile-gen -a &lt;service&gt;</code> 来生成 <code>~/.pam-&lt;service&gt;</code>。你需要输入两遍密码。</p>
+<p>当不加参数直接调用 <code>pam-dotfile-gen</code> 时，该程序从标准输入读入多组明文密码（每行一个），并相应的输出它们的散列值。</p>
+<p>我在使用这个程序的时候，往往是将生成的 <code>~/.pam-&lt;service&gt;</code> 移动到 <code>~/.pam/&lt;service&gt;</code>，这样可以让 <code>home</code> 目录下的 dotfiles 整齐些。</p>
+<h3 id="u540E_u8BB0"><a href="#u540E_u8BB0" class="headerlink" title="后记"></a>后记</h3><p>我改好的 <code>pam_dotfile</code> 放在了 <a href="https://github.com/shankerwangmiao/pam_dotfile" target="_blank" rel="external">Github</a> 上，欢迎测试。</p>
+<p>另外，这个项目的地址是 <a href="http://0pointer.de/lennart/projects/pam_dotfile/" target="_blank" rel="external">http://0pointer.de/lennart/projects/pam_dotfile/</a>。从地址上来看，<em>Lennart Poettering</em> 这个人应该搞过一些别的项目，唔，应该就在 <a href="http://0pointer.de/lennart/projects/" target="_blank" rel="external">http://0pointer.de/lennart/projects/</a>。看来还是这个人还是很高产的一个程序作者。</p>
+<p>什么？你说什么？他还写过 <code>systemd</code> ？你没开玩笑吧？</p>
+<p>我擦，这个 pam 模块竟然是 <code>systemd</code> 的作者的作品。。。orz……</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/pam_dotfile_repair/" data-id="cikjn4wpj0002o7z1242wex7b" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PAM/">PAM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/about-lauguage-program-on-chinese-new-year-gala-2016/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">语言累的语言类，欲哭无泪</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PAM/">PAM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实事/">实事</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/感想/">感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术/">技术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/收藏/">收藏</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/政治/">政治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/短片/">短片</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/PAM/" style="font-size: 10px;">PAM</a> <a href="/tags/实事/" style="font-size: 10px;">实事</a> <a href="/tags/感想/" style="font-size: 15px;">感想</a> <a href="/tags/技术/" style="font-size: 10px;">技术</a> <a href="/tags/收藏/" style="font-size: 20px;">收藏</a> <a href="/tags/政治/" style="font-size: 10px;">政治</a> <a href="/tags/短片/" style="font-size: 10px;">短片</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">八月 2014</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/pam_dotfile_repair/">pam_dotfile 修理手记</a>
+          </li>
+        
+          <li>
+            <a href="/about-lauguage-program-on-chinese-new-year-gala-2016/">语言累的语言类，欲哭无泪</a>
+          </li>
+        
+          <li>
+            <a href="/how-to-represent-the-people/">9句话写给代表委员：你的失语， 就意味着人民的沉默</a>
+          </li>
+        
+          <li>
+            <a href="/about-over-anti-corruption/">反腐不应该反职工福利</a>
+          </li>
+        
+          <li>
+            <a href="/favorite-video-1/">个人收藏短片之一：《红领巾》</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 innull<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
