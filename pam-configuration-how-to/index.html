@@ -25,7 +25,7 @@
 对鉴定方法的组合策略
 
 那么每一个这样的应用程序就是一个 PAM Application，一种鉴定方法就是一个 PAM Moudule，而由用户配置的鉴定方法组合策略，则是 PAM Configuratio">
-<meta property="og:updated_time" content="2016-02-19T14:30:00.000Z">
+<meta property="og:updated_time" content="2016-02-19T15:02:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PAM 配置简介">
 <meta name="twitter:description" content="PAM 配置简介写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。
@@ -155,7 +155,7 @@
 <li>获得该模块的返回值<code>r</code></li>
 <li>若 <code>r</code> 为 <code>PAM_IGNORE</code> 则表示该模块希望 PAM 忽略这一结果，于是转 6， 继续处理下一个配置项；若都处理完毕，则转 12</li>
 <li><p>按下表格处理</p>
-<p> | 控制标记 | <code>PAM_SUCCESS</code> | 其它 |<br> | —|——-|——- |<br> | <code>optional</code> | <code>success</code> ++ | 不处理 |<br> | <code>required</code> | <code>success</code> ++ | 若 <code>fail</code> 为 <code>false</code>，则 <code>fail</code> 置为 <code>true</code>，且将 <code>ret</code> 置为 <code>r</code>；否则不处理 |<br> | <code>requisite</code> | 同上 | 同 <code>requisite</code>；并立刻终止遍历，转 12 |<br> | <code>sufficient</code> | <code>success</code> ++；若 <code>fail</code> 为 <code>false</code>，则终止遍历，转 12 | 不作处理 |<br> | <code>binding</code> | 同 <code>sufficient</code> | 同 <code>required</code> |</p>
+<p>|控制标记 | <code>PAM_SUCCESS</code> | 其它 |<br>|— | ——- | ——- |<br>|<code>optional</code> | <code>success</code> ++ | 不处理 |<br>|<code>required</code> | <code>success</code> ++ | 若 <code>fail</code> 为 <code>false</code>，则 <code>fail</code> 置为 <code>true</code>，且将 <code>ret</code> 置为 <code>r</code>；否则不处理 |<br>|<code>requisite</code> | 同上 | 同 <code>requisite</code>；并立刻终止遍历，转 12 |<br>|<code>sufficient</code> | <code>success</code> ++；若 <code>fail</code> 为 <code>false</code>，则终止遍历，转 12 | 不作处理 |<br>|<code>binding</code> | 同 <code>sufficient</code> | 同 <code>required</code> |</p>
 </li>
 <li><p>转 6，继续处理下一条配置项</p>
 </li>
@@ -260,7 +260,7 @@ optional
 <li>获得该模块的返回值<code>r</code></li>
 <li>根据返回值 <code>r</code> 选取采取的动作 <code>action</code></li>
 <li><p>按下表格处理</p>
-<p>   |<code>action</code> | 处理方法 |<br>   |———|——-|<br>   |<code>reset</code> | 恢复 <code>status</code> 为 <code>PAM_PERM_DENIED</code>；恢复 <code>impression</code> 为 <code>_PAM_UNDEF</code> |<br>   |<code>ok</code> |  当 <code>r</code> 为 <code>PAM_IGNORE</code> 时，不处理；否则，当 <code>impression</code> 为 <code>_PAM_UNDEF</code> 时，更新 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，并将 <code>status</code> 更新为 <code>r</code>；当 <code>impression</code> 已经是 <code>_PAM_POSITIVE</code> 且 <code>status</code> 是 <code>PAM_SUCCESS</code> 时，将 <code>status</code> 更新为 <code>r</code>|<br>   |<code>done</code> | 同 <code>ok</code>，若 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，则终止处理，转 11 |<br>   |<code>bad</code> | 若 impression 已经是 <code>_PAM_NEGATIVE</code>，则不作处理；否则将 impression 置为 <code>_PAM_NEGATIVE</code>，若 <code>r</code> 是 <code>PAM_IGNORE</code> 则将 <code>status</code> 置为 <code>PAM_PERM_DENIED</code>，否则将 <code>status</code> 置为 <code>r</code> |<br>   |<code>die</code> | 同 <code>bad</code>，但立刻终止处理，转 11 |<br>   |<code>ignore</code> | 不处理|<br>   |N （无符号整数）| 跳过 N 个配置项|</p>
+<p> |<code>action</code> | 处理方法 |<br> | ——– | ——- |<br> |<code>reset</code> | 恢复 <code>status</code> 为 <code>PAM_PERM_DENIED</code>；恢复 <code>impression</code> 为 <code>_PAM_UNDEF</code> |<br> |<code>ok</code> |  当 <code>r</code> 为 <code>PAM_IGNORE</code> 时，不处理；否则，当 <code>impression</code> 为 <code>_PAM_UNDEF</code> 时，更新 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，并将 <code>status</code> 更新为 <code>r</code>；当 <code>impression</code> 已经是 <code>_PAM_POSITIVE</code> 且 <code>status</code> 是 <code>PAM_SUCCESS</code> 时，将 <code>status</code> 更新为 <code>r</code>|<br> |<code>done</code> | 同 <code>ok</code>，若 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，则终止处理，转 11 |<br> |<code>bad</code> | 若 impression 已经是 <code>_PAM_NEGATIVE</code>，则不作处理；否则将 impression 置为 <code>_PAM_NEGATIVE</code>，若 <code>r</code> 是 <code>PAM_IGNORE</code> 则将 <code>status</code> 置为 <code>PAM_PERM_DENIED</code>，否则将 <code>status</code> 置为 <code>r</code> |<br> |<code>die</code> | 同 <code>bad</code>，但立刻终止处理，转 11 |<br> |<code>ignore</code> | 不处理|<br> |N （无符号整数）| 跳过 N 个配置项|</p>
 </li>
 <li><p>转 5，继续处理下一条配置项</p>
 </li>
@@ -272,8 +272,7 @@ optional
 <li>Linux PAM 引入了 <code>action</code> 来指示处理方式，这样代码就清晰了不少，同时增强了灵活性。</li>
 <li>Linux PAM 引入 <code>impression</code> 来评估当前的局面。<code>impression</code> 仅被 <code>action</code> 控制，与具体的 Module 返回值没有关系。</li>
 <li>除了 <code>reset</code> 以外，<code>impression</code> 只能由“未知”转向“正面”（<code>ok</code> 和 <code>done</code>），或是由任意状态转向“负面”（<code>bad</code> 和 <code>die</code>）。一旦进入了“负面”，则出了被 <code>reset</code> 以为，不会进入别的状态。</li>
-<li><code>status</code> 取决于 Module 的返回值，同时受采取的 <code>action</code> 和当前的 <code>impression</code> 影响。</li>
-<li><p>无论 <code>action</code> 是什么，某个 Module 的返回值只会有两种处理方式：用于覆盖当前的 <code>status</code> 或者被忽略。注意：Module 的返回值是<strong>不会</strong>被修改的。</p>
+<li><p><code>status</code> 取决于 Module 的返回值，同时受采取的 <code>action</code> 和当前的 <code>impression</code> 影响。<br>无论 <code>action</code> 是什么，某个 Module 的返回值只会有两种处理方式：用于覆盖当前的 <code>status</code> 或者被忽略。注意：Module 的返回值是<strong>不会</strong>被修改的。</p>
 <p>例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth [success=bad ignore=ignore default=done] pam_xxx.so</span><br></pre></td></tr></table></figure>
 </li>
@@ -298,7 +297,7 @@ optional
       <a data-url="http://shankerwangmiao.github.io/pam-configuration-how-to/" data-id="ciktrkqni0000q4z1g5rleaow" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pam/">pam</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PAM/">PAM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
 
     </footer>
   </div>
@@ -328,7 +327,7 @@ optional
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PAM/">PAM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pam/">pam</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实事/">实事</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/感想/">感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术/">技术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/收藏/">收藏</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/政治/">政治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/短片/">短片</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PAM/">PAM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实事/">实事</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/感想/">感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术/">技术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/收藏/">收藏</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/政治/">政治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/短片/">短片</a></li></ul>
     </div>
   </div>
 
@@ -338,7 +337,7 @@ optional
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/PAM/" style="font-size: 10px;">PAM</a> <a href="/tags/pam/" style="font-size: 10px;">pam</a> <a href="/tags/实事/" style="font-size: 10px;">实事</a> <a href="/tags/感想/" style="font-size: 15px;">感想</a> <a href="/tags/技术/" style="font-size: 15px;">技术</a> <a href="/tags/收藏/" style="font-size: 20px;">收藏</a> <a href="/tags/政治/" style="font-size: 10px;">政治</a> <a href="/tags/短片/" style="font-size: 10px;">短片</a>
+      <a href="/tags/PAM/" style="font-size: 15px;">PAM</a> <a href="/tags/实事/" style="font-size: 10px;">实事</a> <a href="/tags/感想/" style="font-size: 15px;">感想</a> <a href="/tags/技术/" style="font-size: 15px;">技术</a> <a href="/tags/收藏/" style="font-size: 20px;">收藏</a> <a href="/tags/政治/" style="font-size: 10px;">政治</a> <a href="/tags/短片/" style="font-size: 10px;">短片</a>
     </div>
   </div>
 

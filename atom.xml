@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shankerwangmiao.github.io/"/>
-  <updated>2016-02-19T14:30:00.000Z</updated>
+  <updated>2016-02-19T15:02:42.000Z</updated>
   <id>http://shankerwangmiao.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://shankerwangmiao.github.io/pam-configuration-how-to/"/>
     <id>http://shankerwangmiao.github.io/pam-configuration-how-to/</id>
     <published>2016-02-19T14:00:00.000Z</published>
-    <updated>2016-02-19T14:30:00.000Z</updated>
+    <updated>2016-02-19T15:02:42.000Z</updated>
     
     <content type="html">&lt;h2 id=&quot;PAM__u914D_u7F6E_u7B80_u4ECB&quot;&gt;&lt;a href=&quot;#PAM__u914D_u7F6E_u7B80_u4ECB&quot; class=&quot;headerlink&quot; title=&quot;PAM 配置简介&quot;&gt;&lt;/a&gt;PAM 配置简介&lt;/h2&gt;&lt;p&gt;写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。&lt;/p&gt;
 &lt;h3 id=&quot;u80CC_u666F&quot;&gt;&lt;a href=&quot;#u80CC_u666F&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;PAM 是用来进行鉴定授权的一套框架，其主要目的就是分离这三个东西：&lt;/p&gt;
@@ -71,7 +71,7 @@
 &lt;li&gt;获得该模块的返回值&lt;code&gt;r&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;若 &lt;code&gt;r&lt;/code&gt; 为 &lt;code&gt;PAM_IGNORE&lt;/code&gt; 则表示该模块希望 PAM 忽略这一结果，于是转 6， 继续处理下一个配置项；若都处理完毕，则转 12&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;按下表格处理&lt;/p&gt;
-&lt;p&gt; | 控制标记 | &lt;code&gt;PAM_SUCCESS&lt;/code&gt; | 其它 |&lt;br&gt; | —|——-|——- |&lt;br&gt; | &lt;code&gt;optional&lt;/code&gt; | &lt;code&gt;success&lt;/code&gt; ++ | 不处理 |&lt;br&gt; | &lt;code&gt;required&lt;/code&gt; | &lt;code&gt;success&lt;/code&gt; ++ | 若 &lt;code&gt;fail&lt;/code&gt; 为 &lt;code&gt;false&lt;/code&gt;，则 &lt;code&gt;fail&lt;/code&gt; 置为 &lt;code&gt;true&lt;/code&gt;，且将 &lt;code&gt;ret&lt;/code&gt; 置为 &lt;code&gt;r&lt;/code&gt;；否则不处理 |&lt;br&gt; | &lt;code&gt;requisite&lt;/code&gt; | 同上 | 同 &lt;code&gt;requisite&lt;/code&gt;；并立刻终止遍历，转 12 |&lt;br&gt; | &lt;code&gt;sufficient&lt;/code&gt; | &lt;code&gt;success&lt;/code&gt; ++；若 &lt;code&gt;fail&lt;/code&gt; 为 &lt;code&gt;false&lt;/code&gt;，则终止遍历，转 12 | 不作处理 |&lt;br&gt; | &lt;code&gt;binding&lt;/code&gt; | 同 &lt;code&gt;sufficient&lt;/code&gt; | 同 &lt;code&gt;required&lt;/code&gt; |&lt;/p&gt;
+&lt;p&gt;|控制标记 | &lt;code&gt;PAM_SUCCESS&lt;/code&gt; | 其它 |&lt;br&gt;|— | ——- | ——- |&lt;br&gt;|&lt;code&gt;optional&lt;/code&gt; | &lt;code&gt;success&lt;/code&gt; ++ | 不处理 |&lt;br&gt;|&lt;code&gt;required&lt;/code&gt; | &lt;code&gt;success&lt;/code&gt; ++ | 若 &lt;code&gt;fail&lt;/code&gt; 为 &lt;code&gt;false&lt;/code&gt;，则 &lt;code&gt;fail&lt;/code&gt; 置为 &lt;code&gt;true&lt;/code&gt;，且将 &lt;code&gt;ret&lt;/code&gt; 置为 &lt;code&gt;r&lt;/code&gt;；否则不处理 |&lt;br&gt;|&lt;code&gt;requisite&lt;/code&gt; | 同上 | 同 &lt;code&gt;requisite&lt;/code&gt;；并立刻终止遍历，转 12 |&lt;br&gt;|&lt;code&gt;sufficient&lt;/code&gt; | &lt;code&gt;success&lt;/code&gt; ++；若 &lt;code&gt;fail&lt;/code&gt; 为 &lt;code&gt;false&lt;/code&gt;，则终止遍历，转 12 | 不作处理 |&lt;br&gt;|&lt;code&gt;binding&lt;/code&gt; | 同 &lt;code&gt;sufficient&lt;/code&gt; | 同 &lt;code&gt;required&lt;/code&gt; |&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;转 6，继续处理下一条配置项&lt;/p&gt;
 &lt;/li&gt;
@@ -176,7 +176,7 @@ optional
 &lt;li&gt;获得该模块的返回值&lt;code&gt;r&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;根据返回值 &lt;code&gt;r&lt;/code&gt; 选取采取的动作 &lt;code&gt;action&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;按下表格处理&lt;/p&gt;
-&lt;p&gt;   |&lt;code&gt;action&lt;/code&gt; | 处理方法 |&lt;br&gt;   |———|——-|&lt;br&gt;   |&lt;code&gt;reset&lt;/code&gt; | 恢复 &lt;code&gt;status&lt;/code&gt; 为 &lt;code&gt;PAM_PERM_DENIED&lt;/code&gt;；恢复 &lt;code&gt;impression&lt;/code&gt; 为 &lt;code&gt;_PAM_UNDEF&lt;/code&gt; |&lt;br&gt;   |&lt;code&gt;ok&lt;/code&gt; |  当 &lt;code&gt;r&lt;/code&gt; 为 &lt;code&gt;PAM_IGNORE&lt;/code&gt; 时，不处理；否则，当 &lt;code&gt;impression&lt;/code&gt; 为 &lt;code&gt;_PAM_UNDEF&lt;/code&gt; 时，更新 &lt;code&gt;impression&lt;/code&gt; 为 &lt;code&gt;_PAM_POSITIVE&lt;/code&gt;，并将 &lt;code&gt;status&lt;/code&gt; 更新为 &lt;code&gt;r&lt;/code&gt;；当 &lt;code&gt;impression&lt;/code&gt; 已经是 &lt;code&gt;_PAM_POSITIVE&lt;/code&gt; 且 &lt;code&gt;status&lt;/code&gt; 是 &lt;code&gt;PAM_SUCCESS&lt;/code&gt; 时，将 &lt;code&gt;status&lt;/code&gt; 更新为 &lt;code&gt;r&lt;/code&gt;|&lt;br&gt;   |&lt;code&gt;done&lt;/code&gt; | 同 &lt;code&gt;ok&lt;/code&gt;，若 &lt;code&gt;impression&lt;/code&gt; 为 &lt;code&gt;_PAM_POSITIVE&lt;/code&gt;，则终止处理，转 11 |&lt;br&gt;   |&lt;code&gt;bad&lt;/code&gt; | 若 impression 已经是 &lt;code&gt;_PAM_NEGATIVE&lt;/code&gt;，则不作处理；否则将 impression 置为 &lt;code&gt;_PAM_NEGATIVE&lt;/code&gt;，若 &lt;code&gt;r&lt;/code&gt; 是 &lt;code&gt;PAM_IGNORE&lt;/code&gt; 则将 &lt;code&gt;status&lt;/code&gt; 置为 &lt;code&gt;PAM_PERM_DENIED&lt;/code&gt;，否则将 &lt;code&gt;status&lt;/code&gt; 置为 &lt;code&gt;r&lt;/code&gt; |&lt;br&gt;   |&lt;code&gt;die&lt;/code&gt; | 同 &lt;code&gt;bad&lt;/code&gt;，但立刻终止处理，转 11 |&lt;br&gt;   |&lt;code&gt;ignore&lt;/code&gt; | 不处理|&lt;br&gt;   |N （无符号整数）| 跳过 N 个配置项|&lt;/p&gt;
+&lt;p&gt; |&lt;code&gt;action&lt;/code&gt; | 处理方法 |&lt;br&gt; | ——– | ——- |&lt;br&gt; |&lt;code&gt;reset&lt;/code&gt; | 恢复 &lt;code&gt;status&lt;/code&gt; 为 &lt;code&gt;PAM_PERM_DENIED&lt;/code&gt;；恢复 &lt;code&gt;impression&lt;/code&gt; 为 &lt;code&gt;_PAM_UNDEF&lt;/code&gt; |&lt;br&gt; |&lt;code&gt;ok&lt;/code&gt; |  当 &lt;code&gt;r&lt;/code&gt; 为 &lt;code&gt;PAM_IGNORE&lt;/code&gt; 时，不处理；否则，当 &lt;code&gt;impression&lt;/code&gt; 为 &lt;code&gt;_PAM_UNDEF&lt;/code&gt; 时，更新 &lt;code&gt;impression&lt;/code&gt; 为 &lt;code&gt;_PAM_POSITIVE&lt;/code&gt;，并将 &lt;code&gt;status&lt;/code&gt; 更新为 &lt;code&gt;r&lt;/code&gt;；当 &lt;code&gt;impression&lt;/code&gt; 已经是 &lt;code&gt;_PAM_POSITIVE&lt;/code&gt; 且 &lt;code&gt;status&lt;/code&gt; 是 &lt;code&gt;PAM_SUCCESS&lt;/code&gt; 时，将 &lt;code&gt;status&lt;/code&gt; 更新为 &lt;code&gt;r&lt;/code&gt;|&lt;br&gt; |&lt;code&gt;done&lt;/code&gt; | 同 &lt;code&gt;ok&lt;/code&gt;，若 &lt;code&gt;impression&lt;/code&gt; 为 &lt;code&gt;_PAM_POSITIVE&lt;/code&gt;，则终止处理，转 11 |&lt;br&gt; |&lt;code&gt;bad&lt;/code&gt; | 若 impression 已经是 &lt;code&gt;_PAM_NEGATIVE&lt;/code&gt;，则不作处理；否则将 impression 置为 &lt;code&gt;_PAM_NEGATIVE&lt;/code&gt;，若 &lt;code&gt;r&lt;/code&gt; 是 &lt;code&gt;PAM_IGNORE&lt;/code&gt; 则将 &lt;code&gt;status&lt;/code&gt; 置为 &lt;code&gt;PAM_PERM_DENIED&lt;/code&gt;，否则将 &lt;code&gt;status&lt;/code&gt; 置为 &lt;code&gt;r&lt;/code&gt; |&lt;br&gt; |&lt;code&gt;die&lt;/code&gt; | 同 &lt;code&gt;bad&lt;/code&gt;，但立刻终止处理，转 11 |&lt;br&gt; |&lt;code&gt;ignore&lt;/code&gt; | 不处理|&lt;br&gt; |N （无符号整数）| 跳过 N 个配置项|&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;转 5，继续处理下一条配置项&lt;/p&gt;
 &lt;/li&gt;
@@ -188,8 +188,7 @@ optional
 &lt;li&gt;Linux PAM 引入了 &lt;code&gt;action&lt;/code&gt; 来指示处理方式，这样代码就清晰了不少，同时增强了灵活性。&lt;/li&gt;
 &lt;li&gt;Linux PAM 引入 &lt;code&gt;impression&lt;/code&gt; 来评估当前的局面。&lt;code&gt;impression&lt;/code&gt; 仅被 &lt;code&gt;action&lt;/code&gt; 控制，与具体的 Module 返回值没有关系。&lt;/li&gt;
 &lt;li&gt;除了 &lt;code&gt;reset&lt;/code&gt; 以外，&lt;code&gt;impression&lt;/code&gt; 只能由“未知”转向“正面”（&lt;code&gt;ok&lt;/code&gt; 和 &lt;code&gt;done&lt;/code&gt;），或是由任意状态转向“负面”（&lt;code&gt;bad&lt;/code&gt; 和 &lt;code&gt;die&lt;/code&gt;）。一旦进入了“负面”，则出了被 &lt;code&gt;reset&lt;/code&gt; 以为，不会进入别的状态。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;status&lt;/code&gt; 取决于 Module 的返回值，同时受采取的 &lt;code&gt;action&lt;/code&gt; 和当前的 &lt;code&gt;impression&lt;/code&gt; 影响。&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;无论 &lt;code&gt;action&lt;/code&gt; 是什么，某个 Module 的返回值只会有两种处理方式：用于覆盖当前的 &lt;code&gt;status&lt;/code&gt; 或者被忽略。注意：Module 的返回值是&lt;strong&gt;不会&lt;/strong&gt;被修改的。&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;status&lt;/code&gt; 取决于 Module 的返回值，同时受采取的 &lt;code&gt;action&lt;/code&gt; 和当前的 &lt;code&gt;impression&lt;/code&gt; 影响。&lt;br&gt;无论 &lt;code&gt;action&lt;/code&gt; 是什么，某个 Module 的返回值只会有两种处理方式：用于覆盖当前的 &lt;code&gt;status&lt;/code&gt; 或者被忽略。注意：Module 的返回值是&lt;strong&gt;不会&lt;/strong&gt;被修改的。&lt;/p&gt;
 &lt;p&gt;例如：&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;auth [success=bad ignore=ignore default=done] pam_xxx.so&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;/li&gt;
@@ -223,7 +222,7 @@ optional
     </summary>
     
     
-      <category term="pam" scheme="http://shankerwangmiao.github.io/tags/pam/"/>
+      <category term="PAM" scheme="http://shankerwangmiao.github.io/tags/PAM/"/>
     
       <category term="技术" scheme="http://shankerwangmiao.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
