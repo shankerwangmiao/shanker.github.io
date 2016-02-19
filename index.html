@@ -64,6 +64,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-pam-configuration-how-to" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/pam-configuration-how-to/" class="article-date">
+  <time datetime="2016-02-19T14:00:00.000Z" itemprop="datePublished">2016-02-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/pam-configuration-how-to/">PAM 配置简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="PAM__u914D_u7F6E_u7B80_u4ECB"><a href="#PAM__u914D_u7F6E_u7B80_u4ECB" class="headerlink" title="PAM 配置简介"></a>PAM 配置简介</h2><p>写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。</p>
+<h3 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h3><p>PAM 是用来进行鉴定授权的一套框架，其主要目的就是分离这三个东西：</p>
+<ul>
+<li>有鉴定需求的应用程序</li>
+<li>实施的鉴定方法</li>
+<li>对鉴定方法的组合策略</li>
+</ul>
+<p>那么每一个这样的应用程序就是一个 PAM Application，一种鉴定方法就是一个 PAM Moudule，而由用户配置的鉴定方法组合策略，则是 PAM Configuration</p>
+        
+          <p class="article-more-link">
+            <a href="/pam-configuration-how-to/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://shankerwangmiao.github.io/pam-configuration-how-to/" data-id="ciktrkqni0000q4z1g5rleaow" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pam/">pam</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术/">技术</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-pam_dotfile_repair" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/pam_dotfile_repair/" class="article-date">
@@ -418,7 +468,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PAM/">PAM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实事/">实事</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/感想/">感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术/">技术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/收藏/">收藏</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/政治/">政治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/短片/">短片</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PAM/">PAM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pam/">pam</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实事/">实事</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/感想/">感想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/技术/">技术</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/收藏/">收藏</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/政治/">政治</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/短片/">短片</a></li></ul>
     </div>
   </div>
 
@@ -428,7 +478,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/PAM/" style="font-size: 10px;">PAM</a> <a href="/tags/实事/" style="font-size: 10px;">实事</a> <a href="/tags/感想/" style="font-size: 15px;">感想</a> <a href="/tags/技术/" style="font-size: 10px;">技术</a> <a href="/tags/收藏/" style="font-size: 20px;">收藏</a> <a href="/tags/政治/" style="font-size: 10px;">政治</a> <a href="/tags/短片/" style="font-size: 10px;">短片</a>
+      <a href="/tags/PAM/" style="font-size: 10px;">PAM</a> <a href="/tags/pam/" style="font-size: 10px;">pam</a> <a href="/tags/实事/" style="font-size: 10px;">实事</a> <a href="/tags/感想/" style="font-size: 15px;">感想</a> <a href="/tags/技术/" style="font-size: 15px;">技术</a> <a href="/tags/收藏/" style="font-size: 20px;">收藏</a> <a href="/tags/政治/" style="font-size: 10px;">政治</a> <a href="/tags/短片/" style="font-size: 10px;">短片</a>
     </div>
   </div>
 
@@ -450,6 +500,10 @@
       <ul>
         
           <li>
+            <a href="/pam-configuration-how-to/">PAM 配置简介</a>
+          </li>
+        
+          <li>
             <a href="/pam_dotfile_repair/">pam_dotfile 修理手记</a>
           </li>
         
@@ -463,10 +517,6 @@
         
           <li>
             <a href="/about-over-anti-corruption/">反腐不应该反职工福利</a>
-          </li>
-        
-          <li>
-            <a href="/favorite-video-1/">个人收藏短片之一：《红领巾》</a>
           </li>
         
       </ul>
