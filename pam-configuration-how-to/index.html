@@ -25,7 +25,7 @@
 对鉴定方法的组合策略
 
 那么每一个这样的应用程序就是一个 PAM Application，一种鉴定方法就是一个 PAM Moudule，而由用户配置的鉴定方法组合策略，则是 PAM Configuratio">
-<meta property="og:updated_time" content="2016-02-19T14:22:45.000Z">
+<meta property="og:updated_time" content="2016-02-19T14:30:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PAM 配置简介">
 <meta name="twitter:description" content="PAM 配置简介写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。
@@ -260,7 +260,7 @@ optional
 <li>获得该模块的返回值<code>r</code></li>
 <li>根据返回值 <code>r</code> 选取采取的动作 <code>action</code></li>
 <li><p>按下表格处理</p>
-<p>   |<code>action</code> | 处理方法 |<br>   |———|——-|<br>   |<code>reset</code> | 恢复 <code>status</code> 为 <code>PAM_PERM_DENIED</code>；恢复 <code>impression</code> 为 _PAM_UNDEF |<br>   |<code>ok</code> |  当 <code>r</code> 为 <code>PAM_IGNORE</code> 时，不处理；否则，当 <code>impression</code> 为 <code>_PAM_UNDEF</code> 时，更新 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，并将 <code>status</code> 更新为 <code>r</code>；当 <code>impression</code> 已经是 <code>_PAM_POSITIVE</code> 且 <code>status</code> 是 <code>PAM_SUCCESS</code> 时，将 <code>status</code> 更新为 <code>r</code>|<br>   |<code>done</code> | 同 <code>ok</code>，若 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，则终止处理，转 11 |<br>   |<code>bad</code> | 若 impression 已经是 <code>_PAM_NEGATIVE</code>，则不作处理；否则将 impression 置为 <code>_PAM_NEGATIVE</code>，若 <code>r</code> 是 <code>PAM_IGNORE</code> 则将 <code>status</code> 置为 <code>PAM_PERM_DENIED</code>，否则将 <code>status</code> 置为 <code>r</code> |<br>   |<code>die</code> | 同 <code>bad</code>，但立刻终止处理，转 11 |<br>   |<code>ignore</code> | 不处理|<br>   |N （无符号整数）| 跳过 N 个配置项|</p>
+<p>   |<code>action</code> | 处理方法 |<br>   |———|——-|<br>   |<code>reset</code> | 恢复 <code>status</code> 为 <code>PAM_PERM_DENIED</code>；恢复 <code>impression</code> 为 <code>_PAM_UNDEF</code> |<br>   |<code>ok</code> |  当 <code>r</code> 为 <code>PAM_IGNORE</code> 时，不处理；否则，当 <code>impression</code> 为 <code>_PAM_UNDEF</code> 时，更新 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，并将 <code>status</code> 更新为 <code>r</code>；当 <code>impression</code> 已经是 <code>_PAM_POSITIVE</code> 且 <code>status</code> 是 <code>PAM_SUCCESS</code> 时，将 <code>status</code> 更新为 <code>r</code>|<br>   |<code>done</code> | 同 <code>ok</code>，若 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，则终止处理，转 11 |<br>   |<code>bad</code> | 若 impression 已经是 <code>_PAM_NEGATIVE</code>，则不作处理；否则将 impression 置为 <code>_PAM_NEGATIVE</code>，若 <code>r</code> 是 <code>PAM_IGNORE</code> 则将 <code>status</code> 置为 <code>PAM_PERM_DENIED</code>，否则将 <code>status</code> 置为 <code>r</code> |<br>   |<code>die</code> | 同 <code>bad</code>，但立刻终止处理，转 11 |<br>   |<code>ignore</code> | 不处理|<br>   |N （无符号整数）| 跳过 N 个配置项|</p>
 </li>
 <li><p>转 5，继续处理下一条配置项</p>
 </li>
