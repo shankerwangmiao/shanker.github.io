@@ -25,7 +25,7 @@
 对鉴定方法的组合策略
 
 那么每一个这样的应用程序就是一个 PAM Application，一种鉴定方法就是一个 PAM Moudule，而由用户配置的鉴定方法组合策略，则是 PAM Configuratio">
-<meta property="og:updated_time" content="2016-02-19T15:15:32.000Z">
+<meta property="og:updated_time" content="2016-02-20T08:13:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PAM 配置简介">
 <meta name="twitter:description" content="PAM 配置简介写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。
@@ -140,8 +140,8 @@
 <li>其他参数。用空格分开的其他参数，这些参数会被全权交给 PAM Module 处理。</li>
 </ul>
 <p>此外还有一种语法是：</p>
-<pre><code>function-class include other-service-name
-</code></pre><p>作用是将其它的 service 直接包含进来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function-class include other-service-name</span><br></pre></td></tr></table></figure>
+<p>作用是将其它的 service 直接包含进来。</p>
 <h3 id="PAM_Module__u8C03_u7528_u6D41_u7A0B"><a href="#PAM_Module__u8C03_u7528_u6D41_u7A0B" class="headerlink" title="PAM Module 调用流程"></a>PAM Module 调用流程</h3><p>下面则是比较关键的一个环节，就是我讲了这么半天的“模块调用的顺序和返回值的生成”。</p>
 <p>模块的调用和生成返回值遵从以下过程：</p>
 <ol>
@@ -155,7 +155,13 @@
 <li>获得该模块的返回值<code>r</code></li>
 <li>若 <code>r</code> 为 <code>PAM_IGNORE</code> 则表示该模块希望 PAM 忽略这一结果，于是转 6， 继续处理下一个配置项；若都处理完毕，则转 12</li>
 <li><p>按下表格处理</p>
-<p>|控制标记 | <code>PAM_SUCCESS</code> | 其它 |<br>|— | ——- | ——- |<br>|<code>optional</code> | <code>success</code> ++ | 不处理 |<br>|<code>required</code> | <code>success</code> ++ | 若 <code>fail</code> 为 <code>false</code>，则 <code>fail</code> 置为 <code>true</code>，且将 <code>ret</code> 置为 <code>r</code>；否则不处理 |<br>|<code>requisite</code> | 同上 | 同 <code>requisite</code>；并立刻终止遍历，转 12 |<br>|<code>sufficient</code> | <code>success</code> ++；若 <code>fail</code> 为 <code>false</code>，则终止遍历，转 12 | 不作处理 |<br>|<code>binding</code> | 同 <code>sufficient</code> | 同 <code>required</code> |</p>
+<p>控制标记 | <code>PAM_SUCCESS</code> | 其它
+—– | ——- | ——-
+<code>optional</code> | <code>success</code> ++ | 不处理
+<code>required</code> | <code>success</code> ++ | 若 <code>fail</code> 为 <code>false</code>，则 <code>fail</code> 置为 <code>true</code>，且将 <code>ret</code> 置为 <code>r</code>；否则不处理
+<code>requisite</code> | 同上 | 同 <code>requisite</code>；并立刻终止遍历，转 12
+<code>sufficient</code> | <code>success</code> ++；若 <code>fail</code> 为 <code>false</code>，则终止遍历，转 12 | 不作处理
+<code>binding</code> | 同 <code>sufficient</code> | 同 <code>required</code></p>
 </li>
 <li><p>转 6，继续处理下一条配置项</p>
 </li>
@@ -189,8 +195,8 @@
 <li><code>nullok</code> 允许空密码</li>
 </ul>
 <h3 id="Linux-PAM__u9AD8_u7EA7_u8BED_u6CD5"><a href="#Linux-PAM__u9AD8_u7EA7_u8BED_u6CD5" class="headerlink" title="Linux-PAM 高级语法"></a>Linux-PAM 高级语法</h3><p>Linux-PAM 在控制标记字段支持一种高级的语法，即跟据 Module 返回值指派处理动作：</p>
-<pre><code>[val1=act1 val2=act2 ... default=act3]
-</code></pre><p>其中 <code>val</code> 是返回值，合法的取值有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[val1=act1 val2=act2 ... default=act3]</span><br></pre></td></tr></table></figure>
+<p>其中 <code>val</code> 是返回值，合法的取值有：</p>
 <ul>
 <li><code>success</code></li>
 <li><code>open_err</code></li>
@@ -238,18 +244,8 @@
 <li><code>reset</code></li>
 </ul>
 <p>而原有的 <code>optional</code>、<code>sufficient</code>、<code>requisite</code>、<code>required</code> 则等价于：</p>
-<pre><code>required
-    [success=ok new_authtok_reqd=ok ignore=ignore default=bad]
-
-requisite
-    [success=ok new_authtok_reqd=ok ignore=ignore default=die]
-
-sufficient
-    [success=done new_authtok_reqd=done default=ignore]
-
-optional
-    [success=ok new_authtok_reqd=ok default=ignore]
-</code></pre><p>而整个处理流程则变成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">required&#10;  [success=ok new_authtok_reqd=ok ignore=ignore default=bad]&#10;&#10;requisite&#10;  [success=ok new_authtok_reqd=ok ignore=ignore default=die]&#10;&#10;sufficient&#10;  [success=done new_authtok_reqd=done default=ignore]&#10;&#10;optional&#10;  [success=ok new_authtok_reqd=ok default=ignore]</span><br></pre></td></tr></table></figure>
+<p>而整个处理流程则变成：</p>
 <ol>
 <li>设定要执行的功能 （Function）</li>
 <li>取出该功能相应的 PAM 配置链（chain）</li>
@@ -260,7 +256,15 @@ optional
 <li>获得该模块的返回值<code>r</code></li>
 <li>根据返回值 <code>r</code> 选取采取的动作 <code>action</code></li>
 <li><p>按下表格处理</p>
-<p>|<code>action</code> | 处理方法 |<br>| ——– | ——- |<br>|<code>reset</code> | 恢复 <code>status</code> 为 <code>PAM_PERM_DENIED</code>；恢复 <code>impression</code> 为 <code>_PAM_UNDEF</code> |<br>|<code>ok</code> |  当 <code>r</code> 为 <code>PAM_IGNORE</code> 时，不处理；否则，当 <code>impression</code> 为 <code>_PAM_UNDEF</code> 时，更新 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，并将 <code>status</code> 更新为 <code>r</code>；当 <code>impression</code> 已经是 <code>_PAM_POSITIVE</code> 且 <code>status</code> 是 <code>PAM_SUCCESS</code> 时，将 <code>status</code> 更新为 <code>r</code>|<br>|<code>done</code> | 同 <code>ok</code>，若 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，则终止处理，转 11 |<br>|<code>bad</code> | 若 impression 已经是 <code>_PAM_NEGATIVE</code>，则不作处理；否则将 impression 置为 <code>_PAM_NEGATIVE</code>，若 <code>r</code> 是 <code>PAM_IGNORE</code> 则将 <code>status</code> 置为 <code>PAM_PERM_DENIED</code>，否则将 <code>status</code> 置为 <code>r</code> |<br>|<code>die</code> | 同 <code>bad</code>，但立刻终止处理，转 11 |<br>|<code>ignore</code> | 不处理|<br>|N （无符号整数）| 跳过 N 个配置项|</p>
+<p>|<code>action</code> | 处理方法 |
+| ——– | ——- |
+|<code>reset</code> | 恢复 <code>status</code> 为 <code>PAM_PERM_DENIED</code>；恢复 <code>impression</code> 为 <code>_PAM_UNDEF</code> |
+|<code>ok</code> |  当 <code>r</code> 为 <code>PAM_IGNORE</code> 时，不处理；否则，当 <code>impression</code> 为 <code>_PAM_UNDEF</code> 时，更新 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，并将 <code>status</code> 更新为 <code>r</code>；当 <code>impression</code> 已经是 <code>_PAM_POSITIVE</code> 且 <code>status</code> 是 <code>PAM_SUCCESS</code> 时，将 <code>status</code> 更新为 <code>r</code>|
+|<code>done</code> | 同 <code>ok</code>，若 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，则终止处理，转 11 |
+|<code>bad</code> | 若 impression 已经是 <code>_PAM_NEGATIVE</code>，则不作处理；否则将 impression 置为 <code>_PAM_NEGATIVE</code>，若 <code>r</code> 是 <code>PAM_IGNORE</code> 则将 <code>status</code> 置为 <code>PAM_PERM_DENIED</code>，否则将 <code>status</code> 置为 <code>r</code> |
+|<code>die</code> | 同 <code>bad</code>，但立刻终止处理，转 11 |
+|<code>ignore</code> | 不处理|
+|N （无符号整数）| 跳过 N 个配置项|</p>
 </li>
 <li><p>转 5，继续处理下一条配置项</p>
 </li>
@@ -271,8 +275,9 @@ optional
 <ul>
 <li>Linux PAM 引入了 <code>action</code> 来指示处理方式，这样代码就清晰了不少，同时增强了灵活性。</li>
 <li>Linux PAM 引入 <code>impression</code> 来评估当前的局面。<code>impression</code> 仅被 <code>action</code> 控制，与具体的 Module 返回值没有关系。</li>
-<li>除了 <code>reset</code> 以外，<code>impression</code> 只能由“未知”转向“正面”（<code>ok</code> 和 <code>done</code>），或是由任意状态转向“负面”（<code>bad</code> 和 <code>die</code>）。一旦进入了“负面”，则出了被 <code>reset</code> 以为，不会进入别的状态。</li>
-<li><p><code>status</code> 取决于 Module 的返回值，同时受采取的 <code>action</code> 和当前的 <code>impression</code> 影响。<br>无论 <code>action</code> 是什么，某个 Module 的返回值只会有两种处理方式：用于覆盖当前的 <code>status</code> 或者被忽略。注意：Module 的返回值是<strong>不会</strong>被修改的。</p>
+<li>除了 <code>reset</code> 以外，<code>impression</code> 只能由“未知”转向“正面”（<code>ok</code> 和 <code>done</code>），或是由任意状态转向“负面”（<code>bad</code> 和 <code>die</code>）。一旦进入了“负面”，则除了被 <code>reset</code> 以外，不会进入别的状态。</li>
+<li><p><code>status</code> 取决于 Module 的返回值，同时受采取的 <code>action</code> 和当前的 <code>impression</code> 影响。
+无论 <code>action</code> 是什么，某个 Module 的返回值只会有两种处理方式：用于覆盖当前的 <code>status</code> 或者被忽略。注意：Module 的返回值是<strong>不会</strong>被修改的。</p>
 <p>例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auth [success=bad ignore=ignore default=done] pam_xxx.so</span><br></pre></td></tr></table></figure>
 <p>这条配置的后果是，当 <code>pam_xxx.so</code> 失败的时候，虽然动作是 <code>ok</code>，但是 <code>status</code> 会被更新为一个非 <code>PAM_SUCCESS</code> 的值，最终导致鉴定失败。当 <code>pam_xxx.so</code> 成功的时候，虽然 <code>status</code> 被更新为了 <code>PAM_SUCCESS</code>，但是由于采取的动作是 <code>bad</code>，<code>impression</code> 会转为“负面”，最终在出口处（步骤 11）PAM 把 <code>status</code> 覆盖为 <code>PAM_PERM_DENIED</code>。</p>
