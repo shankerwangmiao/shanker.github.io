@@ -25,7 +25,7 @@
 对鉴定方法的组合策略
 
 那么每一个这样的应用程序就是一个 PAM Application，一种鉴定方法就是一个 PAM Moudule，而由用户配置的鉴定方法组合策略，则是 PAM Configuratio">
-<meta property="og:updated_time" content="2016-02-20T08:13:29.000Z">
+<meta property="og:updated_time" content="2016-03-29T19:41:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PAM 配置简介">
 <meta name="twitter:description" content="PAM 配置简介写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。
@@ -154,14 +154,14 @@
 <li>PAM Module 做一些事情，给出返回值</li>
 <li>获得该模块的返回值<code>r</code></li>
 <li>若 <code>r</code> 为 <code>PAM_IGNORE</code> 则表示该模块希望 PAM 忽略这一结果，于是转 6， 继续处理下一个配置项；若都处理完毕，则转 12</li>
-<li><p>按下表格处理</p>
-<p>控制标记 | <code>PAM_SUCCESS</code> | 其它
-—– | ——- | ——-
-<code>optional</code> | <code>success</code> ++ | 不处理
-<code>required</code> | <code>success</code> ++ | 若 <code>fail</code> 为 <code>false</code>，则 <code>fail</code> 置为 <code>true</code>，且将 <code>ret</code> 置为 <code>r</code>；否则不处理
-<code>requisite</code> | 同上 | 同 <code>requisite</code>；并立刻终止遍历，转 12
-<code>sufficient</code> | <code>success</code> ++；若 <code>fail</code> 为 <code>false</code>，则终止遍历，转 12 | 不作处理
-<code>binding</code> | 同 <code>sufficient</code> | 同 <code>required</code></p>
+<li><p>当控制标记为：</p>
+<ul>
+<li><code>optional</code> 时，若 <code>r</code> 为 <code>PAM_SUCCESS</code>，则 <code>success</code> ++ ；否则不处理</li>
+<li><code>required</code> 时，若 <code>r</code> 为 <code>PAM_SUCCESS</code>，则 <code>success</code> ++ 。当 <code>r</code> 为其他值时，若 <code>fail</code> 为 <code>false</code>，则 <code>fail</code> 置为 <code>true</code>，且将 <code>ret</code> 置为 <code>r</code>；否则不处理</li>
+<li><code>requisite</code> 时，若 <code>r</code> 为 <code>PAM_SUCCESS</code> 则同 <code>required</code>；否则同 <code>requisite</code>；并立刻终止遍历，转 12</li>
+<li><code>sufficient</code> 时，若 <code>r</code> 为 <code>PAM_SUCCESS</code> 则 <code>success</code> ++，同时，若 <code>fail</code> 为 <code>false</code>，则终止遍历，转 12。若 <code>r</code> 为其他值，则不作处理。</li>
+<li><code>binding</code> 时，若 <code>r</code> 为 <code>PAM_SUCCESS</code> 则同 <code>sufficient</code>，反之同 <code>required</code></li>
+</ul>
 </li>
 <li><p>转 6，继续处理下一条配置项</p>
 </li>
@@ -189,10 +189,10 @@
 </ul>
 <h3 id="u6A21_u5757_u53C2_u6570"><a href="#u6A21_u5757_u53C2_u6570" class="headerlink" title="模块参数"></a>模块参数</h3><p>一般的来讲，Module 的参数是由模块全权处理的，但是不同的 Module 接受的参数还是有一定共性的约定的。下面是一些常见的参数。注意，不一定所有的  Module 都接受这些参数，这些参数的意义也有可能因 Module 的不同而有所变化，请以 Module 的文档为准。</p>
 <ul>
-<li><code>debug</code> 输出调试信息</li>
-<li><code>use_first_pass</code> 意味着 Module 不提示用户输入密码，而是用上一个模块输入的密码；如果之前没有模块输入密码，则使用 Application 在调用 PAM 鉴定功能前设定的密码。如果 Application 没有设定密码，则 Module 会获知这一情况，进行相应的处理。</li>
-<li><code>try_first_pass</code> 跟 <code>use_first_pass</code> 类似，但是当上一个模块输入的密码或 Application 提供的密码不正确或不存在时，提示用户输入密码，重新鉴定。</li>
-<li><code>nullok</code> 允许空密码</li>
+<li><code>debug</code>：输出调试信息</li>
+<li><code>use_first_pass</code>：意味着 Module 不提示用户输入密码，而是用上一个模块输入的密码；如果之前没有模块输入密码，则使用 Application 在调用 PAM 鉴定功能前设定的密码。如果 Application 没有设定密码，则 Module 会获知这一情况，进行相应的处理。</li>
+<li><code>try_first_pass</code>：跟 <code>use_first_pass</code> 类似，但是当上一个模块输入的密码或 Application 提供的密码不正确或不存在时，提示用户输入密码，重新鉴定。</li>
+<li><code>nullok</code>：允许空密码，或者当不存在相应的鉴定信息文件的时候通过鉴定（前者例如 <code>pam_unix.so</code>；后者例如 <code>pam_google_authenticator.so</code>，当保存有被鉴定的用户的 OTP 信息的秘密文件不存在时，通过鉴定）。</li>
 </ul>
 <h3 id="Linux-PAM__u9AD8_u7EA7_u8BED_u6CD5"><a href="#Linux-PAM__u9AD8_u7EA7_u8BED_u6CD5" class="headerlink" title="Linux-PAM 高级语法"></a>Linux-PAM 高级语法</h3><p>Linux-PAM 在控制标记字段支持一种高级的语法，即跟据 Module 返回值指派处理动作：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[val1=act1 val2=act2 ... default=act3]</span><br></pre></td></tr></table></figure>
@@ -255,16 +255,16 @@
 <li>PAM Module 做一些事情，给出返回值</li>
 <li>获得该模块的返回值<code>r</code></li>
 <li>根据返回值 <code>r</code> 选取采取的动作 <code>action</code></li>
-<li><p>按下表格处理</p>
-<p>|<code>action</code> | 处理方法 |
-| ——– | ——- |
-|<code>reset</code> | 恢复 <code>status</code> 为 <code>PAM_PERM_DENIED</code>；恢复 <code>impression</code> 为 <code>_PAM_UNDEF</code> |
-|<code>ok</code> |  当 <code>r</code> 为 <code>PAM_IGNORE</code> 时，不处理；否则，当 <code>impression</code> 为 <code>_PAM_UNDEF</code> 时，更新 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，并将 <code>status</code> 更新为 <code>r</code>；当 <code>impression</code> 已经是 <code>_PAM_POSITIVE</code> 且 <code>status</code> 是 <code>PAM_SUCCESS</code> 时，将 <code>status</code> 更新为 <code>r</code>|
-|<code>done</code> | 同 <code>ok</code>，若 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，则终止处理，转 11 |
-|<code>bad</code> | 若 impression 已经是 <code>_PAM_NEGATIVE</code>，则不作处理；否则将 impression 置为 <code>_PAM_NEGATIVE</code>，若 <code>r</code> 是 <code>PAM_IGNORE</code> 则将 <code>status</code> 置为 <code>PAM_PERM_DENIED</code>，否则将 <code>status</code> 置为 <code>r</code> |
-|<code>die</code> | 同 <code>bad</code>，但立刻终止处理，转 11 |
-|<code>ignore</code> | 不处理|
-|N （无符号整数）| 跳过 N 个配置项|</p>
+<li><p>当 <code>action</code> 为：</p>
+<ul>
+<li><code>reset</code> 时，恢复 <code>status</code> 为 <code>PAM_PERM_DENIED</code>；并恢复 <code>impression</code> 为 <code>_PAM_UNDEF</code> </li>
+<li><code>ok</code> 时，当 <code>r</code> 为 <code>PAM_IGNORE</code> 时，不处理；否则，当 <code>impression</code> 为 <code>_PAM_UNDEF</code> 时，更新 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，并将 <code>status</code> 更新为 <code>r</code>；当 <code>impression</code> 已经是 <code>_PAM_POSITIVE</code> 且 <code>status</code> 是 <code>PAM_SUCCESS</code> 时，将 <code>status</code> 更新为 <code>r</code></li>
+<li><code>done</code> 时，同 <code>ok</code>，若 <code>impression</code> 为 <code>_PAM_POSITIVE</code>，则终止处理，转 11 </li>
+<li><code>bad</code> 时，若 impression 已经是 <code>_PAM_NEGATIVE</code>，则不作处理；否则将 impression 置为 <code>_PAM_NEGATIVE</code>，若 <code>r</code> 是 <code>PAM_IGNORE</code> 则将 <code>status</code> 置为 <code>PAM_PERM_DENIED</code>，否则将 <code>status</code> 置为 <code>r</code> </li>
+<li><code>die</code> 时，同 <code>bad</code>，但立刻终止处理，转 11 </li>
+<li><code>ignore</code> 时，不处理</li>
+<li>N（无符号整数）时，跳过 N 个配置项</li>
+</ul>
 </li>
 <li><p>转 5，继续处理下一条配置项</p>
 </li>
