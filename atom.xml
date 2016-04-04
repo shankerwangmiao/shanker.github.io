@@ -4,9 +4,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://shankerwangmiao.github.io/"/>
+  <link href="https://innull.com/"/>
   <updated>2016-04-04T18:33:56.000Z</updated>
-  <id>http://shankerwangmiao.github.io/</id>
+  <id>https://innull.com/</id>
   
   <author>
     <name>innull</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>如何禁用 OS X 的图形界面</title>
-    <link href="http://shankerwangmiao.github.io/how-to-disable-gui-on-os-x/"/>
-    <id>http://shankerwangmiao.github.io/how-to-disable-gui-on-os-x/</id>
+    <link href="https://innull.com/how-to-disable-gui-on-os-x/"/>
+    <id>https://innull.com/how-to-disable-gui-on-os-x/</id>
     <published>2016-04-04T18:19:33.000Z</published>
     <updated>2016-04-04T18:33:56.000Z</updated>
     
@@ -53,18 +53,18 @@
     </summary>
     
     
-      <category term="OS X" scheme="http://shankerwangmiao.github.io/tags/OS-X/"/>
+      <category term="OS X" scheme="https://innull.com/tags/OS-X/"/>
     
-      <category term="技术" scheme="http://shankerwangmiao.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://innull.com/tags/%E6%8A%80%E6%9C%AF/"/>
     
-      <category term="瞎搞" scheme="http://shankerwangmiao.github.io/tags/%E7%9E%8E%E6%90%9E/"/>
+      <category term="瞎搞" scheme="https://innull.com/tags/%E7%9E%8E%E6%90%9E/"/>
     
   </entry>
   
   <entry>
     <title>PAM 配置简介</title>
-    <link href="http://shankerwangmiao.github.io/pam-configuration-how-to/"/>
-    <id>http://shankerwangmiao.github.io/pam-configuration-how-to/</id>
+    <link href="https://innull.com/pam-configuration-how-to/"/>
+    <id>https://innull.com/pam-configuration-how-to/</id>
     <published>2016-02-19T14:00:00.000Z</published>
     <updated>2016-03-29T19:41:30.000Z</updated>
     
@@ -270,16 +270,16 @@
     </summary>
     
     
-      <category term="PAM" scheme="http://shankerwangmiao.github.io/tags/PAM/"/>
+      <category term="PAM" scheme="https://innull.com/tags/PAM/"/>
     
-      <category term="技术" scheme="http://shankerwangmiao.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://innull.com/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
   <entry>
     <title>pam_dotfile 修理手记</title>
-    <link href="http://shankerwangmiao.github.io/pam_dotfile_repair/"/>
-    <id>http://shankerwangmiao.github.io/pam_dotfile_repair/</id>
+    <link href="https://innull.com/pam_dotfile_repair/"/>
+    <id>https://innull.com/pam_dotfile_repair/</id>
     <published>2016-02-10T20:50:00.000Z</published>
     <updated>2016-02-13T14:44:50.000Z</updated>
     
@@ -531,16 +531,16 @@ Failure starting pam: system error
     </summary>
     
     
-      <category term="PAM" scheme="http://shankerwangmiao.github.io/tags/PAM/"/>
+      <category term="PAM" scheme="https://innull.com/tags/PAM/"/>
     
-      <category term="技术" scheme="http://shankerwangmiao.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://innull.com/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
   <entry>
     <title>语言累的语言类，欲哭无泪</title>
-    <link href="http://shankerwangmiao.github.io/about-lauguage-program-on-chinese-new-year-gala-2016/"/>
-    <id>http://shankerwangmiao.github.io/about-lauguage-program-on-chinese-new-year-gala-2016/</id>
+    <link href="https://innull.com/about-lauguage-program-on-chinese-new-year-gala-2016/"/>
+    <id>https://innull.com/about-lauguage-program-on-chinese-new-year-gala-2016/</id>
     <published>2016-02-09T10:00:00.000Z</published>
     <updated>2016-02-13T14:45:11.000Z</updated>
     
@@ -603,14 +603,14 @@ Failure starting pam: system error
     </summary>
     
     
-      <category term="收藏" scheme="http://shankerwangmiao.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+      <category term="收藏" scheme="https://innull.com/tags/%E6%94%B6%E8%97%8F/"/>
     
   </entry>
   
   <entry>
     <title>9句话写给代表委员：你的失语， 就意味着人民的沉默</title>
-    <link href="http://shankerwangmiao.github.io/how-to-represent-the-people/"/>
-    <id>http://shankerwangmiao.github.io/how-to-represent-the-people/</id>
+    <link href="https://innull.com/how-to-represent-the-people/"/>
+    <id>https://innull.com/how-to-represent-the-people/</id>
     <published>2015-03-26T18:00:00.000Z</published>
     <updated>2016-02-13T14:45:38.000Z</updated>
     
@@ -679,16 +679,16 @@ Failure starting pam: system error
     </summary>
     
     
-      <category term="收藏" scheme="http://shankerwangmiao.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+      <category term="收藏" scheme="https://innull.com/tags/%E6%94%B6%E8%97%8F/"/>
     
-      <category term="政治" scheme="http://shankerwangmiao.github.io/tags/%E6%94%BF%E6%B2%BB/"/>
+      <category term="政治" scheme="https://innull.com/tags/%E6%94%BF%E6%B2%BB/"/>
     
   </entry>
   
   <entry>
     <title>反腐不应该反职工福利</title>
-    <link href="http://shankerwangmiao.github.io/about-over-anti-corruption/"/>
-    <id>http://shankerwangmiao.github.io/about-over-anti-corruption/</id>
+    <link href="https://innull.com/about-over-anti-corruption/"/>
+    <id>https://innull.com/about-over-anti-corruption/</id>
     <published>2014-09-08T12:00:00.000Z</published>
     <updated>2016-02-13T14:45:18.000Z</updated>
     
@@ -718,16 +718,16 @@ Failure starting pam: system error
     </summary>
     
     
-      <category term="实事" scheme="http://shankerwangmiao.github.io/tags/%E5%AE%9E%E4%BA%8B/"/>
+      <category term="实事" scheme="https://innull.com/tags/%E5%AE%9E%E4%BA%8B/"/>
     
-      <category term="收藏" scheme="http://shankerwangmiao.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+      <category term="收藏" scheme="https://innull.com/tags/%E6%94%B6%E8%97%8F/"/>
     
   </entry>
   
   <entry>
     <title>个人收藏短片之一：《红领巾》</title>
-    <link href="http://shankerwangmiao.github.io/favorite-video-1/"/>
-    <id>http://shankerwangmiao.github.io/favorite-video-1/</id>
+    <link href="https://innull.com/favorite-video-1/"/>
+    <id>https://innull.com/favorite-video-1/</id>
     <published>2014-09-03T12:00:00.000Z</published>
     <updated>2016-02-12T12:07:58.000Z</updated>
     
@@ -743,16 +743,16 @@ Failure starting pam: system error
     </summary>
     
     
-      <category term="收藏" scheme="http://shankerwangmiao.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+      <category term="收藏" scheme="https://innull.com/tags/%E6%94%B6%E8%97%8F/"/>
     
-      <category term="短片" scheme="http://shankerwangmiao.github.io/tags/%E7%9F%AD%E7%89%87/"/>
+      <category term="短片" scheme="https://innull.com/tags/%E7%9F%AD%E7%89%87/"/>
     
   </entry>
   
   <entry>
     <title>看《亲爱的》的意外收获</title>
-    <link href="http://shankerwangmiao.github.io/can-i-start-my-own-bussiness/"/>
-    <id>http://shankerwangmiao.github.io/can-i-start-my-own-bussiness/</id>
+    <link href="https://innull.com/can-i-start-my-own-bussiness/"/>
+    <id>https://innull.com/can-i-start-my-own-bussiness/</id>
     <published>2014-09-03T12:00:00.000Z</published>
     <updated>2016-02-12T12:07:52.000Z</updated>
     
@@ -770,14 +770,14 @@ Failure starting pam: system error
     </summary>
     
     
-      <category term="感想" scheme="http://shankerwangmiao.github.io/tags/%E6%84%9F%E6%83%B3/"/>
+      <category term="感想" scheme="https://innull.com/tags/%E6%84%9F%E6%83%B3/"/>
     
   </entry>
   
   <entry>
     <title>告别虚度的时光，开始撰写博客</title>
-    <link href="http://shankerwangmiao.github.io/say-goodbye-to-old-life/"/>
-    <id>http://shankerwangmiao.github.io/say-goodbye-to-old-life/</id>
+    <link href="https://innull.com/say-goodbye-to-old-life/"/>
+    <id>https://innull.com/say-goodbye-to-old-life/</id>
     <published>2014-08-13T10:00:00.000Z</published>
     <updated>2016-02-13T14:45:44.000Z</updated>
     
@@ -808,14 +808,14 @@ Failure starting pam: system error
     </summary>
     
     
-      <category term="感想" scheme="http://shankerwangmiao.github.io/tags/%E6%84%9F%E6%83%B3/"/>
+      <category term="感想" scheme="https://innull.com/tags/%E6%84%9F%E6%83%B3/"/>
     
   </entry>
   
   <entry>
     <title>世界，你好！</title>
-    <link href="http://shankerwangmiao.github.io/hello-world/"/>
-    <id>http://shankerwangmiao.github.io/hello-world/</id>
+    <link href="https://innull.com/hello-world/"/>
+    <id>https://innull.com/hello-world/</id>
     <published>2014-08-12T14:00:00.000Z</published>
     <updated>2016-02-12T12:08:41.000Z</updated>
     
