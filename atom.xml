@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://shankerwangmiao.github.io/"/>
-  <updated>2016-03-29T19:41:30.000Z</updated>
+  <updated>2016-04-04T18:33:56.000Z</updated>
   <id>http://shankerwangmiao.github.io/</id>
   
   <author>
@@ -14,6 +14,52 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何禁用 OS X 的图形界面</title>
+    <link href="http://shankerwangmiao.github.io/how-to-disable-gui-on-os-x/"/>
+    <id>http://shankerwangmiao.github.io/how-to-disable-gui-on-os-x/</id>
+    <published>2016-04-04T18:19:33.000Z</published>
+    <updated>2016-04-04T18:33:56.000Z</updated>
+    
+    <content type="html">&lt;p&gt;之前和 &lt;a href=&quot;https://github.com/happyaron&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@happyaron&lt;/a&gt; 折腾 OS X Server，搞了一台 VBox 的虚拟机，上边安装原版的 OS X。后来突发奇想，因为 OS X Server 有远程客户端可以控制上边的服务，也可以用 ssh 来管理，没有必要启动图形界面。因此，类似于 Linux，应该有办法能让 OS X 不启动 GUI。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;在虚拟机上摸索一阵，发现其实方法很简单，也不需要关闭 SIP（系统完整性保护，又称 rootless），直接执行这几条指令就行：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo launchctl &lt;span class=&quot;built_in&quot;&gt;enable&lt;/span&gt; system/com.apple.getty&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo launchctl &lt;span class=&quot;built_in&quot;&gt;disable&lt;/span&gt; system/com.apple.WindowServer&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo launchctl &lt;span class=&quot;built_in&quot;&gt;disable&lt;/span&gt; system/com.apple.loginwindow&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo launchctl &lt;span class=&quot;built_in&quot;&gt;disable&lt;/span&gt; system/com.apple.watchdogd&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;执行完毕后重启，即可发现系统不会继续启动 GUI 了。&lt;/p&gt;
+&lt;p&gt;如果想恢复，就重新执行上述命令，把 &lt;code&gt;disable&lt;/code&gt; 换成 &lt;code&gt;enable&lt;/code&gt; ，再重启一次，就可以了。&lt;/p&gt;
+&lt;p&gt;一些常用的 OS X 下的命令行工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;launchctl&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;类似于 &lt;code&gt;systemctl&lt;/code&gt;，用于控制 &lt;code&gt;launchd&lt;/code&gt;，而后者则是 OS X 上的 init&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;systemsetup&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;命令行版的“系统偏好设置”，用于配置系统相关的功能&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;networksetup&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;用于配置网络选项。注意，这个工具的效果等效于在“网络偏好设置”中的配置，重启后是会保存的&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;reboot&lt;/code&gt; &lt;code&gt;halt&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;重启和关机&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以上配置命令在 OS X 10.11.4 上测试通过。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前和 &lt;a href=&quot;https://github.com/happyaron&quot;&gt;@happyaron&lt;/a&gt; 折腾 OS X Server，搞了一台 VBox 的虚拟机，上边安装原版的 OS X。后来突发奇想，因为 OS X Server 有远程客户端可以控制上边的服务，也可以用 ssh 来管理，没有必要启动图形界面。因此，类似于 Linux，应该有办法能让 OS X 不启动 GUI。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="OS X" scheme="http://shankerwangmiao.github.io/tags/OS-X/"/>
+    
+      <category term="技术" scheme="http://shankerwangmiao.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="瞎搞" scheme="http://shankerwangmiao.github.io/tags/%E7%9E%8E%E6%90%9E/"/>
+    
+  </entry>
   
   <entry>
     <title>PAM 配置简介</title>
