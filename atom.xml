@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innull.com/"/>
-  <updated>2016-04-27T08:36:13.000Z</updated>
+  <updated>2016-04-27T08:38:49.000Z</updated>
   <id>https://innull.com/</id>
   
   <author>
@@ -20,9 +20,10 @@
     <link href="https://innull.com/we-lost-asc-16/"/>
     <id>https://innull.com/we-lost-asc-16/</id>
     <published>2016-04-27T05:23:08.000Z</published>
-    <updated>2016-04-27T08:36:13.000Z</updated>
+    <updated>2016-04-27T08:38:49.000Z</updated>
     
     <content type="html">&lt;p&gt;上周刚刚参加完在武汉举行的 ASC16，很遗憾，我们输的很惨，惨到无以复加。写下这篇文章，说说我的感想，也权当总结了吧。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;自从去年我们一连拿了三个冠军以后，似乎受到的关注有增加的趋势，今年参加 ASC16 则是则然而然的。我们也是冲着冠军去的。&lt;/p&gt;
 &lt;h2 id=&quot;u5907_u6218&quot;&gt;&lt;a href=&quot;#u5907_u6218&quot; class=&quot;headerlink&quot; title=&quot;备战&quot;&gt;&lt;/a&gt;备战&lt;/h2&gt;&lt;p&gt;今年的 ASC，一如既往，比赛的机器由浪潮提供。今年的机器仍然是我很熟悉的 NF5280M4。这款机器在去年被我们用来征战 ASC 和 ISC，也取得了很好的成绩。这款机器的脾气，我早已稔熟于心。哪里散热好，哪里散热不好，哪里有坑人的地方，我早在备战去年 ISC 的时候，就已经摸索过了。甚至&lt;a href=&quot;https://maskray.me/blog/2015-06-30-bmc-firmware-reverse-enginnering&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一些 BMC 里隐藏的功能&lt;/a&gt;，都被一一发掘出来。今年再战，可以说是再熟悉不过了。不过有一点是有极大变化的，就是 CPU 由去年的 E5-2670v3 变成了 E5-2650v3。后者的核心数更少，相应地，要想达到同样的计算性能，就要添上一些 CPU，以及相应的服务器。这势必造成整个集群比功耗的性能下降。&lt;/p&gt;
 &lt;p&gt;这次比赛的 Bench Mark 除了经典的 HPL 以外，还应景的加上了 HPCG，而应用则是 MASNUM_WAVE、Abinit，还有一个在 MIC 集群上的 DNN。似乎是为了让自己的比赛更加被认可，今年的 ASC 去掉了可以短时间超过 3000 瓦但不超过 3100 瓦的政策，而是一律不得超过 3000 瓦，而且监控数据的采样频率提高到了 1 秒。&lt;/p&gt;
@@ -54,8 +55,6 @@
     <summary type="html">
     
       &lt;p&gt;上周刚刚参加完在武汉举行的 ASC16，很遗憾，我们输的很惨，惨到无以复加。写下这篇文章，说说我的感想，也权当总结了吧。&lt;/p&gt;
-&lt;p&gt;自从去年我们一连拿了三个冠军以后，似乎受到的关注有增加的趋势，今年参加 ASC16 则是则然而然的。我们也是冲着冠军去的。&lt;/p&gt;
-&lt;h2
     
     </summary>
     
