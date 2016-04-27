@@ -24,9 +24,7 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  
-
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -85,7 +83,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="pam_dotfile__u4FEE_u7406_u624B_u8BB0"><a href="#pam_dotfile__u4FEE_u7406_u624B_u8BB0" class="headerlink" title="pam_dotfile 修理手记"></a><code>pam_dotfile</code> 修理手记</h2><h3 id="u6E90_u8D77"><a href="#u6E90_u8D77" class="headerlink" title="源起"></a>源起</h3><p>修理这个 <code>pam_dotfile</code> 的起因是<a href="http://www.dotkrnl.com" target="_blank" rel="external">@dotkrnl</a> 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。</p>
+        <h2 id="pam-dotfile-修理手记"><a href="#pam-dotfile-修理手记" class="headerlink" title="pam_dotfile 修理手记"></a><code>pam_dotfile</code> 修理手记</h2><h3 id="源起"><a href="#源起" class="headerlink" title="源起"></a>源起</h3><p>修理这个 <code>pam_dotfile</code> 的起因是<a href="http://www.dotkrnl.com" target="_blank" rel="external">@dotkrnl</a> 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。</p>
 <a id="more"></a>
 <pre><code>bigeag1e 11:57:32    YubiKey 4 简介与配置 | K.I.S.S
                      https://bigeagle.me/2016/02/yubikey-4/
@@ -216,7 +214,7 @@ optional
             +-------------+
 </code></pre><p>不难想到，这个鉴定流程很容易用 linux pam 的“跳过鉴定模块”的功能来实现。其中“<code>pam_强口令</code>”可以用系统原先的 pam 模块，唯一缺的就是 “<code>pam_弱口令</code>”。不过这个自己写也不会很难，照着别的 pam 模块的代码改一改应该就能成。</p>
 <p>这就是我在上面的聊天里作出回复的思维过程，当时因为在外边走路，感觉这样可以实现，于是就这么回答了 <a href="http://www.dotkrnl.com" target="_blank" rel="external">@dotkrnl</a>。</p>
-<h3 id="u53D1_u5C55"><a href="#u53D1_u5C55" class="headerlink" title="发展"></a>发展</h3><p>有一句名言是这么说的：</p>
+<h3 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h3><p>有一句名言是这么说的：</p>
 <blockquote>
 <p>Talk is cheap, show me the f**k code.</p>
 </blockquote>
@@ -228,7 +226,7 @@ optional
 <p><code>pam_dotfile</code> was developed and tested on Debian GNU/Linux “testing” from July <strong>2003</strong>, it should work on most other Linux distributions</p>
 </blockquote>
 <p>当时心中飘过一阵草泥马。但是本着“宁可修老轮子也不造轮子”的思想，我还是把源代码下载了下来，心想，pam 的接口一直没怎么变过，说不定还能用。然而，这时我立了一个响当当的 flag。</p>
-<h3 id="u9AD8_u6F6E"><a href="#u9AD8_u6F6E" class="headerlink" title="高潮"></a>高潮</h3><p>我把源代码下载下来，开始执行 <code>./configure</code>。竟然没报错！看来有戏。继续 <code>make</code>，妥妥的报错了。</p>
+<h3 id="高潮"><a href="#高潮" class="headerlink" title="高潮"></a>高潮</h3><p>我把源代码下载下来，开始执行 <code>./configure</code>。竟然没报错！看来有戏。继续 <code>make</code>，妥妥的报错了。</p>
 <p>提示是缺头文件，尼玛。。。。缺头文件你 <code>configure</code> 的时候不说，那你 <code>configure</code> 在干些啥？</p>
 <p>于是果断在 <del>gay</del>github 上 clone 一份这个代码，然后操刀开始改。这时我突然想起我不太会用 autotools 啊。本着“没吃猪肉但是见过猪跑”的精神，鉴于我编译过这么多遍 gcc ，autotools 的大致思想还是能搞懂的。然后我就同步地打开 <code>pam_yubico</code> 的代码，照着边学习边改。</p>
 <p>整个项目分这么几个部分：</p>
@@ -288,7 +286,7 @@ main(int argc, char *argv[])
 </code></pre><p>大概的实现方式就是在 <code>configure</code> 的时候探测 <code>pam/pam_misc.h</code> 和 <code>security/openpam.h</code>，并定义宏 <code>PAM_CONV_FUNC</code> 为相应的函数名，然后在代码中直接使用：</p>
 <pre><code>static struct pam_conv pc = { PAM_CONV_FUNC, NULL };
 </code></pre><p>OK，最后修复了这个位置，然后编译就通过了。</p>
-<h3 id="u5C3E_u58F0"><a href="#u5C3E_u58F0" class="headerlink" title="尾声"></a>尾声</h3><p>编译通过了就要简单的测试一下代码还能否 work。于是先执行</p>
+<h3 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h3><p>编译通过了就要简单的测试一下代码还能否 work。于是先执行</p>
 <pre><code>$ pam-dotfile-gen -a test
 </code></pre><p>然后输入一个简单的密码 <code>12345</code>，于是就生成了 <code>~/.pam-test</code>，然后写一个 <code>/etc/pam.d/test</code></p>
 <pre><code>auth       required       /usr/local/lib/security/pam_dotfile.so try_first_pass
@@ -307,7 +305,7 @@ Failure starting pam: system error
 <pre><code>pamtest[72280]: in openpam_read_chain(): /etc/pam.d/test(2): invalid control flag &apos;[default=1]&apos;
 </code></pre><p>唔，原来 OS X 上的 <code>OpenPAM</code> 不支持这种语法。</p>
 <p>卒。。。。。（未完待续）</p>
-<h3 id="u7ED3_u8BBA"><a href="#u7ED3_u8BBA" class="headerlink" title="结论"></a>结论</h3><p>于是我们得到了一个在 OS X 上能用的 <code>pam_dotfile</code>。下面简单介绍一下这个模块的工作过程和使用方法。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>于是我们得到了一个在 OS X 上能用的 <code>pam_dotfile</code>。下面简单介绍一下这个模块的工作过程和使用方法。</p>
 <p>当针对某个用户的鉴定开始的时候， <code>pam_dotfile</code> 会在下面的地点依次寻找存放密码的散列值的文件：</p>
 <ol>
 <li><code>~/.pam-&lt;service&gt;</code></li>
@@ -320,7 +318,7 @@ Failure starting pam: system error
 <p>通过 <code>pam-dotfile-gen -a &lt;service&gt;</code> 来生成 <code>~/.pam-&lt;service&gt;</code>。你需要输入两遍密码。</p>
 <p>当不加参数直接调用 <code>pam-dotfile-gen</code> 时，该程序从标准输入读入多组明文密码（每行一个），并相应的输出它们的散列值。</p>
 <p>我在使用这个程序的时候，往往是将生成的 <code>~/.pam-&lt;service&gt;</code> 移动到 <code>~/.pam/&lt;service&gt;</code>，这样可以让 <code>home</code> 目录下的 dotfiles 整齐些。</p>
-<h3 id="u540E_u8BB0"><a href="#u540E_u8BB0" class="headerlink" title="后记"></a>后记</h3><p>我改好的 <code>pam_dotfile</code> 放在了 <a href="https://github.com/shankerwangmiao/pam_dotfile" target="_blank" rel="external">Github</a> 上，欢迎测试。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>我改好的 <code>pam_dotfile</code> 放在了 <a href="https://github.com/shankerwangmiao/pam_dotfile" target="_blank" rel="external">Github</a> 上，欢迎测试。</p>
 <p>另外，这个项目的地址是 <a href="http://0pointer.de/lennart/projects/pam_dotfile/" target="_blank" rel="external">http://0pointer.de/lennart/projects/pam_dotfile/</a>。从地址上来看，<em>Lennart Poettering</em> 这个人应该搞过一些别的项目，唔，应该就在 <a href="http://0pointer.de/lennart/projects/" target="_blank" rel="external">http://0pointer.de/lennart/projects/</a>。看来还是这个人还是很高产的一个程序作者。</p>
 <p>什么？你说什么？他还写过 <code>systemd</code> ？你没开玩笑吧？</p>
 <p>我擦，这个 pam 模块竟然是 <code>systemd</code> 的作者的作品。。。orz……</p>
@@ -328,7 +326,7 @@ Failure starting pam: system error
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://innull.com/pam_dotfile_repair/" data-id="cinilytkw0007lbz1zckj2kti" class="article-share-link">Share</a>
+      <a data-url="https://innull.com/pam_dotfile_repair/" data-id="cininxkqx000hjqz1keuwfoi2" class="article-share-link">Share</a>
       
         <a href="https://innull.com/pam_dotfile_repair/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -473,11 +471,14 @@ Failure starting pam: system error
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
+<script src="/js/script.js"></script>
+
+
+
 
   </div>
 </body>

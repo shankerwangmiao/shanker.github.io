@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://innull.com/"/>
-  <updated>2016-04-27T08:38:49.000Z</updated>
+  <updated>2016-04-27T08:39:34.000Z</updated>
   <id>https://innull.com/</id>
   
   <author>
@@ -20,29 +20,29 @@
     <link href="https://innull.com/we-lost-asc-16/"/>
     <id>https://innull.com/we-lost-asc-16/</id>
     <published>2016-04-27T05:23:08.000Z</published>
-    <updated>2016-04-27T08:38:49.000Z</updated>
+    <updated>2016-04-27T08:39:34.000Z</updated>
     
     <content type="html">&lt;p&gt;上周刚刚参加完在武汉举行的 ASC16，很遗憾，我们输的很惨，惨到无以复加。写下这篇文章，说说我的感想，也权当总结了吧。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;自从去年我们一连拿了三个冠军以后，似乎受到的关注有增加的趋势，今年参加 ASC16 则是则然而然的。我们也是冲着冠军去的。&lt;/p&gt;
-&lt;h2 id=&quot;u5907_u6218&quot;&gt;&lt;a href=&quot;#u5907_u6218&quot; class=&quot;headerlink&quot; title=&quot;备战&quot;&gt;&lt;/a&gt;备战&lt;/h2&gt;&lt;p&gt;今年的 ASC，一如既往，比赛的机器由浪潮提供。今年的机器仍然是我很熟悉的 NF5280M4。这款机器在去年被我们用来征战 ASC 和 ISC，也取得了很好的成绩。这款机器的脾气，我早已稔熟于心。哪里散热好，哪里散热不好，哪里有坑人的地方，我早在备战去年 ISC 的时候，就已经摸索过了。甚至&lt;a href=&quot;https://maskray.me/blog/2015-06-30-bmc-firmware-reverse-enginnering&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一些 BMC 里隐藏的功能&lt;/a&gt;，都被一一发掘出来。今年再战，可以说是再熟悉不过了。不过有一点是有极大变化的，就是 CPU 由去年的 E5-2670v3 变成了 E5-2650v3。后者的核心数更少，相应地，要想达到同样的计算性能，就要添上一些 CPU，以及相应的服务器。这势必造成整个集群比功耗的性能下降。&lt;/p&gt;
+&lt;h2 id=&quot;备战&quot;&gt;&lt;a href=&quot;#备战&quot; class=&quot;headerlink&quot; title=&quot;备战&quot;&gt;&lt;/a&gt;备战&lt;/h2&gt;&lt;p&gt;今年的 ASC，一如既往，比赛的机器由浪潮提供。今年的机器仍然是我很熟悉的 NF5280M4。这款机器在去年被我们用来征战 ASC 和 ISC，也取得了很好的成绩。这款机器的脾气，我早已稔熟于心。哪里散热好，哪里散热不好，哪里有坑人的地方，我早在备战去年 ISC 的时候，就已经摸索过了。甚至&lt;a href=&quot;https://maskray.me/blog/2015-06-30-bmc-firmware-reverse-enginnering&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一些 BMC 里隐藏的功能&lt;/a&gt;，都被一一发掘出来。今年再战，可以说是再熟悉不过了。不过有一点是有极大变化的，就是 CPU 由去年的 E5-2670v3 变成了 E5-2650v3。后者的核心数更少，相应地，要想达到同样的计算性能，就要添上一些 CPU，以及相应的服务器。这势必造成整个集群比功耗的性能下降。&lt;/p&gt;
 &lt;p&gt;这次比赛的 Bench Mark 除了经典的 HPL 以外，还应景的加上了 HPCG，而应用则是 MASNUM_WAVE、Abinit，还有一个在 MIC 集群上的 DNN。似乎是为了让自己的比赛更加被认可，今年的 ASC 去掉了可以短时间超过 3000 瓦但不超过 3100 瓦的政策，而是一律不得超过 3000 瓦，而且监控数据的采样频率提高到了 1 秒。&lt;/p&gt;
 &lt;p&gt;我初步浏览了这几个应用，发现 HPL 和 HPCG 是可以在 K80 上跑的。Abinit 似乎也有一个试验性的显卡版本，MASNUM_WAVE 则是一个我国自产的应用。再加上 CPU 的性能不太好，因此上 K80 是肯定的了。&lt;/p&gt;
 &lt;p&gt;这次备战的时候，软件方面我们继续沿用教授一手配置的科学 CentOS 7 的系统，我有在这个基础上，简单更新了下系统，升级了内核，又升级了 icc 2015 和 impi，同时添置了 icc 2016 和 cuda 7.5；硬件方面，我们更新了一批用于安装系统的 SSD，另外添置了一块 PCI-E 的大容量 SSD，用以应对存储捉襟见肘的窘境。在功耗控制方面，我们继续使用去年 SC 前紧急开发出的秘密武器，同时配合 ISC15 前研究出的风扇控制方法。&lt;/p&gt;
 &lt;p&gt;出发前一天，像每次比赛前一样，我通宵一晚上，把确定了的系统配置写入到所有的系统硬盘上。这个批量部署多块系统盘的方法，是去年 ISC 之前搞出来的。遥想去年这个时候，我正和教授一起在处理 Legacy GRUB 在拷贝后不能引导的问题，还在担心批量制作的系统盘出事故，无法引导；现如今，带着现成装好的和训练时一模一样的系统到现场比赛则是再简单不过的事情。&lt;/p&gt;
 &lt;p&gt;与去年不一样的还有一点，是我在去年参加 ISC 之后，扣留了一批浪潮的硬盘托架，这样硬盘托架就可以直接在家里装好，就无需到现场再浪费时间了。&lt;/p&gt;
 &lt;p&gt;就这样，我们带着 9 块系统盘，6 块 K80，外加一批玄学设备到了武汉。&lt;/p&gt;
-&lt;h2 id=&quot;u88C5_u673A&quot;&gt;&lt;a href=&quot;#u88C5_u673A&quot; class=&quot;headerlink&quot; title=&quot;装机&quot;&gt;&lt;/a&gt;装机&lt;/h2&gt;&lt;p&gt;到了现场，和去年一样，也是“每支队伍分配有一张桌子、几把椅子、两台显示器、两个 USB 接口键盘、两个鼠标。背后有一个机柜，里面是几台浪潮英信 NF5280M4 服务器、一台以太网交换机和一台 InfiniBand 交换机”，与之不同的是，网络的管理则变得科学了许多，首先是将 PDU、FTP、外网三网分离了；其次是提供给队伍的以太交换机直接被物理与所有的网络断开，供参赛队伍任意使用。&lt;/p&gt;
+&lt;h2 id=&quot;装机&quot;&gt;&lt;a href=&quot;#装机&quot; class=&quot;headerlink&quot; title=&quot;装机&quot;&gt;&lt;/a&gt;装机&lt;/h2&gt;&lt;p&gt;到了现场，和去年一样，也是“每支队伍分配有一张桌子、几把椅子、两台显示器、两个 USB 接口键盘、两个鼠标。背后有一个机柜，里面是几台浪潮英信 NF5280M4 服务器、一台以太网交换机和一台 InfiniBand 交换机”，与之不同的是，网络的管理则变得科学了许多，首先是将 PDU、FTP、外网三网分离了；其次是提供给队伍的以太交换机直接被物理与所有的网络断开，供参赛队伍任意使用。&lt;/p&gt;
 &lt;p&gt;有了充分的准备工作，装机就变得容易起来。首先是换掉硬盘，改掉 BIOS，然后是进系统，改掉玄学的网卡名。接着就是配置 BMC。然后是把 K80 装上，最后全部断电，然后开机就成了。&lt;/p&gt;
 &lt;p&gt;没想到这中间出了一个小插曲，就是 @dotkrnl 发现所有机器的导轨都固定不牢。仔细一查，发现是装机器的志愿者把多数机器在机柜里装高了三分之一 U（就是一个固定孔的距离），导致导轨后固定扣不能锁定，于是叫来了志愿者把所有机器下架，调整好导轨后再重新上架。过程不在话下。&lt;/p&gt;
 &lt;p&gt;接通了所有的网络之后，我和 @dotkrnl 把教授的监控脚本重新改了改，fit 进 SC15 里用过的监控框架内，于是就可以收集到很详细的监控数据了。&lt;/p&gt;
 &lt;p&gt;为了能够调查好功耗的情况，我和队长一起对 8 机 6 卡的配置进行了功耗测算，发现 GPU 在运行时功耗会超，但是在运行 MASNUM_WAVE 时，CPU 利用率不太高，因此又堆了两台机器上去。为此，多出来的这些功率就要从 GPU 吃回来，于是就不得不降低 GPU 的频率，牺牲一些 Benchmark 的分数。&lt;/p&gt;
-&lt;h2 id=&quot;u6BD4_u8D5B&quot;&gt;&lt;a href=&quot;#u6BD4_u8D5B&quot; class=&quot;headerlink&quot; title=&quot;比赛&quot;&gt;&lt;/a&gt;比赛&lt;/h2&gt;&lt;p&gt;第一天比赛的前半段进行得比较顺利，HPL 和 HPCG 都在预计值范围内，而 MASNUM 则明显吃了亏。因为这个应用有一些很严重的 bug，在比赛开始前，主办方大大地降低了对结果精度的要求，这个让我们很吃亏。队员在准备比赛的时候特别注意的精度问题，到现在反而不是问题了。于是在跑过几个算例之后，队员忽然意识到可以开各种激进的优化选项（虽然会降低精度）。通过功耗曲线分析，发现浙大竟然用了 GPU 来跑这道题，简直是逆天的节奏。不过当初备战的时候，队员也想到过用 GPU 来优化这个题目，但是由于精度不满足要求，所以这个想法就直接被废弃了。于是只好老老实实的用 CPU 来跑。&lt;/p&gt;
+&lt;h2 id=&quot;比赛&quot;&gt;&lt;a href=&quot;#比赛&quot; class=&quot;headerlink&quot; title=&quot;比赛&quot;&gt;&lt;/a&gt;比赛&lt;/h2&gt;&lt;p&gt;第一天比赛的前半段进行得比较顺利，HPL 和 HPCG 都在预计值范围内，而 MASNUM 则明显吃了亏。因为这个应用有一些很严重的 bug，在比赛开始前，主办方大大地降低了对结果精度的要求，这个让我们很吃亏。队员在准备比赛的时候特别注意的精度问题，到现在反而不是问题了。于是在跑过几个算例之后，队员忽然意识到可以开各种激进的优化选项（虽然会降低精度）。通过功耗曲线分析，发现浙大竟然用了 GPU 来跑这道题，简直是逆天的节奏。不过当初备战的时候，队员也想到过用 GPU 来优化这个题目，但是由于精度不满足要求，所以这个想法就直接被废弃了。于是只好老老实实的用 CPU 来跑。&lt;/p&gt;
 &lt;p&gt;第二天的比赛则异常的痛苦，第二天公布了神秘应用 ABySS。这个神秘应用我们寄予了很多想象和希望，于是立刻研究跑法和优化策略。队员们分别找到了两种优化办法，一种是使用 DIDA 将串行部分进行调度，并行化。另一种则是转换输入文件的格式，用以减少解码的时间。两位队员分别对这两种优化方法进行了测试，发现都可用。于是我们想当然的认为，这个题目我们可以拿到很大部分的分数。然而事实是，我们很不幸，这两种优化策略配在一起的时候会触发一个 bug，导致程序崩溃。这浪费了我们很多的时间，无奈之下，我们只好舍弃一种优化策略。这样一来，我们的差距又和别人拉大了。&lt;/p&gt;
 &lt;p&gt;而 DNN 则是另一个绕不过去的问题。历来这种 MIC 上优化的问题，主办方一而再再而三的强调，要证明数学的等价性。而 ASC14 的时候则出过这样的问题，导致我们队没有分数。因此一开始，我们优化的策略就很保守。虽然想到要更换算法，但是这个方案还是被否定了。而诸如华科等队伍则采取了很激进的优化策略，据说换了算法。而“数学等价性”什么的则不知道是怎么证明的。在这一点上，可以说是策略的失误；但是回头想来，如果真用了如此激进的优化方法，说不定浪潮就会抓住“数学等价性”又给你来个零分，毕竟 DNN 这种玄学的东西，你上哪去证明数学等价性去？&lt;/p&gt;
-&lt;h2 id=&quot;u9881_u5956&quot;&gt;&lt;a href=&quot;#u9881_u5956&quot; class=&quot;headerlink&quot; title=&quot;颁奖&quot;&gt;&lt;/a&gt;颁奖&lt;/h2&gt;&lt;p&gt;所以，基本上可以预见的是，我们的成绩很差，事实上也是。因此在颁奖典礼上，我们倒是没什么悬念，直接拿到安慰奖走人，唯一留下的悬念是，冠军花落谁家。&lt;/p&gt;
+&lt;h2 id=&quot;颁奖&quot;&gt;&lt;a href=&quot;#颁奖&quot; class=&quot;headerlink&quot; title=&quot;颁奖&quot;&gt;&lt;/a&gt;颁奖&lt;/h2&gt;&lt;p&gt;所以，基本上可以预见的是，我们的成绩很差，事实上也是。因此在颁奖典礼上，我们倒是没什么悬念，直接拿到安慰奖走人，唯一留下的悬念是，冠军花落谁家。&lt;/p&gt;
 &lt;p&gt;最后，东道主华科拿到了冠军，而亚军由上交摘得。我们则排名第五，与 ISC 失之交臂。&lt;/p&gt;
-&lt;h2 id=&quot;u5C3E_u58F0&quot;&gt;&lt;a href=&quot;#u5C3E_u58F0&quot; class=&quot;headerlink&quot; title=&quot;尾声&quot;&gt;&lt;/a&gt;尾声&lt;/h2&gt;&lt;p&gt;于是我们就这样失去了参加 ISC16 的机会。回想到去年 SC15 上，公布 ISC16 的入围名单时，Puk 一脸得意地告诉我们：“你们得回去参加 ASC”。没想到我们今年上半年的超算旅程就这样意外中断。&lt;/p&gt;
+&lt;h2 id=&quot;尾声&quot;&gt;&lt;a href=&quot;#尾声&quot; class=&quot;headerlink&quot; title=&quot;尾声&quot;&gt;&lt;/a&gt;尾声&lt;/h2&gt;&lt;p&gt;于是我们就这样失去了参加 ISC16 的机会。回想到去年 SC15 上，公布 ISC16 的入围名单时，Puk 一脸得意地告诉我们：“你们得回去参加 ASC”。没想到我们今年上半年的超算旅程就这样意外中断。&lt;/p&gt;
 &lt;p&gt;有人说，我们超算拿了三个冠军，完全是凭运气。这话我是反对的，因为我们队员的实力和经验摆在那里。这次输掉比赛，原因也确实不都在我们自身，运气不好可以占上一部分。至于另一部分，我想，我们自己能占多大，组委会又要占多大？&lt;/p&gt;
 &lt;p&gt;教授曾经说过：“&lt;a href=&quot;https://maskray.me/blog/2015-10-07-asc14-to-isc15-curtain-call-of-my-cluster-competition#圆梦asc15&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这一年来几次梦到ASC’14，每次叹息痛恨不能自已。有时想到得报仇雪耻，有时又感到有心无力。&lt;/a&gt;”。我一直在想，这是一种什么感觉：是难过，是愤懑，还是其他？现在，终于轮到我来体会这种感受了。是的，这就是一种无奈，也是一种悲哀，更是一种遗憾。&lt;/p&gt;
 &lt;p&gt;这次比赛中，在硬件配置和功耗管理上，逐渐变得成熟而系统化起来，这对于我，以及对于我们队伍来说，都是一笔不菲的经验。更让我感到高兴和满意的，是四字班的队员在各方面展示出了非常强的能力，感到了事业后继有人。就我个人而言，看到如此强大的新队员，我觉得，可能我在这个队伍中的角色需要一些转变，这样才能更好的让新队员发挥出自己的能力，而不受制于我。至于这次比赛的名次，对于我则并不重要。&lt;/p&gt;
@@ -59,9 +59,9 @@
     </summary>
     
     
-      <category term="SCC" scheme="https://innull.com/tags/SCC/"/>
-    
       <category term="感想" scheme="https://innull.com/tags/%E6%84%9F%E6%83%B3/"/>
+    
+      <category term="SCC" scheme="https://innull.com/tags/SCC/"/>
     
   </entry>
   
@@ -72,17 +72,17 @@
     <published>2016-04-25T03:49:51.000Z</published>
     <updated>2016-04-25T05:19:08.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;u7F18_u8D77&quot;&gt;&lt;a href=&quot;#u7F18_u8D77&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h2&gt;&lt;p&gt;最近总是会有一些需求，就是快速地部署一个临时的网关。有的时候，用于部署网关的电脑可能只是临时拿来用的。因此，给人家重新装个系统就很不靠谱了。我通常的做法是，在我的 U 盘里装个 ubuntu 之类的。然后里边装上 bind、isc-dhcp-server 之类的，然后每次用这个 U 盘启动就好了。后来发现，这个问题并不是那么简单，因为 U 盘插在别人的电脑上，一来容易丢失，二来容易被物理碰撞损坏。于是我就考虑，能不能在启动后，把根文件系统载入到内存中，这样就可以拔掉 U 盘了。&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;缘起&quot;&gt;&lt;a href=&quot;#缘起&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h2&gt;&lt;p&gt;最近总是会有一些需求，就是快速地部署一个临时的网关。有的时候，用于部署网关的电脑可能只是临时拿来用的。因此，给人家重新装个系统就很不靠谱了。我通常的做法是，在我的 U 盘里装个 ubuntu 之类的。然后里边装上 bind、isc-dhcp-server 之类的，然后每次用这个 U 盘启动就好了。后来发现，这个问题并不是那么简单，因为 U 盘插在别人的电脑上，一来容易丢失，二来容易被物理碰撞损坏。于是我就考虑，能不能在启动后，把根文件系统载入到内存中，这样就可以拔掉 U 盘了。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;u4E00_u79CD_u65B9_u6848&quot;&gt;&lt;a href=&quot;#u4E00_u79CD_u65B9_u6848&quot; class=&quot;headerlink&quot; title=&quot;一种方案&quot;&gt;&lt;/a&gt;一种方案&lt;/h2&gt;&lt;p&gt;有一种方案是显然可行的，就是把整个系统搞成一个 initrd，这样自然就在内存中了。这样作的弊端是，initrd 是 bootloader 载入到内存中的。而 Grub 读取硬盘的驱动是走的 BIOS，这样速度就很慢了。同时，尽可能少的改动发行版，也有利于后续继续安装软件和维护。&lt;/p&gt;
-&lt;h2 id=&quot;u6211_u7684_u601D_u8DEF&quot;&gt;&lt;a href=&quot;#u6211_u7684_u601D_u8DEF&quot; class=&quot;headerlink&quot; title=&quot;我的思路&quot;&gt;&lt;/a&gt;我的思路&lt;/h2&gt;&lt;p&gt;我的思路是，在 initrd 执行完毕后，替换掉原系统的 init 程序，换上去我的，然后 mount 上去一个 tmpfs，然后把根文件系统拷贝过去，最后 chroot 进去，起里边原来的 init。&lt;/p&gt;
+&lt;h2 id=&quot;一种方案&quot;&gt;&lt;a href=&quot;#一种方案&quot; class=&quot;headerlink&quot; title=&quot;一种方案&quot;&gt;&lt;/a&gt;一种方案&lt;/h2&gt;&lt;p&gt;有一种方案是显然可行的，就是把整个系统搞成一个 initrd，这样自然就在内存中了。这样作的弊端是，initrd 是 bootloader 载入到内存中的。而 Grub 读取硬盘的驱动是走的 BIOS，这样速度就很慢了。同时，尽可能少的改动发行版，也有利于后续继续安装软件和维护。&lt;/p&gt;
+&lt;h2 id=&quot;我的思路&quot;&gt;&lt;a href=&quot;#我的思路&quot; class=&quot;headerlink&quot; title=&quot;我的思路&quot;&gt;&lt;/a&gt;我的思路&lt;/h2&gt;&lt;p&gt;我的思路是，在 initrd 执行完毕后，替换掉原系统的 init 程序，换上去我的，然后 mount 上去一个 tmpfs，然后把根文件系统拷贝过去，最后 chroot 进去，起里边原来的 init。&lt;/p&gt;
 &lt;p&gt;虽说思路是很简单的，但是要想实现起来，还是有一些细节要考虑的，主要要点是：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;合理地把之前挂上去的 / 给 umount 掉&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;为此，则必须用一些神奇的操作来解除对原来的 root 的占用。&lt;/p&gt;
-&lt;h2 id=&quot;u5B9E_u73B0_u65B9_u6CD5&quot;&gt;&lt;a href=&quot;#u5B9E_u73B0_u65B9_u6CD5&quot; class=&quot;headerlink&quot; title=&quot;实现方法&quot;&gt;&lt;/a&gt;实现方法&lt;/h2&gt;&lt;p&gt;写一个脚本，放在 &lt;code&gt;/usr/local/sbin/init.sh&lt;/code&gt; 下，内容是：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;shebang&quot;&gt;#!/bin/bash&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;read&lt;/span&gt; -p &lt;span class=&quot;string&quot;&gt;&quot;Input &#39;y&#39; in 5 seconds to boot normally...&quot;&lt;/span&gt; -t &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt; yes&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; [ \( x&lt;span class=&quot;variable&quot;&gt;$yes&lt;/span&gt; = xy \) -o \( x&lt;span class=&quot;variable&quot;&gt;$yes&lt;/span&gt; = xY \) ]; &lt;span class=&quot;keyword&quot;&gt;then&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; /sbin/init &lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$@&lt;/span&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; failed...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  sleep &lt;span class=&quot;number&quot;&gt;10000&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;fi&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; Reading rootfs, it may take several minutes...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mkdir -p /run/rootfs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t tmpfs  -o size=&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;G shankers-mem-ubuntu /run/rootfs &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;rsync &lt;span class=&quot;operator&quot;&gt;-a&lt;/span&gt; / /run/rootfs/ --exclude=/proc --exclude=/dev --exclude=/sys --exclude=/run --exclude=/var/cache --exclude=/var/&lt;span class=&quot;built_in&quot;&gt;log&lt;/span&gt; --exclude=/usr/include --exclude=/usr/&lt;span class=&quot;built_in&quot;&gt;local&lt;/span&gt;/include &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; /run/rootfs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; proc dev sys run var/cache var/cache/&lt;span class=&quot;built_in&quot;&gt;bind&lt;/span&gt; var/&lt;span class=&quot;built_in&quot;&gt;log&lt;/span&gt;; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  mkdir -p &lt;span class=&quot;variable&quot;&gt;$i&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;done&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t proc mem_proc proc&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t sysfs mem_sys sys&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t tmpfs mem_run run&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t devtmpfs mem_dev dev&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t devpts  mem_devpts dev/pts&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t tmpfs mem_tmpfs tmp&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &amp;gt; etc/fstab&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mkdir oldroot&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#exec /bin/bash&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;pivot_root . oldroot&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;###&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 这里之所以 &amp;gt;dev/console，是因为现在的 init.sh 的 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# stdin、stdout 和 stderr 原本指向了 /dev/console&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 由于 /dev 是挂载在原来的 root 下的，pivot_root 后&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 跑到了 /oldroot/dev/console 中。如果不加上 &amp;gt;dev/console，&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 就会保持 /oldroot/dev/console 打开，导致 /oldroot &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# umount 不下来。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;###&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; chroot . bin/bash &lt;span class=&quot;operator&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$@&lt;/span&gt;&quot;&lt;/span&gt; &amp;gt;dev/console &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;&amp;gt;&amp;amp;&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &amp;lt;&amp;lt; &lt;span class=&quot;string&quot;&gt;&#39;HERE&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; /&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;umount -R oldroot&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;rmdir oldroot&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; Will start mem system &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt; seconds...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sleep &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; /sbin/init &lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$@&lt;/span&gt;&quot;&lt;/span&gt; &amp;lt;/dev/console &amp;gt;/dev/console &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;&amp;gt;&amp;amp;&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; failed...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sleep &lt;span class=&quot;number&quot;&gt;10000&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;HERE&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;实现方法&quot;&gt;&lt;a href=&quot;#实现方法&quot; class=&quot;headerlink&quot; title=&quot;实现方法&quot;&gt;&lt;/a&gt;实现方法&lt;/h2&gt;&lt;p&gt;写一个脚本，放在 &lt;code&gt;/usr/local/sbin/init.sh&lt;/code&gt; 下，内容是：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#!/bin/bash&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;read&lt;/span&gt; -p &lt;span class=&quot;string&quot;&gt;&quot;Input &#39;y&#39; in 5 seconds to boot normally...&quot;&lt;/span&gt; -t 5 yes&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; [ \( x&lt;span class=&quot;variable&quot;&gt;$yes&lt;/span&gt; = xy \) -o \( x&lt;span class=&quot;variable&quot;&gt;$yes&lt;/span&gt; = xY \) ]; &lt;span class=&quot;keyword&quot;&gt;then&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; /sbin/init &lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$@&lt;/span&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; failed...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  sleep 10000&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;fi&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; Reading rootfs, it may take several minutes...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mkdir -p /run/rootfs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t tmpfs  -o size=4G shankers-mem-ubuntu /run/rootfs &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;rsync &lt;span class=&quot;_&quot;&gt;-a&lt;/span&gt; / /run/rootfs/ --exclude=/proc --exclude=/dev --exclude=/sys --exclude=/run --exclude=/var/cache --exclude=/var/&lt;span class=&quot;built_in&quot;&gt;log&lt;/span&gt; --exclude=/usr/include --exclude=/usr/&lt;span class=&quot;built_in&quot;&gt;local&lt;/span&gt;/include &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; /run/rootfs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; proc dev sys run var/cache var/cache/&lt;span class=&quot;built_in&quot;&gt;bind&lt;/span&gt; var/&lt;span class=&quot;built_in&quot;&gt;log&lt;/span&gt;; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  mkdir -p &lt;span class=&quot;variable&quot;&gt;$i&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;done&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t proc mem_proc proc&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t sysfs mem_sys sys&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t tmpfs mem_run run&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t devtmpfs mem_dev dev&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t devpts  mem_devpts dev/pts&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mount -t tmpfs mem_tmpfs tmp&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &amp;gt; etc/fstab&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mkdir oldroot&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#exec /bin/bash&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;pivot_root . oldroot&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;###&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 这里之所以 &amp;gt;dev/console，是因为现在的 init.sh 的 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# stdin、stdout 和 stderr 原本指向了 /dev/console&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 由于 /dev 是挂载在原来的 root 下的，pivot_root 后&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 跑到了 /oldroot/dev/console 中。如果不加上 &amp;gt;dev/console，&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 就会保持 /oldroot/dev/console 打开，导致 /oldroot &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# umount 不下来。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;###&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; chroot . bin/bash &lt;span class=&quot;_&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$@&lt;/span&gt;&quot;&lt;/span&gt; &amp;gt;dev/console 2&amp;gt;&amp;amp;1 &amp;lt;&amp;lt; &lt;span class=&quot;string&quot;&gt;&#39;HERE&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; /&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;umount -R oldroot&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;rmdir oldroot&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; Will start mem system &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; 5 seconds...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sleep 5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; /sbin/init &lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$@&lt;/span&gt;&quot;&lt;/span&gt; &amp;lt;/dev/console &amp;gt;/dev/console 2&amp;gt;&amp;amp;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; failed...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sleep 10000&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;HERE&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;别忘了 &lt;code&gt;chmod +x /usr/local/sbin/init.sh&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;之后新建一个 &lt;code&gt;/etc/default/grub.d/memroot.cfg&lt;/code&gt;，里边写上：&lt;/p&gt;
 &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;GRUB_CMDLINE_LINUX_DEFAULT=&lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$GRUB_CMDLINE_LINUX_DEFAULT&lt;/span&gt; init=/usr/local/sbin/init.sh&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
@@ -94,16 +94,16 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u7F18_u8D77&quot;&gt;&lt;a href=&quot;#u7F18_u8D77&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h2&gt;&lt;p&gt;最近总是会有一些需求，就是快速地部署一个临时的网关。有的时候，用于部署网关的电脑可能只是临时拿来用的。因此，给人家重新装个系统就很不靠谱了。我通常的做法是，在我的 U 盘里装个 ubuntu 之类的。然后里边装上 bind、isc-dhcp-server 之类的，然后每次用这个 U 盘启动就好了。后来发现，这个问题并不是那么简单，因为 U 盘插在别人的电脑上，一来容易丢失，二来容易被物理碰撞损坏。于是我就考虑，能不能在启动后，把根文件系统载入到内存中，这样就可以拔掉 U 盘了。&lt;/p&gt;
+      &lt;h2 id=&quot;缘起&quot;&gt;&lt;a href=&quot;#缘起&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h2&gt;&lt;p&gt;最近总是会有一些需求，就是快速地部署一个临时的网关。有的时候，用于部署网关的电脑可能只是临时拿来用的。因此，给人家重新装个系统就很不靠谱了。我通常的做法是，在我的 U 盘里装个 ubuntu 之类的。然后里边装上 bind、isc-dhcp-server 之类的，然后每次用这个 U 盘启动就好了。后来发现，这个问题并不是那么简单，因为 U 盘插在别人的电脑上，一来容易丢失，二来容易被物理碰撞损坏。于是我就考虑，能不能在启动后，把根文件系统载入到内存中，这样就可以拔掉 U 盘了。&lt;/p&gt;
     
     </summary>
     
     
-      <category term="Linux" scheme="https://innull.com/tags/Linux/"/>
-    
       <category term="技术" scheme="https://innull.com/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="瞎搞" scheme="https://innull.com/tags/%E7%9E%8E%E6%90%9E/"/>
+    
+      <category term="Linux" scheme="https://innull.com/tags/Linux/"/>
     
   </entry>
   
@@ -145,11 +145,11 @@
     </summary>
     
     
-      <category term="OS X" scheme="https://innull.com/tags/OS-X/"/>
-    
       <category term="技术" scheme="https://innull.com/tags/%E6%8A%80%E6%9C%AF/"/>
     
       <category term="瞎搞" scheme="https://innull.com/tags/%E7%9E%8E%E6%90%9E/"/>
+    
+      <category term="OS X" scheme="https://innull.com/tags/OS-X/"/>
     
   </entry>
   
@@ -160,8 +160,8 @@
     <published>2016-02-19T14:00:00.000Z</published>
     <updated>2016-03-29T19:41:30.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;PAM__u914D_u7F6E_u7B80_u4ECB&quot;&gt;&lt;a href=&quot;#PAM__u914D_u7F6E_u7B80_u4ECB&quot; class=&quot;headerlink&quot; title=&quot;PAM 配置简介&quot;&gt;&lt;/a&gt;PAM 配置简介&lt;/h2&gt;&lt;p&gt;写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。&lt;/p&gt;
-&lt;h3 id=&quot;u80CC_u666F&quot;&gt;&lt;a href=&quot;#u80CC_u666F&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;PAM 是用来进行鉴定授权的一套框架，其主要目的就是分离这三个东西：&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;PAM-配置简介&quot;&gt;&lt;a href=&quot;#PAM-配置简介&quot; class=&quot;headerlink&quot; title=&quot;PAM 配置简介&quot;&gt;&lt;/a&gt;PAM 配置简介&lt;/h2&gt;&lt;p&gt;写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。&lt;/p&gt;
+&lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;PAM 是用来进行鉴定授权的一套框架，其主要目的就是分离这三个东西：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;有鉴定需求的应用程序&lt;/li&gt;
 &lt;li&gt;实施的鉴定方法&lt;/li&gt;
@@ -169,7 +169,7 @@
 &lt;/ul&gt;
 &lt;p&gt;那么每一个这样的应用程序就是一个 PAM Application，一种鉴定方法就是一个 PAM Moudule，而由用户配置的鉴定方法组合策略，则是 PAM Configuration&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;u57FA_u672C_u6D41_u7A0B&quot;&gt;&lt;a href=&quot;#u57FA_u672C_u6D41_u7A0B&quot; class=&quot;headerlink&quot; title=&quot;基本流程&quot;&gt;&lt;/a&gt;基本流程&lt;/h3&gt;&lt;p&gt;PAM 有四组相互独立的功能，分别是鉴定（Auth）、账户管理 （Account）、会话管理（Session）、密码修改（Password）&lt;/p&gt;
+&lt;h3 id=&quot;基本流程&quot;&gt;&lt;a href=&quot;#基本流程&quot; class=&quot;headerlink&quot; title=&quot;基本流程&quot;&gt;&lt;/a&gt;基本流程&lt;/h3&gt;&lt;p&gt;PAM 有四组相互独立的功能，分别是鉴定（Auth）、账户管理 （Account）、会话管理（Session）、密码修改（Password）&lt;/p&gt;
 &lt;p&gt;这四个功能的用途可以从名字上略知一二，不过我先按下不表。因为这四个功能是相互独立的，即 &lt;code&gt;pam.conf&lt;/code&gt; 里是分开写的，Module 里这几个接口是分开提供的，Application 则是分开调用这些接口的。在讨论 pam 执行流程的时候，区分这些功能没有什么太大意义。&lt;/p&gt;
 &lt;p&gt;那么一个功能是怎么被使用起来的呢？这个就是要说到的基本流程了。 从应用程序的角度，PAM 工作的基本流程如下：&lt;/p&gt;
 &lt;ol&gt;
@@ -183,9 +183,9 @@
 &lt;p&gt;就是这么简单。有人可能会问：我的密码是怎么输进去的呢？收集密码的功能是 PAM Module 具体操作的，当 PAM Module 想要收集密码的时候，会通知 PAM，PAM 则会调用事先 Application 注册的回调函数来收集密码。这个回调函数有可能是打印提示符，从标准输入读入密码（比如 login su sudo 等），也可能是向远程客户端发出收集密码的指令（比如 ssh），具体怎么收集密码，是 Application 实现的。&lt;/p&gt;
 &lt;p&gt;当 Application 去调用某个 PAM 功能时，PAM 会去依照 &lt;code&gt;pam.conf&lt;/code&gt; 里设定的规则，依次载入并调用配置文件里记载的若干 Module，于是每个 Module 的相应功能被调用，并进行一些操作，返回一个返回值。PAM 根据一定的规则，综合这些 Module 的返回值，最终得出一个“总的”返回值，返回给 Application。&lt;/p&gt;
 &lt;p&gt;而 &lt;code&gt;pam.conf&lt;/code&gt; 则是由系统管理员配置的，它控制着模块调用的顺序和规则，以及“总的”返回值得出的方式。&lt;/p&gt;
-&lt;h3 id=&quot;pam-conf_overview&quot;&gt;&lt;a href=&quot;#pam-conf_overview&quot; class=&quot;headerlink&quot; title=&quot;pam.conf overview&quot;&gt;&lt;/a&gt;&lt;code&gt;pam.conf&lt;/code&gt; overview&lt;/h3&gt;&lt;p&gt;&lt;code&gt;pam.conf&lt;/code&gt; 一般保存在 &lt;code&gt;/etc/pam.d/&lt;/code&gt; 下，每个 Service 的配置文件都以其名字命名。例如 &lt;code&gt;/etc/pam.d/sshd&lt;/code&gt;。习惯上，一个使用 PAM 的 Application 的 Service 名字一般取作其可执行文件的名字，但这并不绝对，因为一个 Application 究竟使用什么作为 Service 名字，是这个 Application 在初始化 PAM 事务的时候，作为参数传给传给 PAM 的。&lt;/p&gt;
+&lt;h3 id=&quot;pam-conf-overview&quot;&gt;&lt;a href=&quot;#pam-conf-overview&quot; class=&quot;headerlink&quot; title=&quot;pam.conf overview&quot;&gt;&lt;/a&gt;&lt;code&gt;pam.conf&lt;/code&gt; overview&lt;/h3&gt;&lt;p&gt;&lt;code&gt;pam.conf&lt;/code&gt; 一般保存在 &lt;code&gt;/etc/pam.d/&lt;/code&gt; 下，每个 Service 的配置文件都以其名字命名。例如 &lt;code&gt;/etc/pam.d/sshd&lt;/code&gt;。习惯上，一个使用 PAM 的 Application 的 Service 名字一般取作其可执行文件的名字，但这并不绝对，因为一个 Application 究竟使用什么作为 Service 名字，是这个 Application 在初始化 PAM 事务的时候，作为参数传给传给 PAM 的。&lt;/p&gt;
 &lt;p&gt;配置文件举例如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;# /etc/pam.d/su&amp;#10;# su: auth account session&amp;#10;auth       sufficient     pam_rootok.so&amp;#10;auth       required       pam_opendirectory.so&amp;#10;account    required       pam_group.so no_warn group=admin,wheel ruser root_only fail_safe&amp;#10;account    required       pam_opendirectory.so no_check_shell&amp;#10;password   required       pam_opendirectory.so&amp;#10;session    required       pam_launchd.so&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;# /etc/pam.d/su&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;# su: auth account session&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;auth       sufficient     pam_rootok.so&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;auth       required       pam_opendirectory.so&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;account    required       pam_group.so no_warn group=admin,wheel ruser root_only fail_safe&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;account    required       pam_opendirectory.so no_check_shell&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;password   required       pam_opendirectory.so&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;session    required       pam_launchd.so&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;相信你已经看出来了，这个文件每一行就是一条配置，每条配置由这么几项组成：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;功能名，这个我之前有说过，一共有四种，分别是 &lt;code&gt;auth&lt;/code&gt;、&lt;code&gt;account&lt;/code&gt;、&lt;code&gt;password&lt;/code&gt;、&lt;code&gt;session&lt;/code&gt;；现在我们只需要知道这四种功能相互独立，处理逻辑是一致的就好了，我们暂时不需要管着四种功能具体是干什么的。&lt;/li&gt;
@@ -196,7 +196,7 @@
 &lt;p&gt;此外还有一种语法是：&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;function-class include other-service-name&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;作用是将其它的 service 直接包含进来。&lt;/p&gt;
-&lt;h3 id=&quot;PAM_Module__u8C03_u7528_u6D41_u7A0B&quot;&gt;&lt;a href=&quot;#PAM_Module__u8C03_u7528_u6D41_u7A0B&quot; class=&quot;headerlink&quot; title=&quot;PAM Module 调用流程&quot;&gt;&lt;/a&gt;PAM Module 调用流程&lt;/h3&gt;&lt;p&gt;下面则是比较关键的一个环节，就是我讲了这么半天的“模块调用的顺序和返回值的生成”。&lt;/p&gt;
+&lt;h3 id=&quot;PAM-Module-调用流程&quot;&gt;&lt;a href=&quot;#PAM-Module-调用流程&quot; class=&quot;headerlink&quot; title=&quot;PAM Module 调用流程&quot;&gt;&lt;/a&gt;PAM Module 调用流程&lt;/h3&gt;&lt;p&gt;下面则是比较关键的一个环节，就是我讲了这么半天的“模块调用的顺序和返回值的生成”。&lt;/p&gt;
 &lt;p&gt;模块的调用和生成返回值遵从以下过程：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;设定要执行的功能 （Function）&lt;/li&gt;
@@ -234,21 +234,21 @@
 &lt;li&gt;若要鉴定成功，则必须至少一个 Module 成功。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;因此，某些资料有一些“sufficient 是鉴定成功的充分条件”的说法是不准确的。&lt;/p&gt;
-&lt;h3 id=&quot;u56DB_u79CD_u529F_u80FD&quot;&gt;&lt;a href=&quot;#u56DB_u79CD_u529F_u80FD&quot; class=&quot;headerlink&quot; title=&quot;四种功能&quot;&gt;&lt;/a&gt;四种功能&lt;/h3&gt;&lt;p&gt;终于回到这四种功能上了。首先这四种功能，原则上，PAM 模块可以作任何想做的事情。但实际上还是有一定约定和习惯的。&lt;/p&gt;
+&lt;h3 id=&quot;四种功能&quot;&gt;&lt;a href=&quot;#四种功能&quot; class=&quot;headerlink&quot; title=&quot;四种功能&quot;&gt;&lt;/a&gt;四种功能&lt;/h3&gt;&lt;p&gt;终于回到这四种功能上了。首先这四种功能，原则上，PAM 模块可以作任何想做的事情。但实际上还是有一定约定和习惯的。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;auth&lt;/code&gt; 用于鉴定用户身份。通常来说，就是用于收集秘密信息，鉴定声称是身份的 visitor 是否是该身份的持有者。鉴定方法有各种各样的，比如要求输入密码、对某种不可复制的物品进行鉴定等。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;account&lt;/code&gt; 用于管理用户登录资格。具体而言，就是在成功鉴定了来者是他所声称的那个身份后，用于确认用户在相应的上下文中是否有资格访问系统。比如限定登录时间、限定登录位置（tty）、限定远程主机等。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;session&lt;/code&gt; 则是会话管理。在打开和关闭用户会话时调用，具体用途有记录登录日志、设定登录环境、启动和停止计费等。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;password&lt;/code&gt; 用于更改用户密码。它的特殊性在于，当应用程序尝试执行修改密码的功能时，整条配置链会被执行两次，第一次用于预判是否能够修改密码（比如判断是否有足够的写入权限、如果密码存在网络上，判断网络连接是否正常等），第二次用于修改密码。这两次执行的时候，PAM 会为 Module 传入不同的 flag，因此不会混淆。当判断修改的权限时，&lt;strong&gt;&lt;code&gt;suffcient&lt;/code&gt; 会被当作 &lt;code&gt;optional&lt;/code&gt; 对待&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;u6A21_u5757_u53C2_u6570&quot;&gt;&lt;a href=&quot;#u6A21_u5757_u53C2_u6570&quot; class=&quot;headerlink&quot; title=&quot;模块参数&quot;&gt;&lt;/a&gt;模块参数&lt;/h3&gt;&lt;p&gt;一般的来讲，Module 的参数是由模块全权处理的，但是不同的 Module 接受的参数还是有一定共性的约定的。下面是一些常见的参数。注意，不一定所有的  Module 都接受这些参数，这些参数的意义也有可能因 Module 的不同而有所变化，请以 Module 的文档为准。&lt;/p&gt;
+&lt;h3 id=&quot;模块参数&quot;&gt;&lt;a href=&quot;#模块参数&quot; class=&quot;headerlink&quot; title=&quot;模块参数&quot;&gt;&lt;/a&gt;模块参数&lt;/h3&gt;&lt;p&gt;一般的来讲，Module 的参数是由模块全权处理的，但是不同的 Module 接受的参数还是有一定共性的约定的。下面是一些常见的参数。注意，不一定所有的  Module 都接受这些参数，这些参数的意义也有可能因 Module 的不同而有所变化，请以 Module 的文档为准。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;debug&lt;/code&gt;：输出调试信息&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;use_first_pass&lt;/code&gt;：意味着 Module 不提示用户输入密码，而是用上一个模块输入的密码；如果之前没有模块输入密码，则使用 Application 在调用 PAM 鉴定功能前设定的密码。如果 Application 没有设定密码，则 Module 会获知这一情况，进行相应的处理。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;try_first_pass&lt;/code&gt;：跟 &lt;code&gt;use_first_pass&lt;/code&gt; 类似，但是当上一个模块输入的密码或 Application 提供的密码不正确或不存在时，提示用户输入密码，重新鉴定。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;nullok&lt;/code&gt;：允许空密码，或者当不存在相应的鉴定信息文件的时候通过鉴定（前者例如 &lt;code&gt;pam_unix.so&lt;/code&gt;；后者例如 &lt;code&gt;pam_google_authenticator.so&lt;/code&gt;，当保存有被鉴定的用户的 OTP 信息的秘密文件不存在时，通过鉴定）。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;Linux-PAM__u9AD8_u7EA7_u8BED_u6CD5&quot;&gt;&lt;a href=&quot;#Linux-PAM__u9AD8_u7EA7_u8BED_u6CD5&quot; class=&quot;headerlink&quot; title=&quot;Linux-PAM 高级语法&quot;&gt;&lt;/a&gt;Linux-PAM 高级语法&lt;/h3&gt;&lt;p&gt;Linux-PAM 在控制标记字段支持一种高级的语法，即跟据 Module 返回值指派处理动作：&lt;/p&gt;
+&lt;h3 id=&quot;Linux-PAM-高级语法&quot;&gt;&lt;a href=&quot;#Linux-PAM-高级语法&quot; class=&quot;headerlink&quot; title=&quot;Linux-PAM 高级语法&quot;&gt;&lt;/a&gt;Linux-PAM 高级语法&lt;/h3&gt;&lt;p&gt;Linux-PAM 在控制标记字段支持一种高级的语法，即跟据 Module 返回值指派处理动作：&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[val1=act1 val2=act2 ... default=act3]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;其中 &lt;code&gt;val&lt;/code&gt; 是返回值，合法的取值有：&lt;/p&gt;
 &lt;ul&gt;
@@ -298,7 +298,7 @@
 &lt;li&gt;&lt;code&gt;reset&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;而原有的 &lt;code&gt;optional&lt;/code&gt;、&lt;code&gt;sufficient&lt;/code&gt;、&lt;code&gt;requisite&lt;/code&gt;、&lt;code&gt;required&lt;/code&gt; 则等价于：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;required&amp;#10;  [success=ok new_authtok_reqd=ok ignore=ignore default=bad]&amp;#10;&amp;#10;requisite&amp;#10;  [success=ok new_authtok_reqd=ok ignore=ignore default=die]&amp;#10;&amp;#10;sufficient&amp;#10;  [success=done new_authtok_reqd=done default=ignore]&amp;#10;&amp;#10;optional&amp;#10;  [success=ok new_authtok_reqd=ok default=ignore]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;required&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  [success=ok new_authtok_reqd=ok ignore=ignore default=bad]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;requisite&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  [success=ok new_authtok_reqd=ok ignore=ignore default=die]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sufficient&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  [success=done new_authtok_reqd=done default=ignore]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;optional&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  [success=ok new_authtok_reqd=ok default=ignore]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;而整个处理流程则变成：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;设定要执行的功能 （Function）&lt;/li&gt;
@@ -330,8 +330,7 @@
 &lt;li&gt;Linux PAM 引入了 &lt;code&gt;action&lt;/code&gt; 来指示处理方式，这样代码就清晰了不少，同时增强了灵活性。&lt;/li&gt;
 &lt;li&gt;Linux PAM 引入 &lt;code&gt;impression&lt;/code&gt; 来评估当前的局面。&lt;code&gt;impression&lt;/code&gt; 仅被 &lt;code&gt;action&lt;/code&gt; 控制，与具体的 Module 返回值没有关系。&lt;/li&gt;
 &lt;li&gt;除了 &lt;code&gt;reset&lt;/code&gt; 以外，&lt;code&gt;impression&lt;/code&gt; 只能由“未知”转向“正面”（&lt;code&gt;ok&lt;/code&gt; 和 &lt;code&gt;done&lt;/code&gt;），或是由任意状态转向“负面”（&lt;code&gt;bad&lt;/code&gt; 和 &lt;code&gt;die&lt;/code&gt;）。一旦进入了“负面”，则除了被 &lt;code&gt;reset&lt;/code&gt; 以外，不会进入别的状态。&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;status&lt;/code&gt; 取决于 Module 的返回值，同时受采取的 &lt;code&gt;action&lt;/code&gt; 和当前的 &lt;code&gt;impression&lt;/code&gt; 影响。
-无论 &lt;code&gt;action&lt;/code&gt; 是什么，某个 Module 的返回值只会有两种处理方式：用于覆盖当前的 &lt;code&gt;status&lt;/code&gt; 或者被忽略。注意：Module 的返回值是&lt;strong&gt;不会&lt;/strong&gt;被修改的。&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;status&lt;/code&gt; 取决于 Module 的返回值，同时受采取的 &lt;code&gt;action&lt;/code&gt; 和当前的 &lt;code&gt;impression&lt;/code&gt; 影响。&lt;br&gt;无论 &lt;code&gt;action&lt;/code&gt; 是什么，某个 Module 的返回值只会有两种处理方式：用于覆盖当前的 &lt;code&gt;status&lt;/code&gt; 或者被忽略。注意：Module 的返回值是&lt;strong&gt;不会&lt;/strong&gt;被修改的。&lt;/p&gt;
 &lt;p&gt;例如：&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;auth [success=bad ignore=ignore default=done] pam_xxx.so&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;这条配置的后果是，当 &lt;code&gt;pam_xxx.so&lt;/code&gt; 失败的时候，虽然动作是 &lt;code&gt;ok&lt;/code&gt;，但是 &lt;code&gt;status&lt;/code&gt; 会被更新为一个非 &lt;code&gt;PAM_SUCCESS&lt;/code&gt; 的值，最终导致鉴定失败。当 &lt;code&gt;pam_xxx.so&lt;/code&gt; 成功的时候，虽然 &lt;code&gt;status&lt;/code&gt; 被更新为了 &lt;code&gt;PAM_SUCCESS&lt;/code&gt;，但是由于采取的动作是 &lt;code&gt;bad&lt;/code&gt;，&lt;code&gt;impression&lt;/code&gt; 会转为“负面”，最终在出口处（步骤 11）PAM 把 &lt;code&gt;status&lt;/code&gt; 覆盖为 &lt;code&gt;PAM_PERM_DENIED&lt;/code&gt;。&lt;/p&gt;
@@ -345,13 +344,13 @@
 &lt;li&gt;最后，只有当 &lt;code&gt;status&lt;/code&gt; 为 &lt;code&gt;PAM_SUCCESS&lt;/code&gt; 且 &lt;code&gt;impression&lt;/code&gt; 是“正面”的时候才会返回 &lt;code&gt;PAM_SUCCESS&lt;/code&gt;，否则一律不能返回 &lt;code&gt;PAM_SUCCESS&lt;/code&gt;。&lt;/li&gt;
 &lt;li&gt;最后＋1，只有 &lt;code&gt;status&lt;/code&gt; 会被返回给 Application，用于其判断是否成功以及错误原因，&lt;code&gt;impression&lt;/code&gt; 是 PAM 工作时的内部状态，不算数的。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;u914D_u7F6E_u4E3E_u4F8B&quot;&gt;&lt;a href=&quot;#u914D_u7F6E_u4E3E_u4F8B&quot; class=&quot;headerlink&quot; title=&quot;配置举例&quot;&gt;&lt;/a&gt;配置举例&lt;/h3&gt;&lt;p&gt;继续立 #flag，下篇文章会介绍 yubikey 的各种奇妙用法，会有一些有意思的 pam 配置。&lt;/p&gt;
+&lt;h3 id=&quot;配置举例&quot;&gt;&lt;a href=&quot;#配置举例&quot; class=&quot;headerlink&quot; title=&quot;配置举例&quot;&gt;&lt;/a&gt;配置举例&lt;/h3&gt;&lt;p&gt;继续立 #flag，下篇文章会介绍 yubikey 的各种奇妙用法，会有一些有意思的 pam 配置。&lt;/p&gt;
 </content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;PAM__u914D_u7F6E_u7B80_u4ECB&quot;&gt;&lt;a href=&quot;#PAM__u914D_u7F6E_u7B80_u4ECB&quot; class=&quot;headerlink&quot; title=&quot;PAM 配置简介&quot;&gt;&lt;/a&gt;PAM 配置简介&lt;/h2&gt;&lt;p&gt;写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。&lt;/p&gt;
-&lt;h3 id=&quot;u80CC_u666F&quot;&gt;&lt;a href=&quot;#u80CC_u666F&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;PAM 是用来进行鉴定授权的一套框架，其主要目的就是分离这三个东西：&lt;/p&gt;
+      &lt;h2 id=&quot;PAM-配置简介&quot;&gt;&lt;a href=&quot;#PAM-配置简介&quot; class=&quot;headerlink&quot; title=&quot;PAM 配置简介&quot;&gt;&lt;/a&gt;PAM 配置简介&lt;/h2&gt;&lt;p&gt;写这篇文章主要是想总结一下近来折腾 PAM 配置的收获和感想。&lt;/p&gt;
+&lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;PAM 是用来进行鉴定授权的一套框架，其主要目的就是分离这三个东西：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;有鉴定需求的应用程序&lt;/li&gt;
 &lt;li&gt;实施的鉴定方法&lt;/li&gt;
@@ -362,9 +361,9 @@
     </summary>
     
     
-      <category term="PAM" scheme="https://innull.com/tags/PAM/"/>
-    
       <category term="技术" scheme="https://innull.com/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="PAM" scheme="https://innull.com/tags/PAM/"/>
     
   </entry>
   
@@ -375,7 +374,7 @@
     <published>2016-02-10T20:50:00.000Z</published>
     <updated>2016-02-13T14:44:50.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;pam_dotfile__u4FEE_u7406_u624B_u8BB0&quot;&gt;&lt;a href=&quot;#pam_dotfile__u4FEE_u7406_u624B_u8BB0&quot; class=&quot;headerlink&quot; title=&quot;pam_dotfile 修理手记&quot;&gt;&lt;/a&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; 修理手记&lt;/h2&gt;&lt;h3 id=&quot;u6E90_u8D77&quot;&gt;&lt;a href=&quot;#u6E90_u8D77&quot; class=&quot;headerlink&quot; title=&quot;源起&quot;&gt;&lt;/a&gt;源起&lt;/h3&gt;&lt;p&gt;修理这个 &lt;code&gt;pam_dotfile&lt;/code&gt; 的起因是&lt;a href=&quot;http://www.dotkrnl.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@dotkrnl&lt;/a&gt; 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;pam-dotfile-修理手记&quot;&gt;&lt;a href=&quot;#pam-dotfile-修理手记&quot; class=&quot;headerlink&quot; title=&quot;pam_dotfile 修理手记&quot;&gt;&lt;/a&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; 修理手记&lt;/h2&gt;&lt;h3 id=&quot;源起&quot;&gt;&lt;a href=&quot;#源起&quot; class=&quot;headerlink&quot; title=&quot;源起&quot;&gt;&lt;/a&gt;源起&lt;/h3&gt;&lt;p&gt;修理这个 &lt;code&gt;pam_dotfile&lt;/code&gt; 的起因是&lt;a href=&quot;http://www.dotkrnl.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@dotkrnl&lt;/a&gt; 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;pre&gt;&lt;code&gt;bigeag1e 11:57:32    YubiKey 4 简介与配置 | K.I.S.S
                      https://bigeagle.me/2016/02/yubikey-4/
@@ -506,7 +505,7 @@ optional
             +-------------+
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;不难想到，这个鉴定流程很容易用 linux pam 的“跳过鉴定模块”的功能来实现。其中“&lt;code&gt;pam_强口令&lt;/code&gt;”可以用系统原先的 pam 模块，唯一缺的就是 “&lt;code&gt;pam_弱口令&lt;/code&gt;”。不过这个自己写也不会很难，照着别的 pam 模块的代码改一改应该就能成。&lt;/p&gt;
 &lt;p&gt;这就是我在上面的聊天里作出回复的思维过程，当时因为在外边走路，感觉这样可以实现，于是就这么回答了 &lt;a href=&quot;http://www.dotkrnl.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@dotkrnl&lt;/a&gt;。&lt;/p&gt;
-&lt;h3 id=&quot;u53D1_u5C55&quot;&gt;&lt;a href=&quot;#u53D1_u5C55&quot; class=&quot;headerlink&quot; title=&quot;发展&quot;&gt;&lt;/a&gt;发展&lt;/h3&gt;&lt;p&gt;有一句名言是这么说的：&lt;/p&gt;
+&lt;h3 id=&quot;发展&quot;&gt;&lt;a href=&quot;#发展&quot; class=&quot;headerlink&quot; title=&quot;发展&quot;&gt;&lt;/a&gt;发展&lt;/h3&gt;&lt;p&gt;有一句名言是这么说的：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Talk is cheap, show me the f**k code.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -518,7 +517,7 @@ optional
 &lt;p&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; was developed and tested on Debian GNU/Linux “testing” from July &lt;strong&gt;2003&lt;/strong&gt;, it should work on most other Linux distributions&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;当时心中飘过一阵草泥马。但是本着“宁可修老轮子也不造轮子”的思想，我还是把源代码下载了下来，心想，pam 的接口一直没怎么变过，说不定还能用。然而，这时我立了一个响当当的 flag。&lt;/p&gt;
-&lt;h3 id=&quot;u9AD8_u6F6E&quot;&gt;&lt;a href=&quot;#u9AD8_u6F6E&quot; class=&quot;headerlink&quot; title=&quot;高潮&quot;&gt;&lt;/a&gt;高潮&lt;/h3&gt;&lt;p&gt;我把源代码下载下来，开始执行 &lt;code&gt;./configure&lt;/code&gt;。竟然没报错！看来有戏。继续 &lt;code&gt;make&lt;/code&gt;，妥妥的报错了。&lt;/p&gt;
+&lt;h3 id=&quot;高潮&quot;&gt;&lt;a href=&quot;#高潮&quot; class=&quot;headerlink&quot; title=&quot;高潮&quot;&gt;&lt;/a&gt;高潮&lt;/h3&gt;&lt;p&gt;我把源代码下载下来，开始执行 &lt;code&gt;./configure&lt;/code&gt;。竟然没报错！看来有戏。继续 &lt;code&gt;make&lt;/code&gt;，妥妥的报错了。&lt;/p&gt;
 &lt;p&gt;提示是缺头文件，尼玛。。。。缺头文件你 &lt;code&gt;configure&lt;/code&gt; 的时候不说，那你 &lt;code&gt;configure&lt;/code&gt; 在干些啥？&lt;/p&gt;
 &lt;p&gt;于是果断在 &lt;del&gt;gay&lt;/del&gt;github 上 clone 一份这个代码，然后操刀开始改。这时我突然想起我不太会用 autotools 啊。本着“没吃猪肉但是见过猪跑”的精神，鉴于我编译过这么多遍 gcc ，autotools 的大致思想还是能搞懂的。然后我就同步地打开 &lt;code&gt;pam_yubico&lt;/code&gt; 的代码，照着边学习边改。&lt;/p&gt;
 &lt;p&gt;整个项目分这么几个部分：&lt;/p&gt;
@@ -578,7 +577,7 @@ main(int argc, char *argv[])
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;大概的实现方式就是在 &lt;code&gt;configure&lt;/code&gt; 的时候探测 &lt;code&gt;pam/pam_misc.h&lt;/code&gt; 和 &lt;code&gt;security/openpam.h&lt;/code&gt;，并定义宏 &lt;code&gt;PAM_CONV_FUNC&lt;/code&gt; 为相应的函数名，然后在代码中直接使用：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;static struct pam_conv pc = { PAM_CONV_FUNC, NULL };
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OK，最后修复了这个位置，然后编译就通过了。&lt;/p&gt;
-&lt;h3 id=&quot;u5C3E_u58F0&quot;&gt;&lt;a href=&quot;#u5C3E_u58F0&quot; class=&quot;headerlink&quot; title=&quot;尾声&quot;&gt;&lt;/a&gt;尾声&lt;/h3&gt;&lt;p&gt;编译通过了就要简单的测试一下代码还能否 work。于是先执行&lt;/p&gt;
+&lt;h3 id=&quot;尾声&quot;&gt;&lt;a href=&quot;#尾声&quot; class=&quot;headerlink&quot; title=&quot;尾声&quot;&gt;&lt;/a&gt;尾声&lt;/h3&gt;&lt;p&gt;编译通过了就要简单的测试一下代码还能否 work。于是先执行&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ pam-dotfile-gen -a test
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后输入一个简单的密码 &lt;code&gt;12345&lt;/code&gt;，于是就生成了 &lt;code&gt;~/.pam-test&lt;/code&gt;，然后写一个 &lt;code&gt;/etc/pam.d/test&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;auth       required       /usr/local/lib/security/pam_dotfile.so try_first_pass
@@ -597,7 +596,7 @@ Failure starting pam: system error
 &lt;pre&gt;&lt;code&gt;pamtest[72280]: in openpam_read_chain(): /etc/pam.d/test(2): invalid control flag &amp;apos;[default=1]&amp;apos;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;唔，原来 OS X 上的 &lt;code&gt;OpenPAM&lt;/code&gt; 不支持这种语法。&lt;/p&gt;
 &lt;p&gt;卒。。。。。（未完待续）&lt;/p&gt;
-&lt;h3 id=&quot;u7ED3_u8BBA&quot;&gt;&lt;a href=&quot;#u7ED3_u8BBA&quot; class=&quot;headerlink&quot; title=&quot;结论&quot;&gt;&lt;/a&gt;结论&lt;/h3&gt;&lt;p&gt;于是我们得到了一个在 OS X 上能用的 &lt;code&gt;pam_dotfile&lt;/code&gt;。下面简单介绍一下这个模块的工作过程和使用方法。&lt;/p&gt;
+&lt;h3 id=&quot;结论&quot;&gt;&lt;a href=&quot;#结论&quot; class=&quot;headerlink&quot; title=&quot;结论&quot;&gt;&lt;/a&gt;结论&lt;/h3&gt;&lt;p&gt;于是我们得到了一个在 OS X 上能用的 &lt;code&gt;pam_dotfile&lt;/code&gt;。下面简单介绍一下这个模块的工作过程和使用方法。&lt;/p&gt;
 &lt;p&gt;当针对某个用户的鉴定开始的时候， &lt;code&gt;pam_dotfile&lt;/code&gt; 会在下面的地点依次寻找存放密码的散列值的文件：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;~/.pam-&amp;lt;service&amp;gt;&lt;/code&gt;&lt;/li&gt;
@@ -610,7 +609,7 @@ Failure starting pam: system error
 &lt;p&gt;通过 &lt;code&gt;pam-dotfile-gen -a &amp;lt;service&amp;gt;&lt;/code&gt; 来生成 &lt;code&gt;~/.pam-&amp;lt;service&amp;gt;&lt;/code&gt;。你需要输入两遍密码。&lt;/p&gt;
 &lt;p&gt;当不加参数直接调用 &lt;code&gt;pam-dotfile-gen&lt;/code&gt; 时，该程序从标准输入读入多组明文密码（每行一个），并相应的输出它们的散列值。&lt;/p&gt;
 &lt;p&gt;我在使用这个程序的时候，往往是将生成的 &lt;code&gt;~/.pam-&amp;lt;service&amp;gt;&lt;/code&gt; 移动到 &lt;code&gt;~/.pam/&amp;lt;service&amp;gt;&lt;/code&gt;，这样可以让 &lt;code&gt;home&lt;/code&gt; 目录下的 dotfiles 整齐些。&lt;/p&gt;
-&lt;h3 id=&quot;u540E_u8BB0&quot;&gt;&lt;a href=&quot;#u540E_u8BB0&quot; class=&quot;headerlink&quot; title=&quot;后记&quot;&gt;&lt;/a&gt;后记&lt;/h3&gt;&lt;p&gt;我改好的 &lt;code&gt;pam_dotfile&lt;/code&gt; 放在了 &lt;a href=&quot;https://github.com/shankerwangmiao/pam_dotfile&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt; 上，欢迎测试。&lt;/p&gt;
+&lt;h3 id=&quot;后记&quot;&gt;&lt;a href=&quot;#后记&quot; class=&quot;headerlink&quot; title=&quot;后记&quot;&gt;&lt;/a&gt;后记&lt;/h3&gt;&lt;p&gt;我改好的 &lt;code&gt;pam_dotfile&lt;/code&gt; 放在了 &lt;a href=&quot;https://github.com/shankerwangmiao/pam_dotfile&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt; 上，欢迎测试。&lt;/p&gt;
 &lt;p&gt;另外，这个项目的地址是 &lt;a href=&quot;http://0pointer.de/lennart/projects/pam_dotfile/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://0pointer.de/lennart/projects/pam_dotfile/&lt;/a&gt;。从地址上来看，&lt;em&gt;Lennart Poettering&lt;/em&gt; 这个人应该搞过一些别的项目，唔，应该就在 &lt;a href=&quot;http://0pointer.de/lennart/projects/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://0pointer.de/lennart/projects/&lt;/a&gt;。看来还是这个人还是很高产的一个程序作者。&lt;/p&gt;
 &lt;p&gt;什么？你说什么？他还写过 &lt;code&gt;systemd&lt;/code&gt; ？你没开玩笑吧？&lt;/p&gt;
 &lt;p&gt;我擦，这个 pam 模块竟然是 &lt;code&gt;systemd&lt;/code&gt; 的作者的作品。。。orz……&lt;/p&gt;
@@ -618,14 +617,14 @@ Failure starting pam: system error
     
     <summary type="html">
     
-      &lt;h2 id=&quot;pam_dotfile__u4FEE_u7406_u624B_u8BB0&quot;&gt;&lt;a href=&quot;#pam_dotfile__u4FEE_u7406_u624B_u8BB0&quot; class=&quot;headerlink&quot; title=&quot;pam_dotfile 修理手记&quot;&gt;&lt;/a&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; 修理手记&lt;/h2&gt;&lt;h3 id=&quot;u6E90_u8D77&quot;&gt;&lt;a href=&quot;#u6E90_u8D77&quot; class=&quot;headerlink&quot; title=&quot;源起&quot;&gt;&lt;/a&gt;源起&lt;/h3&gt;&lt;p&gt;修理这个 &lt;code&gt;pam_dotfile&lt;/code&gt; 的起因是&lt;a href=&quot;http://www.dotkrnl.com&quot;&gt;@dotkrnl&lt;/a&gt; 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。&lt;/p&gt;
+      &lt;h2 id=&quot;pam-dotfile-修理手记&quot;&gt;&lt;a href=&quot;#pam-dotfile-修理手记&quot; class=&quot;headerlink&quot; title=&quot;pam_dotfile 修理手记&quot;&gt;&lt;/a&gt;&lt;code&gt;pam_dotfile&lt;/code&gt; 修理手记&lt;/h2&gt;&lt;h3 id=&quot;源起&quot;&gt;&lt;a href=&quot;#源起&quot; class=&quot;headerlink&quot; title=&quot;源起&quot;&gt;&lt;/a&gt;源起&lt;/h3&gt;&lt;p&gt;修理这个 &lt;code&gt;pam_dotfile&lt;/code&gt; 的起因是&lt;a href=&quot;http://www.dotkrnl.com&quot;&gt;@dotkrnl&lt;/a&gt; 。他认为用 yubikey 作为登录的鉴定的充分凭据是不当的。因为 yubikey 是由所有者持有的（What you have.），存在失窃的风险，需要和所有者知道的（What you know.）搭配来使用，才科学。但是二者搭配起来作鉴定，即同时鉴定 yubikey 和系统登录密码又显得很麻烦，没有体现出 yubikey 的方便之处。于是一个这样的设想被提出来，才引发了下面一连串的血案。&lt;/p&gt;
     
     </summary>
     
     
-      <category term="PAM" scheme="https://innull.com/tags/PAM/"/>
-    
       <category term="技术" scheme="https://innull.com/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="PAM" scheme="https://innull.com/tags/PAM/"/>
     
   </entry>
   
@@ -636,7 +635,7 @@ Failure starting pam: system error
     <published>2016-02-09T10:00:00.000Z</published>
     <updated>2016-02-13T14:45:11.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;u8BED_u8A00_u7D2F_u7684_u8BED_u8A00_u7C7B_uFF0C_u6B32_u54ED_u65E0_u6CEA&quot;&gt;&lt;a href=&quot;#u8BED_u8A00_u7D2F_u7684_u8BED_u8A00_u7C7B_uFF0C_u6B32_u54ED_u65E0_u6CEA&quot; class=&quot;headerlink&quot; title=&quot;语言累的语言类，欲哭无泪&quot;&gt;&lt;/a&gt;语言累的语言类，欲哭无泪&lt;/h2&gt;&lt;p&gt;按：&lt;a href=&quot;http://mp.weixin.qq.com/s?__biz=MzA3ODAwMTgyNA==&amp;amp;mid=409150772&amp;amp;idx=1&amp;amp;sn=8260c1b2d81acfb51714d6559bfed637&amp;amp;scene=2&amp;amp;srcid=0208d8OCiLdnjFQdBG4tvr9P&amp;amp;from=timeline&amp;amp;isappinstalled=0#wechat_redirect&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;原文&lt;/a&gt;载于“公众号清华大学学生艺术团曲艺队”&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;语言累的语言类，欲哭无泪&quot;&gt;&lt;a href=&quot;#语言累的语言类，欲哭无泪&quot; class=&quot;headerlink&quot; title=&quot;语言累的语言类，欲哭无泪&quot;&gt;&lt;/a&gt;语言累的语言类，欲哭无泪&lt;/h2&gt;&lt;p&gt;按：&lt;a href=&quot;http://mp.weixin.qq.com/s?__biz=MzA3ODAwMTgyNA==&amp;amp;mid=409150772&amp;amp;idx=1&amp;amp;sn=8260c1b2d81acfb51714d6559bfed637&amp;amp;scene=2&amp;amp;srcid=0208d8OCiLdnjFQdBG4tvr9P&amp;amp;from=timeline&amp;amp;isappinstalled=0#wechat_redirect&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;原文&lt;/a&gt;载于“公众号清华大学学生艺术团曲艺队”&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;成就一台好的晚会，也许不容易，成就一台好的春晚，或许就是不可能。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -688,7 +687,7 @@ Failure starting pam: system error
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u8BED_u8A00_u7D2F_u7684_u8BED_u8A00_u7C7B_uFF0C_u6B32_u54ED_u65E0_u6CEA&quot;&gt;&lt;a href=&quot;#u8BED_u8A00_u7D2F_u7684_u8BED_u8A00_u7C7B_uFF0C_u6B32_u54ED_u65E0_u6CEA&quot; class=&quot;headerlink&quot; title=&quot;语言累的语言类，欲哭无泪&quot;&gt;&lt;/a&gt;语言累的语言类，欲哭无泪&lt;/h2&gt;&lt;p&gt;按：&lt;a href=&quot;http://mp.weixin.qq.com/s?__biz=MzA3ODAwMTgyNA==&amp;amp;mid=409150772&amp;amp;idx=1&amp;amp;sn=8260c1b2d81acfb51714d6559bfed637&amp;amp;scene=2&amp;amp;srcid=0208d8OCiLdnjFQdBG4tvr9P&amp;amp;from=timeline&amp;amp;isappinstalled=0#wechat_redirect&quot;&gt;原文&lt;/a&gt;载于“公众号清华大学学生艺术团曲艺队”&lt;/p&gt;
+      &lt;h2 id=&quot;语言累的语言类，欲哭无泪&quot;&gt;&lt;a href=&quot;#语言累的语言类，欲哭无泪&quot; class=&quot;headerlink&quot; title=&quot;语言累的语言类，欲哭无泪&quot;&gt;&lt;/a&gt;语言累的语言类，欲哭无泪&lt;/h2&gt;&lt;p&gt;按：&lt;a href=&quot;http://mp.weixin.qq.com/s?__biz=MzA3ODAwMTgyNA==&amp;amp;mid=409150772&amp;amp;idx=1&amp;amp;sn=8260c1b2d81acfb51714d6559bfed637&amp;amp;scene=2&amp;amp;srcid=0208d8OCiLdnjFQdBG4tvr9P&amp;amp;from=timeline&amp;amp;isappinstalled=0#wechat_redirect&quot;&gt;原文&lt;/a&gt;载于“公众号清华大学学生艺术团曲艺队”&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;成就一台好的晚会，也许不容易，成就一台好的春晚，或许就是不可能。&lt;/p&gt;
     
@@ -706,7 +705,7 @@ Failure starting pam: system error
     <published>2015-03-26T18:00:00.000Z</published>
     <updated>2016-02-13T14:45:38.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;9_u53E5_u8BDD_u5199_u7ED9_u4EE3_u8868_u59D4_u5458_uFF1A_u4F60_u7684_u5931_u8BED_uFF0C__u5C31_u610F_u5473_u7740_u4EBA_u6C11_u7684_u6C89_u9ED8&quot;&gt;&lt;a href=&quot;#9_u53E5_u8BDD_u5199_u7ED9_u4EE3_u8868_u59D4_u5458_uFF1A_u4F60_u7684_u5931_u8BED_uFF0C__u5C31_u610F_u5473_u7740_u4EBA_u6C11_u7684_u6C89_u9ED8&quot; class=&quot;headerlink&quot; title=&quot;9句话写给代表委员：你的失语， 就意味着人民的沉默&quot;&gt;&lt;/a&gt;9句话写给代表委员：你的失语， 就意味着人民的沉默&lt;/h2&gt;&lt;p&gt;本文转自 “人民日报”公众号&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;9句话写给代表委员：你的失语，-就意味着人民的沉默&quot;&gt;&lt;a href=&quot;#9句话写给代表委员：你的失语，-就意味着人民的沉默&quot; class=&quot;headerlink&quot; title=&quot;9句话写给代表委员：你的失语， 就意味着人民的沉默&quot;&gt;&lt;/a&gt;9句话写给代表委员：你的失语， 就意味着人民的沉默&lt;/h2&gt;&lt;p&gt;本文转自 “人民日报”公众号&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;请记得，&lt;/p&gt;
@@ -766,7 +765,7 @@ Failure starting pam: system error
     
     <summary type="html">
     
-      &lt;h2 id=&quot;9_u53E5_u8BDD_u5199_u7ED9_u4EE3_u8868_u59D4_u5458_uFF1A_u4F60_u7684_u5931_u8BED_uFF0C__u5C31_u610F_u5473_u7740_u4EBA_u6C11_u7684_u6C89_u9ED8&quot;&gt;&lt;a href=&quot;#9_u53E5_u8BDD_u5199_u7ED9_u4EE3_u8868_u59D4_u5458_uFF1A_u4F60_u7684_u5931_u8BED_uFF0C__u5C31_u610F_u5473_u7740_u4EBA_u6C11_u7684_u6C89_u9ED8&quot; class=&quot;headerlink&quot; title=&quot;9句话写给代表委员：你的失语， 就意味着人民的沉默&quot;&gt;&lt;/a&gt;9句话写给代表委员：你的失语， 就意味着人民的沉默&lt;/h2&gt;&lt;p&gt;本文转自 “人民日报”公众号&lt;/p&gt;
+      &lt;h2 id=&quot;9句话写给代表委员：你的失语，-就意味着人民的沉默&quot;&gt;&lt;a href=&quot;#9句话写给代表委员：你的失语，-就意味着人民的沉默&quot; class=&quot;headerlink&quot; title=&quot;9句话写给代表委员：你的失语， 就意味着人民的沉默&quot;&gt;&lt;/a&gt;9句话写给代表委员：你的失语， 就意味着人民的沉默&lt;/h2&gt;&lt;p&gt;本文转自 “人民日报”公众号&lt;/p&gt;
     
     </summary>
     
@@ -784,7 +783,7 @@ Failure starting pam: system error
     <published>2014-09-08T12:00:00.000Z</published>
     <updated>2016-02-13T14:45:18.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;u53CD_u8150_u4E0D_u5E94_u8BE5_u53CD_u804C_u5DE5_u798F_u5229&quot;&gt;&lt;a href=&quot;#u53CD_u8150_u4E0D_u5E94_u8BE5_u53CD_u804C_u5DE5_u798F_u5229&quot; class=&quot;headerlink&quot; title=&quot;反腐不应该反职工福利&quot;&gt;&lt;/a&gt;反腐不应该反职工福利&lt;/h2&gt;&lt;p&gt;本文转载自：&lt;a href=&quot;&quot;&gt;http://rmrbshare.people.com.cn/rmrbshare/?itemid=7_8736&amp;amp;type=3&lt;/a&gt;&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;反腐不应该反职工福利&quot;&gt;&lt;a href=&quot;#反腐不应该反职工福利&quot; class=&quot;headerlink&quot; title=&quot;反腐不应该反职工福利&quot;&gt;&lt;/a&gt;反腐不应该反职工福利&lt;/h2&gt;&lt;p&gt;本文转载自：&lt;a href=&quot;&quot;&gt;http://rmrbshare.people.com.cn/rmrbshare/?itemid=7_8736&amp;amp;type=3&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;中央“打虎灭蝇”，腐败分子纷纷落网，效果显著。然而，欢欣鼓舞之时，人们却发现，一些执行者在借反腐之名拿掉老百姓应有的职工福利。&lt;/p&gt;
 &lt;p&gt;这绝不是中央反腐倡廉的本意。&lt;/p&gt;
@@ -802,7 +801,7 @@ Failure starting pam: system error
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u53CD_u8150_u4E0D_u5E94_u8BE5_u53CD_u804C_u5DE5_u798F_u5229&quot;&gt;&lt;a href=&quot;#u53CD_u8150_u4E0D_u5E94_u8BE5_u53CD_u804C_u5DE5_u798F_u5229&quot; class=&quot;headerlink&quot; title=&quot;反腐不应该反职工福利&quot;&gt;&lt;/a&gt;反腐不应该反职工福利&lt;/h2&gt;&lt;p&gt;本文转载自：&lt;a href=&quot;&quot;&gt;http://rmrbshare.people.com.cn/rmrbshare/?itemid=7_8736&amp;amp;type=3&lt;/a&gt;&lt;/p&gt;
+      &lt;h2 id=&quot;反腐不应该反职工福利&quot;&gt;&lt;a href=&quot;#反腐不应该反职工福利&quot; class=&quot;headerlink&quot; title=&quot;反腐不应该反职工福利&quot;&gt;&lt;/a&gt;反腐不应该反职工福利&lt;/h2&gt;&lt;p&gt;本文转载自：&lt;a href=&quot;&quot;&gt;http://rmrbshare.people.com.cn/rmrbshare/?itemid=7_8736&amp;amp;type=3&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;中央“打虎灭蝇”，腐败分子纷纷落网，效果显著。然而，欢欣鼓舞之时，人们却发现，一些执行者在借反腐之名拿掉老百姓应有的职工福利。&lt;/p&gt;
 &lt;p&gt;这绝不是中央反腐倡廉的本意。&lt;/p&gt;
@@ -810,9 +809,9 @@ Failure starting pam: system error
     </summary>
     
     
-      <category term="实事" scheme="https://innull.com/tags/%E5%AE%9E%E4%BA%8B/"/>
-    
       <category term="收藏" scheme="https://innull.com/tags/%E6%94%B6%E8%97%8F/"/>
+    
+      <category term="实事" scheme="https://innull.com/tags/%E5%AE%9E%E4%BA%8B/"/>
     
   </entry>
   
@@ -823,14 +822,14 @@ Failure starting pam: system error
     <published>2014-09-03T12:00:00.000Z</published>
     <updated>2016-02-12T12:07:58.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;u4E2A_u4EBA_u6536_u85CF_u77ED_u7247_u4E4B_u4E00_uFF1A_u300A_u7EA2_u9886_u5DFE_u300B&quot;&gt;&lt;a href=&quot;#u4E2A_u4EBA_u6536_u85CF_u77ED_u7247_u4E4B_u4E00_uFF1A_u300A_u7EA2_u9886_u5DFE_u300B&quot; class=&quot;headerlink&quot; title=&quot;个人收藏短片之一：《红领巾》&quot;&gt;&lt;/a&gt;个人收藏短片之一：《红领巾》&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=n2_ePWt6xAI&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这个&lt;/a&gt;是该短片的链接，欢迎收看。&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;个人收藏短片之一：《红领巾》&quot;&gt;&lt;a href=&quot;#个人收藏短片之一：《红领巾》&quot; class=&quot;headerlink&quot; title=&quot;个人收藏短片之一：《红领巾》&quot;&gt;&lt;/a&gt;个人收藏短片之一：《红领巾》&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=n2_ePWt6xAI&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这个&lt;/a&gt;是该短片的链接，欢迎收看。&lt;/p&gt;
 &lt;p&gt;看了这个短片，我感触颇深。想想看，我不得不承认，这个短片中反映出来的小学老师的形象，虽然有些夸张，但是也基本反映了某些老师，尤其是基础教育老师的毛病和弱点：不分青红皂白，只是一味的相信和照顾“好学生”。因此，被“冤枉”的孩子恐怕也不在少数。不知道各位有没有类似的经历？&lt;/p&gt;
 &lt;p&gt;教育本该是什么样子？教育者应该是以什么身份和什么姿态出现在孩子们的面前，这是我们都要考虑的问题。&lt;/p&gt;
 </content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u4E2A_u4EBA_u6536_u85CF_u77ED_u7247_u4E4B_u4E00_uFF1A_u300A_u7EA2_u9886_u5DFE_u300B&quot;&gt;&lt;a href=&quot;#u4E2A_u4EBA_u6536_u85CF_u77ED_u7247_u
+      &lt;h2 id=&quot;个人收藏短片之一：《红领巾》&quot;&gt;&lt;a href=&quot;#个人收藏短片之一：《红领巾》&quot; class=&quot;headerlink&quot; title=&quot;个人收藏短片之一：《红领巾》&quot;&gt;&lt;/a&gt;个人收藏短片之一：《红领巾》&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.y
     
     </summary>
     
@@ -848,7 +847,7 @@ Failure starting pam: system error
     <published>2014-09-03T12:00:00.000Z</published>
     <updated>2016-02-12T12:07:52.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;u770B_u300A_u4EB2_u7231_u7684_u300B_u7684_u610F_u5916_u6536_u83B7&quot;&gt;&lt;a href=&quot;#u770B_u300A_u4EB2_u7231_u7684_u300B_u7684_u610F_u5916_u6536_u83B7&quot; class=&quot;headerlink&quot; title=&quot;看《亲爱的》的意外收获&quot;&gt;&lt;/a&gt;看《亲爱的》的意外收获&lt;/h2&gt;&lt;p&gt;今天去新清华学堂看《亲爱的》首映式，经大礼堂张老师介绍，有幸认识了一个十分热爱创业的建筑系学长。那个学长热衷于“商业创业”而不是“技术创业”。令我十分惊讶的是，他的想法十分远大，并且敢想敢做。他已经将自己的想法投入了实践。目前，他在照澜院盘下了一间店面，开始了他自己的事业，并且有所盈利，获得了银行的融资，红红火火的作起了生意。&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;看《亲爱的》的意外收获&quot;&gt;&lt;a href=&quot;#看《亲爱的》的意外收获&quot; class=&quot;headerlink&quot; title=&quot;看《亲爱的》的意外收获&quot;&gt;&lt;/a&gt;看《亲爱的》的意外收获&lt;/h2&gt;&lt;p&gt;今天去新清华学堂看《亲爱的》首映式，经大礼堂张老师介绍，有幸认识了一个十分热爱创业的建筑系学长。那个学长热衷于“商业创业”而不是“技术创业”。令我十分惊讶的是，他的想法十分远大，并且敢想敢做。他已经将自己的想法投入了实践。目前，他在照澜院盘下了一间店面，开始了他自己的事业，并且有所盈利，获得了银行的融资，红红火火的作起了生意。&lt;/p&gt;
 &lt;p&gt;我对他既羡慕又佩服，羡慕的是，他能在这个时间里有如此的成绩；佩服的是，他热衷于自己的理想与梦想。当他提出他未来的创意和想法时，我确实很赞同他提出的一个“商业模式”。与此同时，我在想，有的时候我也有一些新的创意，新的思路，看起来很好，但是仅仅是yy了几个小时就放在了一边，一点也不去管了。为什么我不能去像他一样，去大干一番呢？这可能真是一个人的性格所决定的吧。从性格上来说，我属于那种缺乏冒险精神的人，不仅不愿意去冒险，而且还希望一切都是按照某种“规律”、“指令”、“规则”来发展、进行。对于充满变数的事情，我不仅不愿意去handle，而且会有意避免。拿剪视频的例子来说，剪片子的时候，我会十分在意布置任务的人给出的“脚本”和十分具体的需求，如果需求明确，即便是很复杂的要求，我也会尽量去实现，并因此而感到高兴；如果他让我“看着办”、看怎么好怎么剪，我就可能担心我自己剪的是不是那个人想要的，会有很多顾虑，因此就剪的不是很开心。&lt;/p&gt;
 &lt;p&gt;老实的说，我对那个学长的idea是比较心动的，出于职业“本能”，我指出了这个idea的几个难以实现的地方，泼了几盆冷水。然而，更令我好奇和惊讶的，是学长的古怪的生活方式：放着学校的宿舍不住，租住在一个小的出租屋内，过着类似于“北漂一族”的生活。隐约地知道，这是因为学长的性格比较古怪，和室友划不来，再详细的，也就不清楚了。不过这个人背后也有令我怀疑的地方。&lt;/p&gt;
 &lt;p&gt;我该创业吗？我想，经历过这个事情，我的答案可能依然是否定的。其实自己有时候的yy不能变成现实，有的时候还是感觉很遗憾，但是我还是有自知之明的，既然自己不是创业那块料，就不要去搞那种冒险的东西了。&lt;/p&gt;
@@ -857,7 +856,7 @@ Failure starting pam: system error
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u770B_u300A_u4EB2_u7231_u7684_u300B_u7684_u610F_u5916_u6536_u83B7&quot;&gt;&lt;a href=&quot;#u770B_u300A_u4EB2_u7231_u7684_u300B_u7684_u610F_u5916_u
+      &lt;h2 id=&quot;看《亲爱的》的意外收获&quot;&gt;&lt;a href=&quot;#看《亲爱的》的意外收获&quot; class=&quot;headerlink&quot; title=&quot;看《亲爱的》的意外收获&quot;&gt;&lt;/a&gt;看《亲爱的》的意外收获&lt;/h2&gt;&lt;p&gt;今天去新清华学堂看《亲爱的》首映式，经大礼堂张老师介绍，有幸认识了一
     
     </summary>
     
@@ -873,7 +872,7 @@ Failure starting pam: system error
     <published>2014-08-13T10:00:00.000Z</published>
     <updated>2016-02-13T14:45:44.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;u544A_u522B_u865A_u5EA6_u7684_u65F6_u5149_uFF0C_u5F00_u59CB_u64B0_u5199_u535A_u5BA2&quot;&gt;&lt;a href=&quot;#u544A_u522B_u865A_u5EA6_u7684_u65F6_u5149_uFF0C_u5F00_u59CB_u64B0_u5199_u535A_u5BA2&quot; class=&quot;headerlink&quot; title=&quot;告别虚度的时光，开始撰写博客&quot;&gt;&lt;/a&gt;告别虚度的时光，开始撰写博客&lt;/h2&gt;&lt;p&gt;说到想写博客，还是一个月前的事情。那时候刚期末考试完，感觉时间都被不知道的事情占据着。正翻着网上的新闻，突然想到自己可以搞一个私人博客，写些东西给自己看。&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;告别虚度的时光，开始撰写博客&quot;&gt;&lt;a href=&quot;#告别虚度的时光，开始撰写博客&quot; class=&quot;headerlink&quot; title=&quot;告别虚度的时光，开始撰写博客&quot;&gt;&lt;/a&gt;告别虚度的时光，开始撰写博客&lt;/h2&gt;&lt;p&gt;说到想写博客，还是一个月前的事情。那时候刚期末考试完，感觉时间都被不知道的事情占据着。正翻着网上的新闻，突然想到自己可以搞一个私人博客，写些东西给自己看。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;真正开始着手搭博客，是在几天之前。想到我和&lt;a href=&quot;https://www.innull.com/~cqtest/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@cqtest&lt;/a&gt;合租的VPS一直没有完全地被利用，决定就先把博客搭在这个VPS上。选了一个域名：innull.com，搞到ssl的证书，开始安装LAMP。&lt;/p&gt;
 &lt;p&gt;说到LAMP的安装，还是得感谢&lt;a href=&quot;https://www.innull.com/~cqtest/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@cqtest&lt;/a&gt;，之前自己编译的“AMP”不知怎么回事。工作十分不稳定。我对Linux还不太熟悉，软件包提供的Apache、Mysql、PHP我还不太会用，找不到这些东西的配置文件，幸好&lt;a href=&quot;https://www.innull.com/~cqtest/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@cqtest&lt;/a&gt;帮我搞定了。&lt;/p&gt;
@@ -895,7 +894,7 @@ Failure starting pam: system error
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u544A_u522B_u865A_u5EA6_u7684_u65F6_u5149_uFF0C_u5F00_u59CB_u64B0_u5199_u535A_u5BA2&quot;&gt;&lt;a href=&quot;#u544A_u522B_u865A_u5EA6_u7684_u65F6_u5149_uFF0C_u5F00_u59CB_u64B0_u5199_u535A_u5BA2&quot; class=&quot;headerlink&quot; title=&quot;告别虚度的时光，开始撰写博客&quot;&gt;&lt;/a&gt;告别虚度的时光，开始撰写博客&lt;/h2&gt;&lt;p&gt;说到想写博客，还是一个月前的事情。那时候刚期末考试完，感觉时间都被不知道的事情占据着。正翻着网上的新闻，突然想到自己可以搞一个私人博客，写些东西给自己看。&lt;/p&gt;
+      &lt;h2 id=&quot;告别虚度的时光，开始撰写博客&quot;&gt;&lt;a href=&quot;#告别虚度的时光，开始撰写博客&quot; class=&quot;headerlink&quot; title=&quot;告别虚度的时光，开始撰写博客&quot;&gt;&lt;/a&gt;告别虚度的时光，开始撰写博客&lt;/h2&gt;&lt;p&gt;说到想写博客，还是一个月前的事情。那时候刚期末考试完，感觉时间都被不知道的事情占据着。正翻着网上的新闻，突然想到自己可以搞一个私人博客，写些东西给自己看。&lt;/p&gt;
     
     </summary>
     
@@ -911,12 +910,13 @@ Failure starting pam: system error
     <published>2014-08-12T14:00:00.000Z</published>
     <updated>2016-02-12T12:08:41.000Z</updated>
     
-    <content type="html">&lt;h2 id=&quot;u4E16_u754C_uFF0C_u4F60_u597D_uFF01&quot;&gt;&lt;a href=&quot;#u4E16_u754C_uFF0C_u4F60_u597D_uFF01&quot; class=&quot;headerlink&quot; title=&quot;世界，你好！&quot;&gt;&lt;/a&gt;世界，你好！&lt;/h2&gt;&lt;p&gt;欢迎使用WordPress。这是系统自动生成的演示文章。编辑或者删除它，然后开始您的博客！&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;世界，你好！&quot;&gt;&lt;a href=&quot;#世界，你好！&quot; class=&quot;headerlink&quot; title=&quot;世界，你好！&quot;&gt;&lt;/a&gt;世界，你好！&lt;/h2&gt;&lt;p&gt;欢迎使用WordPress。这是系统自动生成的演示文章。编辑或者删除它，然后开始您的博客！&lt;/p&gt;
 </content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;u4E16_u754C_uFF0C_u4F60_u597D_uFF01&quot;&gt;&lt;a href=&quot;#u4E16_u754C_uFF0C_u4F60_u597D_uFF01&quot; class=&quot;headerlink&quot; title=&quot;世界，你好！&quot;&gt;&lt;/a&gt;世界，你好！&lt;/h2
+      &lt;h2 id=&quot;世界，你好！&quot;&gt;&lt;a href=&quot;#世界，你好！&quot; class=&quot;headerlink&quot; title=&quot;世界，你好！&quot;&gt;&lt;/a&gt;世界，你好！&lt;/h2&gt;&lt;p&gt;欢迎使用WordPress。这是系统自动生成的演示文章。编辑或者删除它，然后开始您的博客！&lt;/p&gt;
+
     
     </summary>
     
